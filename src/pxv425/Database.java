@@ -575,17 +575,18 @@ public class Database {
 	 * @author Panagiotis Vakalis
 	 * @version 08-07-2015
 	 */
-	private static void createPortfolio(String name, String email, double balance){
+	private static void createPortfolio(String name, String email, BigDecimal balance){
 		try {
 			//Connect to database
 			connectToDatabase();
 			if(!portfolioNameExists(email, name)){
 				//Query
-				query = "INSERT INTO portfolio (name, inv_id, balance) " + "VALUES (?, (SELECT id FROM investor WHERE email = ?), ?)";
+				query = "INSERT INTO portfolio (name, inv_id, balance, initial_balance) " + "VALUES (?, (SELECT id FROM investor WHERE email = ?), ?, ?)";
 				preparedStatement = connection.prepareStatement(query);
 				preparedStatement.setString(1, name);
 				preparedStatement.setString(2, email);
-				preparedStatement.setDouble(3, balance);
+				preparedStatement.setBigDecimal(3, balance);
+				preparedStatement.setBigDecimal(4, balance);
 				
 				preparedStatement.executeUpdate();
 //				System.out.println("Portfolio has been created");
@@ -608,7 +609,7 @@ public class Database {
 	 * @author Panagiotis Vakalis
 	 * @version 08-07-2015
 	 */
-	public static void useCreatePortfolio(String name, String email, double balance){
+	public static void useCreatePortfolio(String name, String email, BigDecimal balance){
 		createPortfolio(name, email, balance);
 	}
 	

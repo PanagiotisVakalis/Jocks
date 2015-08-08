@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.nio.ByteOrder;
 import java.util.Observable;
 import java.util.Observer;
@@ -246,7 +247,17 @@ public class RegisterView extends View implements ActionListener, Observer {
 //			registerModel.useChangeToIntroView(new IntroView(new IntroModel(registerModel.getClient())));
 //			registerModel.useClearFields(this);
 //			registerModel.useChangeToLoginView(new LoginView(new LoginModel(registerModel.getClient())));
-			if(register.equals("Register succesfull, your portfolio is created")){
+			if(register.equals("Register succesfull")){
+				String initialBalance = null;
+//				registerModel.useCreateFirstPortfolio(new BigDecimal(initialBalance));
+				do{
+					initialBalance = JOptionPane.showInputDialog(this, "Enter the initial balance for your portfolio", "Create a portfolio", JOptionPane.PLAIN_MESSAGE);
+					if(initialBalance != null){
+						JOptionPane.showMessageDialog(this, registerModel.useCreateFirstPortfolio(new BigDecimal(initialBalance)), "Portfolio created", JOptionPane.PLAIN_MESSAGE);;
+						break;
+					}
+					JOptionPane.showMessageDialog(this, "You have to enter an initial balance", "Creating portfolio problem", JOptionPane.WARNING_MESSAGE);
+				}while(initialBalance == null);
 				registerModel.useChangeToLoginView(new LoginView(new LoginModel(registerModel.getClient())));
 			}
 		}

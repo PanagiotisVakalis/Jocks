@@ -1,5 +1,6 @@
 package pxv425;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,6 +21,9 @@ public class RegisterModel extends Model {
 //	private MainModel mainModel;
 	private Pattern emailPattern;
 	private Matcher emailMatcher;
+	private String firstName;
+	private String lastName;
+	private String email;
 	/*
 	 * This pattern has been found on:
 	 * http://www.mkyong.com/regular-expressions/how-to-validate-email-address-with-regular-expression/
@@ -117,6 +121,9 @@ public class RegisterModel extends Model {
 					if(checkPasswordCharacters(password)){
 //						if(checkPasswordCharacters(password)){
 						if(password.equals(password2)){
+							this.firstName = firstName;
+							this.lastName = lastName;
+							this.email = email;
 //							Database.useRegisterInvestor(email, password, firstName, lastName, securityQuestion, securityAnswer);
 							Database.useRegisterInvestor(email, Password.USE_ENCRYPT_PASSWORD(password), firstName, lastName, securityQuestion, securityAnswer);
 							/*
@@ -126,8 +133,8 @@ public class RegisterModel extends Model {
 							 * order to create a new portfolio having some default
 							 * values which they can be changed after.
 							 */
-							useCreateFirstPortfolio(firstName + " " + lastName, email, 0.0);
-							return "Register succesfull, your portfolio is created";
+//							useCreateFirstPortfolio(firstName + " " + lastName, email, 0.0);
+							return "Register succesfull";
 						}
 						else{
 //							return "Password should meet the requirements";
@@ -216,9 +223,9 @@ public class RegisterModel extends Model {
 	 * @author Panagiotis Vakalis
 	 * @version 14-07-2015
 	 */
-	private String createFirstPortfolio(String name, String email, double balance){
+	private String createFirstPortfolio(String name, String email, BigDecimal balance){
 		Database.useCreatePortfolio(name, email, balance);
-		return "Your portolio has been created";
+		return "Your portolio has been created.";
 	}
 	
 	/**
@@ -231,8 +238,8 @@ public class RegisterModel extends Model {
 	 * @author Panagiotis Vakalis
 	 * @version 14-07-2015
 	 */
-	public String useCreateFirstPortfolio(String name, String email, double balance){
-		return createFirstPortfolio(name, email, balance);
+	public String useCreateFirstPortfolio(BigDecimal balance){
+		return createFirstPortfolio(firstName + " " + lastName, email, balance);
 	}
 	
 	private void changeToLoginView(LoginView loginView){
