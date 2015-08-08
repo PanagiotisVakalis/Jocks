@@ -120,11 +120,13 @@ public class Database {
 	
 	private static Timestamp lastUpdatedOn;
 	
-	private static BigDecimal porftolioBalance;
+	private static BigDecimal portfolioBalance;
 	
 	private static ArrayList<String> stockSymbols;
 	
 	private static ArrayList<Integer> portfolioNumbers;
+	
+	private static BigDecimal portfolioInitialBalance;
 	
 	/**
 	 * Method to use the connection instance variable
@@ -908,7 +910,7 @@ public class Database {
 			resultSet = preparedStatement.executeQuery();
 			
 			while(resultSet.next()){
-				porftolioBalance = resultSet.getBigDecimal("balance");
+				portfolioBalance = resultSet.getBigDecimal("balance");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -917,8 +919,83 @@ public class Database {
 	}
 	
 	public static BigDecimal useRetrievePortfolioBalance(int portfolioNumber){
+		portfolioBalance = null;
 		retrievePortfolioBalance(portfolioNumber);
-		return porftolioBalance;
+		return portfolioBalance;
+	}
+	
+	private static void retrievePortfolioInitialBalance(int portfolioNumber){
+		
+		try {
+			query = "SELECT initial_balance FROM portfolio WHERE number = ?";
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, portfolioNumber);
+			
+			resultSet = preparedStatement.executeQuery();
+			
+			while(resultSet.next()){
+				portfolioInitialBalance = resultSet.getBigDecimal("initial_balance");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static BigDecimal useRetrievePortfolioInitialBalance(int portfolioNumber){
+		portfolioInitialBalance = null;
+		retrievePortfolioInitialBalance(portfolioNumber);
+		return portfolioInitialBalance;
+	}
+	
+	private static BigDecimal retrieveTotalWithdraws(int portfolioNumber){
+		BigDecimal totalWithdraws = null;
+		
+		try {
+			query = "SELECT SUM(amount) AS total_amount FROM withdraw WHERE port_number = ?";
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, portfolioNumber);
+			resultSet = preparedStatement.executeQuery();
+			
+			while(resultSet.next()){
+//				totalWithdraws.add(resultSet.getBigDecimal("total_amount"));
+				totalWithdraws = new BigDecimal(resultSet.getDouble("total_amount"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return totalWithdraws;
+	}
+	
+	public static BigDecimal useRetrieveTotalWithdraws(int portfolioNumber){
+		return retrieveTotalWithdraws(portfolioNumber);
+	}
+	
+	private static BigDecimal retrieveTotalDeposits(int portfolioNumber){
+		BigDecimal totalDeposits = null;
+		
+		try {
+			query = "SELECT SUM(amount) AS total_amount FROM deposit WHERE port_number = ?";
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, portfolioNumber);
+			resultSet = preparedStatement.executeQuery();
+			
+			while(resultSet.next()){
+//				totalDeposits.add(resultSet.getBigDecimal("total_amount"));
+				totalDeposits = new BigDecimal(resultSet.getDouble("total_amount"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return totalDeposits;
+	}
+	
+	public static BigDecimal useRetrieveTotalDeposits(int portfolioNumber){
+		return retrieveTotalDeposits(portfolioNumber);
 	}
 	
 	/**
@@ -2153,59 +2230,59 @@ public class Database {
 		return getTheLastDateFromPortfolioBalance(portfolioNumber);
 	}
 	
-	private static BigDecimal getTheTotalBalanceOnTheFirstDate(int portfolioNumber){
-		BigDecimal totalBalanceOnTheFirstDate = null;
-		
-		
-		try {
-			query = "SELECT total_balance FROM portfolio_balance WHERE port_number = ? AND date = ?";
-			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setInt(1, portfolioNumber);
-			preparedStatement.setTimestamp(2, getTheFirstDateFromPortfolioBalance(portfolioNumber));
-			
-			resultSet = preparedStatement.executeQuery();
-			
-			while(resultSet.next()){
-				totalBalanceOnTheFirstDate = new BigDecimal(resultSet.getDouble("total_balance"));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return totalBalanceOnTheFirstDate;
-	}
+//	private static BigDecimal getTheTotalBalanceOnTheFirstDate(int portfolioNumber){
+//		BigDecimal totalBalanceOnTheFirstDate = null;
+//		
+//		
+//		try {
+//			query = "SELECT total_balance FROM portfolio_balance WHERE port_number = ? AND date = ?";
+//			preparedStatement = connection.prepareStatement(query);
+//			preparedStatement.setInt(1, portfolioNumber);
+//			preparedStatement.setTimestamp(2, getTheFirstDateFromPortfolioBalance(portfolioNumber));
+//			
+//			resultSet = preparedStatement.executeQuery();
+//			
+//			while(resultSet.next()){
+//				totalBalanceOnTheFirstDate = new BigDecimal(resultSet.getDouble("total_balance"));
+//			}
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		return totalBalanceOnTheFirstDate;
+//	}
+//	
+//	public static BigDecimal useGetTheTotalBalanceOnTheFirstDate(int portfolioNumber){
+//		return getTheTotalBalanceOnTheFirstDate(portfolioNumber);
+//	}
 	
-	public static BigDecimal useGetTheTotalBalanceOnTheFirstDate(int portfolioNumber){
-		return getTheTotalBalanceOnTheFirstDate(portfolioNumber);
-	}
-	
-	private static BigDecimal getTheTotalBalanceOnTheLastDate(int portfolioNumber){
-		BigDecimal totalBalanceOnTheLastDate = null;
-		
-		
-		try {
-			query = "SELECT total_balance FROM portfolio_balance WHERE port_number = ? AND date = ?";
-			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setInt(1, portfolioNumber);
-			preparedStatement.setTimestamp(2, getTheLastDateFromPortfolioBalance(portfolioNumber));
-			
-			resultSet = preparedStatement.executeQuery();
-			
-			while(resultSet.next()){
-				totalBalanceOnTheLastDate = new BigDecimal(resultSet.getDouble("total_balance"));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return totalBalanceOnTheLastDate;
-	}
-	
-	public static BigDecimal useGetTheTotalBalanceOnTheLastDate(int portfolioNumber){
-		return getTheTotalBalanceOnTheLastDate(portfolioNumber);
-	}
+//	private static BigDecimal getTheTotalBalanceOnTheLastDate(int portfolioNumber){
+//		BigDecimal totalBalanceOnTheLastDate = null;
+//		
+//		
+//		try {
+//			query = "SELECT total_balance FROM portfolio_balance WHERE port_number = ? AND date = ?";
+//			preparedStatement = connection.prepareStatement(query);
+//			preparedStatement.setInt(1, portfolioNumber);
+//			preparedStatement.setTimestamp(2, getTheLastDateFromPortfolioBalance(portfolioNumber));
+//			
+//			resultSet = preparedStatement.executeQuery();
+//			
+//			while(resultSet.next()){
+//				totalBalanceOnTheLastDate = new BigDecimal(resultSet.getDouble("total_balance"));
+//			}
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		return totalBalanceOnTheLastDate;
+//	}
+//	
+//	public static BigDecimal useGetTheTotalBalanceOnTheLastDate(int portfolioNumber){
+//		return getTheTotalBalanceOnTheLastDate(portfolioNumber);
+//	}
 	
 	private static void insertDeposit(int portfolioNumber, BigDecimal amount){
 		

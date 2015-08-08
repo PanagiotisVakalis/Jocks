@@ -18,6 +18,11 @@ public class PortfolioModel extends Model {
 	private LotsModel lotsModel;
 	private Investor investor;
 	private ArrayList<Lot> allLots;
+	private BigDecimal totalReturn;
+	private BigDecimal balanceNow;
+	private BigDecimal initialBalance;
+	private BigDecimal totalWithdraws;
+	private BigDecimal totalDeposits;
 	
 	/*
 	 * I have used big decimal
@@ -366,17 +371,37 @@ public class PortfolioModel extends Model {
 		return totalBalance(portfolio);
 	}
 	
-	private String getTotalReturn(Portfolio portfolio){
-		BigDecimal balanceOnStart = null;
-		BigDecimal balanceOnEnd = null;
+//	private String getTotalReturn(Portfolio portfolio){
+//		BigDecimal balanceOnStart = null;
+//		BigDecimal balanceOnEnd = null;
+//		
+//		balanceOnStart = Database.useGetTheTotalBalanceOnTheFirstDate(portfolio.getNumber());
+//		balanceOnEnd = Database.useGetTheTotalBalanceOnTheLastDate(portfolio.getNumber());
+//		
+//		return "The total return for this portfolio is " + (balanceOnEnd.subtract(balanceOnStart)).toString();
+//	}
+	
+//	public String useGetTotalReturn(Portfolio portfolio){
+//		return getTotalReturn(portfolio);
+//	}
+	
+	private void calculateTotalReturn(Portfolio portfolio){
 		
-		balanceOnStart = Database.useGetTheTotalBalanceOnTheFirstDate(portfolio.getNumber());
-		balanceOnEnd = Database.useGetTheTotalBalanceOnTheLastDate(portfolio.getNumber());
+		/*
+		 * The total return can be calculated using the following formula:
+		 * totalReturn = balanceNow - initialBalance + sum(withdraws) - sum(deposits)
+		 */
+		balanceNow = Database.useRetrievePortfolioBalance(portfolio.getNumber());
+		initialBalance = Database.useRetrievePortfolioInitialBalance(portfolio.getNumber());
+		totalWithdraws = Database.useRetrieveTotalWithdraws(portfolio.getNumber());
+		totalDeposits = Database.useRetrieveTotalDeposits(portfolio.getNumber());
 		
-		return "The total return for this portfolio is " + (balanceOnEnd.subtract(balanceOnStart)).toString();
+		totalReturn = balanceNow.subtract(initialBalance).add(totalWithdraws).subtract(totalDeposits);
 	}
 	
-	public String useGetTotalReturn(Portfolio portfolio){
-		return getTotalReturn(portfolio);
+	public String retrieveTotalReturn(Portfolio portfolio){
+		calculateTotalReturn(portfolio);
+		
+		return "Your balance now is: " + balanceNow + ", your initial balance was: " + initialBalance + ", your total withdraws are: " + totalWithdraws + ", your total deposits are: " + totalDeposits +". Your total return is: " + totalReturn; 
 	}
 }

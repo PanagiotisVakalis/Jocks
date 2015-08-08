@@ -210,7 +210,8 @@ public class PortfolioView extends View implements ActionListener, Observer {
 		}
 		if(command.equals("return")){
 //			portfolioModel.useGetTotalReturn(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()));
-			JOptionPane.showMessageDialog(this, portfolioModel.useGetTotalReturn(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex())), "Total return", JOptionPane.INFORMATION_MESSAGE);
+//			JOptionPane.showMessageDialog(this, portfolioModel.useGetTotalReturn(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex())), "Total return", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, portfolioModel.retrieveTotalReturn(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex())), "Total return", JOptionPane.INFORMATION_MESSAGE);
 		}
 //		if(command.equals("change")){
 //			String newName = JOptionPane.showInputDialog("Enter the new name");
