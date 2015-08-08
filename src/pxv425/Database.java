@@ -2206,4 +2206,42 @@ public class Database {
 	public static BigDecimal useGetTheTotalBalanceOnTheLastDate(int portfolioNumber){
 		return getTheTotalBalanceOnTheLastDate(portfolioNumber);
 	}
+	
+	private static void insertDeposit(int portfolioNumber, BigDecimal amount){
+		
+		try {
+			query = "INSERT INTO deposit(port_number, amount) " + "VALUES (?, ?)";
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, portfolioNumber);
+			preparedStatement.setBigDecimal(2, amount);
+			
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void useInsertDeposit(int portfolioNumber, BigDecimal amount){
+		insertDeposit(portfolioNumber, amount);
+	}
+	
+	private static void insertWithdraw(int portfolioNumber, BigDecimal amount){
+		
+		try {
+			query = "INSERT INTO withdraw(port_number, amount) " + "VALUES (?, ?)";
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, portfolioNumber);
+			preparedStatement.setBigDecimal(2, amount);
+			
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void useInsertWithdraw(int portfolioNumber, BigDecimal amount){
+		insertWithdraw(portfolioNumber, amount);
+	}
 }

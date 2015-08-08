@@ -237,6 +237,7 @@ public class PortfolioModel extends Model {
 	 */
 	private String deposit(Portfolio portfolio, BigDecimal amount){
 		Database.updatePortfolioBalance(portfolio.getNumber(), amount);
+		Database.useInsertDeposit(portfolio.getNumber(), amount);
 		updatePortfolioBalance(portfolio.getNumber());
 		return "You have deposited " + String.valueOf(amount) + " into your portfolio.";
 	}
@@ -273,6 +274,7 @@ public class PortfolioModel extends Model {
 		updatePortfolioBalance(portfolio.getNumber());
 		if(portfolioBalance.compareTo(amount) >= 0){
 			Database.updatePortfolioBalance(portfolio.getNumber(), amount.multiply(new BigDecimal(-1)));
+			Database.useInsertWithdraw(portfolio.getNumber(), amount);
 			updatePortfolioBalance(portfolio.getNumber());
 			return "You have withrawn " + String.valueOf(amount) + " from your portfolio.";
 		}
