@@ -85,7 +85,7 @@ public class LoginView extends View implements Observer, ActionListener {
 		
 		// Buttons
 		changePasswordButton = new JButton("Change password");
-		changePasswordButton.setActionCommand("reset");
+		changePasswordButton.setActionCommand("change");
 		changePasswordButton.addActionListener(this);
 
 		loginButton = new JButton("Login");
@@ -144,7 +144,7 @@ public class LoginView extends View implements Observer, ActionListener {
 		if(command.equals("exit")){
 			loginModel.useExitProgramme();
 		}
-		if (command.equals("reset")) {
+		if (command.equals("change")) {
 			loginModel.useChangeToChangePasswordView(new ChangePasswordView(new ChangePasswordModel(loginModel.getClient())));
 		}
 		if (command.equals("login")) {

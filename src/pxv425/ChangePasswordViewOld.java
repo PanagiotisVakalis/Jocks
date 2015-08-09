@@ -1,12 +1,10 @@
 package pxv425;
 
-import java.awt.Dimension;
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -17,8 +15,14 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-public class ChangePasswordView extends View implements ActionListener, Observer, FocusListener{
+/**
+ * Class which contains the view part of the reset password process
+ * @author Panagiotis Vakalis
+ * @version 17-07-2015
+ *
+ */
+public class ChangePasswordViewOld extends View implements ActionListener, Observer {
+	
 	private static final long serialVersionUID = 1L;
 	private ChangePasswordModel changePasswordModel;
 	private JLabel emailLabel;
@@ -37,11 +41,7 @@ public class ChangePasswordView extends View implements ActionListener, Observer
 	private JLabel securityAnswerLabel;
 	private JLabel reEnterNewPasswordLabel;
 	private JPasswordField reEnterNewPassword;
-	private JPanel newPasswordPanel;
-	private JLabel title;
-	private JPanel submitButtonPanel;
-	private JPanel securityAnswerPanel;
-	private JPanel securityQuestionPanel;
+	
 	
 	/**
 	 * Constructor of the class
@@ -50,7 +50,7 @@ public class ChangePasswordView extends View implements ActionListener, Observer
 	 * @author Panagiotis Vakalis
 	 * @version 17-07-2015
 	 */
-	public ChangePasswordView(ChangePasswordModel changePasswordModel) {
+	public ChangePasswordViewOld(ChangePasswordModel changePasswordModel) {
 		super(changePasswordModel);
 		this.changePasswordModel = changePasswordModel;
 		
@@ -59,81 +59,67 @@ public class ChangePasswordView extends View implements ActionListener, Observer
 		frameSetup();
 	}
 	
+	/**
+	 * Method to build the frame
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 17-07-2015
+	 */
 	private void frameSetup(){
-		setLayout(new GridLayout(7, 1));
+		setSize(350, 250);
 		
-		title = new JLabel("Change your password");
+		setLayout(new BorderLayout());
 		
-		//Email
-		emailPanel = new JPanel(new FlowLayout());
-		emailInput = new JTextField("Email", 16);
-		emailInput.addFocusListener(this);
+		//Panel for email and submit button
+		emailPanel = new JPanel(new BorderLayout());
+		emailLabel = new JLabel("Email");
+		emailInput = new JTextField();
 		
-		emailPanel.add(emailInput);
-		
-		//Submit button
 		submitButton = new JButton("Submit");
 		submitButton.setActionCommand("submit");
 		submitButton.addActionListener(this);
-		submitButton.setPreferredSize(new Dimension(100, 30));
-		submitButton.setToolTipText("Press submit in order to retrieve youe security question");
 		
-		submitButtonPanel = new JPanel(new FlowLayout());
-		submitButtonPanel.add(submitButton);
+		emailPanel.add(emailLabel, BorderLayout.NORTH);
+		emailPanel.add(emailInput, BorderLayout.CENTER);
+		emailPanel.add(submitButton, BorderLayout.SOUTH);
 		
-		//Security question area
-		securityQuestionPanel = new JPanel(new FlowLayout());
+		//Panel for security question, answer and new password
+		securityQuestionAnswerPanel = new JPanel(new GridLayout(7, 1));
 		securityQuestion = new JTextArea("Security question");
 		securityQuestion.setEditable(false);
-		securityQuestion.setLineWrap(true);
-		securityQuestion.setPreferredSize(new Dimension(500, 30));
-		securityQuestionPanel.add(securityQuestion);
-		
-		//Security answer panel
-		securityAnswerPanel = new JPanel(new GridLayout(2, 1));
-		
 		securityAnswerLabel = new JLabel("Enter your security answer");
-		securityAnswer = new JPasswordField(16);
-		
-		securityAnswerPanel.add(securityAnswerLabel);
-		securityAnswerPanel.add(securityAnswer);
-		
-		//Panel for the new password
-		newPasswordPanel = new JPanel(new GridLayout(2, 2));
+		securityAnswer = new JPasswordField();
 		newPasswordLabel = new JLabel("Enter you new password");
+		newPassword = new JPasswordField();
 		reEnterNewPasswordLabel = new JLabel("Re - enter password");
-		newPassword = new JPasswordField(16);
-		newPassword.setToolTipText("Password should contain 8 to 16 characters, \nat least one number \nand one of the following symbols: ! @ # $ % ^ & * - _");
-		reEnterNewPassword = new JPasswordField(16);
+		reEnterNewPassword = new JPasswordField();
 		
-		newPasswordPanel.add(newPasswordLabel);
-		newPasswordPanel.add(reEnterNewPasswordLabel);
-		newPasswordPanel.add(newPassword);
-		newPasswordPanel.add(reEnterNewPassword);
+		securityQuestionAnswerPanel.add(securityQuestion);
+		securityQuestionAnswerPanel.add(securityAnswerLabel);
+		securityQuestionAnswerPanel.add(securityAnswer);
+		securityQuestionAnswerPanel.add(newPasswordLabel);
+		securityQuestionAnswerPanel.add(newPassword);
+		securityQuestionAnswerPanel.add(reEnterNewPasswordLabel);
+		securityQuestionAnswerPanel.add(reEnterNewPassword);
 		
-		// Panel for buttons
+		//Panel for buttons
 		buttonsPannel = new JPanel(new FlowLayout());
-
+		
 		backButton = new JButton("Back");
 		backButton.setActionCommand("back");
 		backButton.addActionListener(this);
-
+		
 		changeButton = new JButton("Change");
 		changeButton.setActionCommand("change");
 		changeButton.addActionListener(this);
-
+		
 		buttonsPannel.add(backButton);
 		buttonsPannel.add(changeButton);
 		
-		add(title);
-		add(emailPanel);
-		add(submitButtonPanel);
-		add(securityQuestionPanel);
-//		add(securityAnswerLabel);
-//		add(securityAnswer);
-		add(securityAnswerPanel);
-		add(newPasswordPanel);
-		add(buttonsPannel);
+		//Add panels to the main panel
+		add(emailPanel, BorderLayout.NORTH);
+		add(securityQuestionAnswerPanel, BorderLayout.CENTER);
+		add(buttonsPannel, BorderLayout.SOUTH);
 	}
 	
 	/**
@@ -184,20 +170,6 @@ public class ChangePasswordView extends View implements ActionListener, Observer
 	}
 
 	@Override
-	public void focusGained(FocusEvent e) {
-		if(e.getSource().equals(emailInput)){
-			emailInput.setText("");
-		}
-		
-	}
-
-	@Override
-	public void focusLost(FocusEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void update(Observable o, Object arg) {
 		if(o instanceof ChangePasswordModel){
 //			securityQuestion.setText(resetPasswordModel.useRetrieveSecurityQuestion(getEmail()));
@@ -213,7 +185,7 @@ public class ChangePasswordView extends View implements ActionListener, Observer
 		if(command.equals("submit")){
 //			resetPasswordModel.useSubmitEmail(getEmail());
 //			resetPasswordModel.getSecurityQuestion();
-			if(getEmail().length() != 0 && !getEmail().equals("email")){
+			if(getEmail().length() != 0){
 				if(changePasswordModel.useValidEmail(getEmail())){
 //					changePasswordModel.useSubmitEmail(getEmail());
 //					changePasswordModel.getSecurityQuestion();
@@ -251,4 +223,5 @@ public class ChangePasswordView extends View implements ActionListener, Observer
 		}
 
 	}
+
 }
