@@ -1,5 +1,6 @@
 package pxv425;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -13,16 +14,13 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.ListSelectionModel;
 
-/**
- * Class which contains the View part of the portfolio
- * 
- * @author Panagiotis Vakalis
- * @version 18-07-2015
- */
 public class PortfolioView extends View implements ActionListener, Observer {
-	
+
 	private PortfolioModel portfolioModel;
 	private JLabel title;
 	private JLabel lotsLabel;
@@ -34,7 +32,6 @@ public class PortfolioView extends View implements ActionListener, Observer {
 	private JLabel balanceLabel;
 	private JTextArea balanceArea;
 	private JLabel investedMoneyLabel;
-	private JTextArea investedMoneyArea;
 	private JLabel profitLossLabel;
 	private JTextArea profitLossArea;
 	private JButton continueButton;
@@ -47,8 +44,36 @@ public class PortfolioView extends View implements ActionListener, Observer {
 	private JLabel totalBalance;
 	private JTextArea totalBalanceArea;
 	private JPanel totalBalancePanel;
-	private JButton totalReturn;
-
+	private JPanel portfoliosPanel;
+	private JPanel lotsPanel;
+	private JTable lots;
+	private JScrollPane lotsScroll;
+	private JPanel portfolioInformationPanel;
+	private JPanel initialBalancePanel;
+	private JLabel initialBalance;
+	private JTextArea initialBalanceArea;
+	private JPanel balanceNowPanel;
+	private JLabel balanceNow;
+	private JTextArea balanceNowArea;
+	private JPanel investedMoneyPanel;
+	private JLabel investedMoney;
+	private JTextArea investedMoneyArea;
+	private JPanel profitLossLotsPanel;
+	private JLabel profitLossLots;
+	private JTextArea profitLossLotsArea;
+	private JPanel totalWithdrawsPanel;
+	private JLabel totalWithdraws;
+	private JTextArea totalWithdrawsArea;
+	private JPanel totalDepositsPanel;
+	private JLabel totalDeposits;
+	private JTextArea totalDepositsArea;
+	private JPanel totalReturnPanel;
+	private JLabel totalReturn;
+	private JTextArea totalReturnArea;
+	private JPanel continueButtonPanel;
+	private JPanel titlePanel;
+	
+	
 	/**
 	 * Constructor of the class
 	 * @param portfolioModel
@@ -70,108 +95,158 @@ public class PortfolioView extends View implements ActionListener, Observer {
 		return portfolioSelection;
 	}
 	
-	/**
-	 * Method to build the panel
-	 * 
-	 * @author Panagiotis Vakalis
-	 * @version 18-07-2015
-	 */
 	private void frameSetup(){
+		setLayout(new GridLayout(5, 1));
+		setPreferredSize(new Dimension(800, 700));
 		
-		setLayout(new GridLayout(10, 1));
-		//Title of the panel
-//		title = new JLabel("Hello " + portfolioModel.getPortfolios()[0].getInvestor().getFirstName() + " this is your portfolio.");
-		title = new JLabel("Hello " + portfolioModel.getClient().getInvestor().getFirstName() + " check your portfolio(s).");
-
+//		//Title panel
+//		title = new JLabel("Hello " + portfolioModel.getClient().getInvestor().getFirstName() + " check your portfolio(s).");
+//		titlePanel = new JPanel(new FlowLayout());
+//		titlePanel.setPreferredSize(new Dimension(1000, 800));
+//		
+//		titlePanel.add(title);
 		
-		//Portfolio selection
+		//Portfolios panel
+		portfoliosPanel = new JPanel(new GridLayout(2, 1));
+		// Portfolio selection
 		portfolioSelectionLabel = new JLabel("Select portfolio");
-//		portfolios = new JComboBox<Portfolio>(portfolioModel.getPortfolios());
 		portfolios = new JComboBox<String>(portfolioModel.getPortfolioNames());
 		portfolios.setMaximumRowCount(3);
 		
+		//Get the first portfolio as default
 		portfolioSelection = portfolioModel.getPortfolios()[portfolios.getSelectedIndex()];
 		
-//		portfolioTitle = new JLabel("These are the details from the " + portfolioModel.getPortfolios()[portfolios.getSelectedIndex()].getName() + " portfolio.");
-		portfolioTitle = new JLabel("These are the details from the " + portfolioSelection.getName() + " portfolio.");
+		portfoliosPanel.add(portfolioSelectionLabel);
+		portfoliosPanel.add(portfolios);
 		
-		lotsButton = new JButton("Watch lots");
-		lotsButton.setActionCommand("lots");
-		lotsButton.addActionListener(this);
+		//Lots panel
+		lotsPanel = new JPanel(new GridLayout(2, 1));
 		
-		//Panel for the portfolio's information
-		portfolioInformation = new JPanel(new FlowLayout());
+		lotsLabel = new JLabel("These are your lots which are contained in the " + portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getName() + " portfolio.");
+		//Call method in order to get the lots
+		portfolioModel.useGetAllLots(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()));
 		
-		balanceLabel = new JLabel("Balance: ");
-		balanceArea = new JTextArea();
-		balanceArea.setText(portfolioModel.useGetPortfolioBalance(portfolios.getSelectedIndex()));
-		balanceArea.setEditable(false);
-		investedMoneyLabel = new JLabel("Invested money ");
-		investedMoneyArea = new JTextArea();
-		investedMoneyArea.setText(portfolioModel.useGetPortfolioInvestedMoney(portfolios.getSelectedIndex()));
+		// Title for the table's columns
+		String[] tableTitle = { "Symbol", "Price bought", "Shares bought",
+				"Amount bought", "Current price", "Current amount",
+				"Profit / Loss", "Date" };
+
+		lots = new JTable();
+		lots.setModel(new NonEditableTable(portfolioModel.useLotsDetails(),
+				tableTitle));
+		lots.setRowSelectionAllowed(false);
+
+		lotsScroll = new JScrollPane(lots);
+		
+		lotsPanel.add(lotsLabel);
+		lotsPanel.add(lotsScroll);
+		
+		
+		//initial balance panel
+		initialBalancePanel = new JPanel(new FlowLayout());
+		initialBalance = new JLabel("Initial balance");
+		initialBalanceArea = new JTextArea(String.valueOf(portfolioModel.getInitialBalance(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
+		initialBalanceArea.setEditable(false);
+		initialBalancePanel.add(initialBalance);
+		initialBalancePanel.add(initialBalanceArea);
+		
+		//balance today panel
+		balanceNowPanel = new JPanel(new FlowLayout());
+		balanceNow = new JLabel("Balance now");
+		balanceNowArea = new JTextArea(String.valueOf(portfolioModel.getBalanceNow(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
+		balanceNowArea.setEditable(false);
+		balanceNowPanel.add(balanceNow);
+		balanceNowPanel.add(balanceNowArea);
+		
+		//invested money panel
+		investedMoneyPanel = new JPanel(new FlowLayout());
+		investedMoney = new JLabel("Invested money");
+		investedMoneyArea = new JTextArea(portfolioModel.useGetPortfolioInvestedMoney(portfolios.getSelectedIndex()));
 		investedMoneyArea.setEditable(false);
-		profitLossLabel = new JLabel("Lots Profit/Loss: ");
-		profitLossArea = new JTextArea();
-//		profitLossArea.setText(portfolioModel.useGetPortfolioProfitLoss(portfolios.getSelectedIndex()));
-		profitLossArea.setText(String.valueOf(portfolioModel.useGetAllLotsProfitLoss(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()))));
-		profitLossArea.setEditable(false);
+		investedMoneyPanel.add(investedMoney);
+		investedMoneyPanel.add(investedMoneyArea);
 		
-		portfolioInformation.add(balanceLabel);
-		portfolioInformation.add(balanceArea);
-		portfolioInformation.add(investedMoneyLabel);
-		portfolioInformation.add(investedMoneyArea);
-		portfolioInformation.add(profitLossLabel);
-		portfolioInformation.add(profitLossArea);
+		//profit loss lots panel
+		profitLossLotsPanel = new JPanel(new FlowLayout());
+		profitLossLots = new JLabel("Lots' profit/loss");
+		profitLossLotsArea = new JTextArea(String.valueOf(portfolioModel.useGetAllLotsProfitLoss(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()))));
+		profitLossLotsArea.setEditable(false);
+		profitLossLotsPanel.add(profitLossLots);
+		profitLossLotsPanel.add(profitLossLotsArea);
 		
-		//Withdraw, deposit or create a new portfolio options
+		//Total withdraws panel
+		totalWithdrawsPanel = new JPanel(new FlowLayout());
+		totalWithdraws = new JLabel("Total withdraws");
+		totalWithdrawsArea = new JTextArea(String.valueOf(portfolioModel.getTotalWithdraws(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
+		totalWithdrawsArea.setEditable(false);
+		totalWithdrawsPanel.add(totalWithdraws);
+		totalWithdrawsPanel.add(totalWithdrawsArea);
+		
+		//Total deposits panel
+		totalDepositsPanel = new JPanel(new FlowLayout());
+		totalDeposits = new JLabel("Total deposits");
+		totalDepositsArea = new JTextArea(String.valueOf(portfolioModel.getTotalDeposits(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
+		totalDepositsArea.setEditable(false);
+		totalDepositsPanel.add(totalDeposits);
+		totalDepositsPanel.add(totalDepositsArea);
+		
+		//Total return panel
+		totalReturnPanel = new JPanel(new FlowLayout());
+		totalReturn = new JLabel("Total return");
+		totalReturnArea = new JTextArea(portfolioModel.retrieveTotalReturn(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex())));
+		totalReturnArea.setEditable(false);
+		totalReturnPanel.add(totalReturn);
+		totalReturnPanel.add(totalReturnArea);
+		
+		//Portfolio information panel
+		portfolioInformationPanel = new JPanel(new GridLayout(4, 2));
+		portfolioInformationPanel.add(initialBalancePanel);
+		portfolioInformationPanel.add(balanceNowPanel);
+		portfolioInformationPanel.add(investedMoneyPanel);
+		portfolioInformationPanel.add(profitLossLotsPanel);
+		portfolioInformationPanel.add(totalWithdrawsPanel);
+		portfolioInformationPanel.add(totalDepositsPanel);
+		portfolioInformationPanel.add(totalReturnPanel);
+		
+		// Withdraw, deposit options
 		deposit = new JButton("Deposit");
 		deposit.setActionCommand("deposit");
+		deposit.setToolTipText("Press to deposit money");
 		deposit.addActionListener(this);
-		
+
 		withdraw = new JButton("Withdraw");
 		withdraw.setActionCommand("withdraw");
+		withdraw.setToolTipText("Press to withdraw money");
 		withdraw.addActionListener(this);
-		
-//		changeName = new JButton("Change name");
-//		changeName.setActionCommand("change");
-//		changeName.addActionListener(this);
-		
+
 		options = new JPanel(new FlowLayout());
-		
+		options.setPreferredSize(new Dimension(1000, 50));
+
 		options.add(withdraw);
 		options.add(deposit);
 		
-		totalReturn = new JButton("Total return");
-		totalReturn.setActionCommand("return");
-		totalReturn.addActionListener(this);
-		
 		continueButton = new JButton("Continue");
 		continueButton.setActionCommand("continue");
+		continueButton.setToolTipText("Press to go to main screen");
 		continueButton.addActionListener(this);
 		
-		totalBalancePanel = new JPanel(new GridLayout(2, 1));
-		totalBalance = new JLabel("Total balance");
-		totalBalanceArea = new JTextArea(String.valueOf(portfolioModel.getTotalBalance(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()))));
-		totalBalancePanel.add(totalBalance);
-		totalBalancePanel.add(totalBalanceArea);
+		continueButtonPanel = new JPanel(new FlowLayout());
+		continueButtonPanel.add(continueButton);
 		
-		add(title);
-		add(portfolioSelectionLabel);
-		add(portfolios);
-//		add(changeName);
-		add(portfolioTitle);
-		add(lotsButton);
-		add(portfolioInformation);
-		add(totalBalancePanel);
+//		add(titlePanel);
+		add(portfoliosPanel);
+		add(lotsPanel);
+		add(portfolioInformationPanel);
 		add(options);
-		add(totalReturn);
-		add(continueButton);
+		add(continueButtonPanel);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o instanceof PortfolioModel){
-			balanceArea.setText(portfolioModel.useUpdatePortfolioBalanceArea(portfolios.getSelectedIndex()));
+			balanceNowArea.setText(portfolioModel.useUpdatePortfolioBalanceArea(portfolios.getSelectedIndex()));
+			totalWithdrawsArea.setText(portfolioModel.useUpdateTotalWithdrawsArea(portfolios.getSelectedIndex()));
+			totalDepositsArea.setText(portfolioModel.useUpdateTotalDepositsArea(portfolios.getSelectedIndex()));
 		}
 
 	}
@@ -183,43 +258,17 @@ public class PortfolioView extends View implements ActionListener, Observer {
 		if(command.equals("continue")){
 			portfolioModel.useChangeToMainView(new MainView(new MainModel(portfolioModel.getClient(), portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()))), portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()));
 		}
-		if(command.equals("lots")){
-			portfolioModel.useChangeToLotsView(new LotsView(new LotsModel(portfolioModel.getClient(), portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()))), portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()));
-		}
 		if(command.equals("deposit")){
 			String amount = JOptionPane.showInputDialog(this, "Enter the amount of money which you want to deposit");
-//			portfolioModel.useDeposit(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()), Double.parseDouble(amount));
 			if(amount != null){
-//				portfolioModel.useDeposit(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()), Double.parseDouble(amount));
-//				JOptionPane.showMessageDialog(this, portfolioModel.useDeposit(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()), Double.parseDouble(amount)));
-//				JOptionPane.showMessageDialog(this, portfolioModel.useDeposit(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()), BigDecimal.valueOf(Double.parseDouble(amount))));
 				JOptionPane.showMessageDialog(this, portfolioModel.useDeposit(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()), new BigDecimal(amount)));
-//				portfolioModel.useUpdatePortfolioBalance(portfolios.getSelectedIndex());
 			}
 		}
 		if(command.equals("withdraw")){
 			String amount = JOptionPane.showInputDialog(this, "Enter the amount of money which you want to withdraw");
-//			portfolioModel.useWithdraw(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()), Double.parseDouble(amount));
 			if(amount != null){
-//				portfolioModel.useWithdraw(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()), Double.parseDouble(amount));
-//				JOptionPane.showMessageDialog(this, portfolioModel.useWithdraw(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()), Double.parseDouble(amount)));
-//				JOptionPane.showMessageDialog(this, portfolioModel.useWithdraw(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()), BigDecimal.valueOf(Double.parseDouble(amount))));
 				JOptionPane.showMessageDialog(this, portfolioModel.useWithdraw(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()), new BigDecimal(amount)));
-//				portfolioModel.useUpdatePortfolioBalance(portfolios.getSelectedIndex());
 			}
 		}
-		if(command.equals("return")){
-//			portfolioModel.useGetTotalReturn(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()));
-//			JOptionPane.showMessageDialog(this, portfolioModel.useGetTotalReturn(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex())), "Total return", JOptionPane.INFORMATION_MESSAGE);
-			JOptionPane.showMessageDialog(this, portfolioModel.retrieveTotalReturn(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex())), "Total return", JOptionPane.INFORMATION_MESSAGE);
-		}
-//		if(command.equals("change")){
-//			String newName = JOptionPane.showInputDialog("Enter the new name");
-//			if(newName != null){
-//				JOptionPane.showMessageDialog(this, portfolioModel.useChangePortfolioName(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()), newName));
-//				portfolios = new JComboBox<String>(portfolioModel.getPortfolioNames());
-//			}
-//		}
 	}
-
 }

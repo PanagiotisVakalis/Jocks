@@ -23,6 +23,7 @@ public class PortfolioModel extends Model {
 	private BigDecimal initialBalance;
 	private BigDecimal totalWithdraws;
 	private BigDecimal totalDeposits;
+	private String[][] lotsDetails;
 	
 	/*
 	 * I have used big decimal
@@ -242,9 +243,17 @@ public class PortfolioModel extends Model {
 	 */
 	private String deposit(Portfolio portfolio, BigDecimal amount){
 		Database.updatePortfolioBalance(portfolio.getNumber(), amount);
-		Database.useInsertDeposit(portfolio.getNumber(), amount);
+//		Database.useInsertDeposit(portfolio.getNumber(), amount);
+		//Update the database and the text area
+		updateDeposit(portfolio.getNumber(), amount);
 		updatePortfolioBalance(portfolio.getNumber());
 		return "You have deposited " + String.valueOf(amount) + " into your portfolio.";
+	}
+	
+	private void updateDeposit(int portfolioNumber, BigDecimal amount){
+		Database.useInsertDeposit(portfolioNumber, amount);
+		totalDeposits = getTotalDeposits(portfolioNumber);
+		update(totalDeposits);
 	}
 	
 	/**
@@ -279,13 +288,21 @@ public class PortfolioModel extends Model {
 		updatePortfolioBalance(portfolio.getNumber());
 		if(portfolioBalance.compareTo(amount) >= 0){
 			Database.updatePortfolioBalance(portfolio.getNumber(), amount.multiply(new BigDecimal(-1)));
-			Database.useInsertWithdraw(portfolio.getNumber(), amount);
+//			Database.useInsertWithdraw(portfolio.getNumber(), amount);
+			//Method to update the database and the text area
+			updateWithdraw(portfolio.getNumber(), amount);
 			updatePortfolioBalance(portfolio.getNumber());
 			return "You have withrawn " + String.valueOf(amount) + " from your portfolio.";
 		}
 		else{
 			return "The available balance is less than the amount you want to withdraw";
 		}
+	}
+	
+	private void updateWithdraw(int portfolioNumber, BigDecimal amount){
+		Database.useInsertWithdraw(portfolioNumber, amount);
+		totalWithdraws = getTotalWithdraws(portfolioNumber);
+		update(totalWithdraws);
 	}
 	
 	/**
@@ -318,6 +335,22 @@ public class PortfolioModel extends Model {
 	
 	public String useUpdatePortfolioBalanceArea(int index){
 		return updatePortfolioBalanceArea(index);
+	}
+	
+	private String updateTotalWithdrawsArea(int index){
+		return String.valueOf(totalWithdraws);
+	}
+	
+	public String useUpdateTotalWithdrawsArea(int index){
+		return updateTotalWithdrawsArea(index);
+	}
+	
+	private String updateTotalDepositsArea(int index){
+		return String.valueOf(totalDeposits);
+	}
+	
+	public String useUpdateTotalDepositsArea(int index){
+		return updateTotalDepositsArea(index);
 	}
 	
 	/**
@@ -385,16 +418,36 @@ public class PortfolioModel extends Model {
 //		return getTotalReturn(portfolio);
 //	}
 	
+	public BigDecimal getInitialBalance(int portfolioNumber){
+		return Database.useRetrievePortfolioInitialBalance(portfolioNumber);
+	}
+	
+	public BigDecimal getBalanceNow(int portfolioNumber){
+		return Database.useRetrievePortfolioBalance(portfolioNumber);
+	}
+	
+	public BigDecimal getTotalWithdraws(int portfolioNumber){
+		return Database.useRetrieveTotalWithdraws(portfolioNumber);
+	}
+	
+	public BigDecimal getTotalDeposits(int portfolioNumber){
+		return Database.useRetrieveTotalDeposits(portfolioNumber);
+	}
+	
 	private void calculateTotalReturn(Portfolio portfolio){
 		
 		/*
 		 * The total return can be calculated using the following formula:
 		 * totalReturn = balanceNow - initialBalance + sum(withdraws) - sum(deposits)
 		 */
-		balanceNow = Database.useRetrievePortfolioBalance(portfolio.getNumber());
-		initialBalance = Database.useRetrievePortfolioInitialBalance(portfolio.getNumber());
-		totalWithdraws = Database.useRetrieveTotalWithdraws(portfolio.getNumber());
-		totalDeposits = Database.useRetrieveTotalDeposits(portfolio.getNumber());
+//		balanceNow = Database.useRetrievePortfolioBalance(portfolio.getNumber());
+		balanceNow = getBalanceNow(portfolio.getNumber());
+//		initialBalance = Database.useRetrievePortfolioInitialBalance(portfolio.getNumber());
+		initialBalance = getInitialBalance(portfolio.getNumber());
+//		totalWithdraws = Database.useRetrieveTotalWithdraws(portfolio.getNumber());
+		totalWithdraws = getTotalWithdraws(portfolio.getNumber());
+//		totalDeposits = Database.useRetrieveTotalDeposits(portfolio.getNumber());
+		totalDeposits = getTotalDeposits(portfolio.getNumber());
 		
 		totalReturn = balanceNow.subtract(initialBalance).add(totalWithdraws).subtract(totalDeposits);
 	}
@@ -402,6 +455,64 @@ public class PortfolioModel extends Model {
 	public String retrieveTotalReturn(Portfolio portfolio){
 		calculateTotalReturn(portfolio);
 		
-		return "Your balance now is: " + balanceNow + ", your initial balance was: " + initialBalance + ", your total withdraws are: " + totalWithdraws + ", your total deposits are: " + totalDeposits +". Your total return is: " + totalReturn; 
+//		return "Your balance now is: " + balanceNow + ", your initial balance was: " + initialBalance + ", your total withdraws are: " + totalWithdraws + ", your total deposits are: " + totalDeposits +". Your total return is: " + totalReturn; 
+		return String.valueOf(totalReturn);
+	}
+	
+	/**
+	 * Method to get all the lots the portfolio has
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	private void getAllLots(Portfolio portfolio) {
+		allLots = Database.useGetLotsForASpecificPortfolio(portfolio.getNumber());
+	}
+
+	/**
+	 * Method to use the getAllLots() outside the class
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public void useGetAllLots(Portfolio portfolio) {
+		getAllLots(portfolio);
+	}
+	
+	/**
+	 * Method to get all the lots details
+	 * 
+	 * @return lots details
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	private String[][] lotsDetails() {
+		lotsDetails = new String[allLots.size()][8];
+
+		for (int i = 0; i < allLots.size(); i++) {
+			lotsDetails[i][0] = allLots.get(i).getStockSymbol();
+			lotsDetails[i][1] = String.valueOf(allLots.get(i).getBoughtPrice());
+			lotsDetails[i][2] = String.valueOf(allLots.get(i).getBoughtShares());
+			lotsDetails[i][3] = String.valueOf(allLots.get(i).getAmount());
+			lotsDetails[i][4] = String.valueOf(allLots.get(i).getCurrentPrice());
+			lotsDetails[i][5] = String.valueOf(allLots.get(i).getCurrentAmount());
+			lotsDetails[i][6] = String.valueOf(allLots.get(i)
+					.getCurrentProfitLoss());
+			lotsDetails[i][7] = String.valueOf(allLots.get(i).getDate());
+		}
+		return lotsDetails;
+	}
+
+	/**
+	 * Method to use the lotsDetails() outside the class
+	 * 
+	 * @return lots details
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public String[][] useLotsDetails() {
+		return lotsDetails();
 	}
 }

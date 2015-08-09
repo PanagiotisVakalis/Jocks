@@ -153,6 +153,7 @@ public class LoginView extends View implements Observer, ActionListener {
 			if(!getEmail().isEmpty() && !getPassword().isEmpty()){
 				if(loginModel.useValidEmail(getEmail())){
 					if((loginModel.useLoginUser(getEmail(), getPassword())).equals("ok")){
+						JOptionPane.showMessageDialog(this, "Hello " + loginModel.getClient().getInvestor().getFirstName(), "Welcome", JOptionPane.PLAIN_MESSAGE);
 						loginModel.useChangeToPortfolioView(new PortfolioView(new PortfolioModel(loginModel.getClient())));
 					}
 					else{
