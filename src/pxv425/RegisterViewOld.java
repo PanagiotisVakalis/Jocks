@@ -1,17 +1,15 @@
 package pxv425;
 
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.math.BigDecimal;
+import java.nio.ByteOrder;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -21,7 +19,14 @@ import javax.swing.JTextField;
 
 import org.jdesktop.swingx.JXLabel;
 
-public class RegisterView extends View implements ActionListener, Observer, FocusListener {
+/**
+ * The GUI part of the register process
+ * 
+ * @author Panagiotis Vakalis
+ * @version 14-07-2015
+ *
+ */
+public class RegisterViewOld extends View implements ActionListener, Observer {
 
 	private static final long serialVersionUID = 1L;
 	private RegisterModel registerModel;
@@ -46,19 +51,6 @@ public class RegisterView extends View implements ActionListener, Observer, Focu
 	private JPanel inputs;
 	private JPanel buttons;
 	private String command;
-	private JPanel emailPanel;
-	private JLabel emailCorrect;
-	private ImageIcon emailCorrectIcon;
-	private JPanel passwordPanel;
-	private JPanel passwordPanelLabel;
-	private JLabel passwordInformation;
-	private ImageIcon passwordInformationIcon;
-	private JPanel namePanel;
-	private JPanel securityQuestionPanel;
-	private JLabel securityQuestionInformation;
-	private ImageIcon securityQuestionInformationIcon;
-	
-	
 	
 	/**
 	 * Constructor of the class
@@ -67,7 +59,7 @@ public class RegisterView extends View implements ActionListener, Observer, Focu
 	 * @author Panagiotis Vakalis
 	 * @version 14-07-2015
 	 */
-	public RegisterView(RegisterModel registermodel) {
+	public RegisterViewOld(RegisterModel registermodel) {
 		super(registermodel);
 		this.registerModel = registermodel;
 		
@@ -76,62 +68,60 @@ public class RegisterView extends View implements ActionListener, Observer, Focu
 		frameSetup();
 	}
 	
+	/**
+	 * Method to build the frame
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 14-07-2015
+	 */
 	private void frameSetup(){
+		setSize(400, 500);
 		
-		setLayout(new GridLayout(6, 1));
+		setLayout(new BorderLayout());
 		
+		// Panel for inputs
+		inputs = new JPanel(new GridLayout(15, 0));
+		
+		// Textfields and Labels for inputs
 		title = new JLabel("Register");
-		
-		//Panels for inputs
-		
-		//Email panel
-		emailPanel = new JPanel(new FlowLayout());
-		emailInput = new JTextField("Email", 15);
-		emailInput.addFocusListener(this);
-//		emailCorrectIcon = new ImageIcon(".//images//greenTickIcon.png");
-		emailCorrectIcon = new ImageIcon();
-		emailCorrect = new JLabel(emailCorrectIcon);
-		
-		emailPanel.add(emailInput);
-		emailPanel.add(emailCorrect);
-		
-		//Password panel
-		passwordPanel = new JPanel(new GridLayout(2, 2));
+		emailLabel = new JLabel("Email");
+		emailInput = new JTextField();
 		passwordLabel = new JLabel("Password");
-		passwordInput = new JPasswordField(16);
-		passwordInput.setToolTipText("Password should contain 8 to 16 characters, \nat least one number \nand one of the following symbols: ! @ # $ % ^ & * - _");
+		/*
+		 * I have used swingX library in order to use the JXLabel to
+		 * extend the text of the label
+		 * extend into a new line
+		 */
+//		passwordRequirements = new JLabel("<html>(8 to 16 characters,<br>lowercase or uppercase<br>at least one number<br>and one of the following symbols:<br>! @ # $ % ^ & * - _</html>");
+		passwordRequirements = new JXLabel("Password should contain 8 to 16 characters, \nat least one number \nand one of the following symbols: ! @ # $ % ^ & * - _");
+		passwordRequirements.setLineWrap(true);
+		passwordInput = new JPasswordField();
 		reEnterPasswordLabel = new JLabel("Re-enter password");
-		reEnterPasswordInput = new JPasswordField(16);
-		
-		passwordPanel.add(passwordLabel);
-		passwordPanel.add(reEnterPasswordLabel);
-		passwordPanel.add(passwordInput);
-		passwordPanel.add(reEnterPasswordInput);
-		
-		//Name panel
-		namePanel = new JPanel(new GridLayout(2, 2));
+		reEnterPasswordInput = new JPasswordField();
 		firstNameLabel = new JLabel("First name");
-		firstNameInput = new JTextField(16);
+		firstNameInput = new JTextField();
 		lastNameLabel = new JLabel("Last name");
-		lastNameInput = new JTextField(16);
-		
-		namePanel.add(firstNameLabel);
-		namePanel.add(lastNameLabel);
-		namePanel.add(firstNameInput);
-		namePanel.add(lastNameInput);
-		
-		//Security question panel
-		securityQuestionPanel = new JPanel(new GridLayout(2, 2));
-		securityQuestionLabel = new JLabel("Security question");
-		securityQuestionInput = new JTextField(16);
-		securityQuestionInput.setToolTipText("do not include ?");
+		lastNameInput = new JTextField();
+		securityQuestionLabel = new JLabel("Security question (do not include ?)");
+		securityQuestionInput = new JTextField();
 		securityAnswerLabel = new JLabel("Security answer");
-		securityAnswerInput = new JPasswordField(16);
+		securityAnswerInput = new JPasswordField();
 		
-		securityQuestionPanel.add(securityQuestionLabel);
-		securityQuestionPanel.add(securityAnswerLabel);
-		securityQuestionPanel.add(securityQuestionInput);
-		securityQuestionPanel.add(securityAnswerInput);
+		inputs.add(emailLabel);
+		inputs.add(emailInput);
+		inputs.add(passwordLabel);
+		inputs.add(passwordRequirements);
+		inputs.add(passwordInput);
+		inputs.add(reEnterPasswordLabel);
+		inputs.add(reEnterPasswordInput);
+		inputs.add(firstNameLabel);
+		inputs.add(firstNameInput);
+		inputs.add(lastNameLabel);
+		inputs.add(lastNameInput);
+		inputs.add(securityQuestionLabel);
+		inputs.add(securityQuestionInput);
+		inputs.add(securityAnswerLabel);
+		inputs.add(securityAnswerInput);
 		
 		// Buttons
 		buttons = new JPanel(new FlowLayout());
@@ -139,11 +129,11 @@ public class RegisterView extends View implements ActionListener, Observer, Focu
 		JButton back = new JButton("Back");
 		back.setActionCommand("back");
 		back.addActionListener(this);
-
+				
 		JButton clear = new JButton("Clear");
 		clear.setActionCommand("clear");
 		clear.addActionListener(this);
-
+				
 		JButton register = new JButton("Register");
 		register.setActionCommand("register");
 		register.addActionListener(this);
@@ -152,15 +142,17 @@ public class RegisterView extends View implements ActionListener, Observer, Focu
 		buttons.add(clear);
 		buttons.add(register);
 		
-		//Add components to the main panel
-		add(title);
-		add(emailPanel);
-		add(passwordPanel);
-		add(namePanel);
-		add(securityQuestionPanel);
-		add(buttons);
+		add(title, BorderLayout.NORTH);
+		add(inputs, BorderLayout.CENTER);
+		add(buttons, BorderLayout.SOUTH);
 	}
-	
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+
+	}
+
 	/**
 	 * Method to get the email which investor entered
 	 * @return email
@@ -237,13 +229,7 @@ public class RegisterView extends View implements ActionListener, Observer, Focu
 	private String getSecurityAnswer(){
 		return String.valueOf(securityAnswerInput.getPassword());
 	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		command = e.getActionCommand();
@@ -277,16 +263,4 @@ public class RegisterView extends View implements ActionListener, Observer, Focu
 		}
 	}
 
-	@Override
-	public void focusGained(FocusEvent e) {
-		if(e.getSource().equals(emailInput)){
-			emailInput.setText("");
-		}
-	}
-
-	@Override
-	public void focusLost(FocusEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 }
