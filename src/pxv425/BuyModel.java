@@ -127,7 +127,8 @@ public class BuyModel extends Model {
 	 * @version 27-07-2015
 	 */
 	private BigDecimal investedMoney(){
-		return portfolio.getInvestedMoney();
+//		return portfolio.getInvestedMoney();
+		return Database.useGetInvestedMoney(portfolio.getNumber());
 	}
 	
 	/**
@@ -150,7 +151,8 @@ public class BuyModel extends Model {
 	 */
 	private BigDecimal balance(){
 		
-		return portfolio.getBalance();
+//		return portfolio.getBalance();
+		return Database.getTotalBalance(portfolio.getNumber());
 	}
 	
 	/**

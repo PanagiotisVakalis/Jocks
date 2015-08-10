@@ -50,7 +50,7 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 	private JTextArea stockPrice;
 	private JButton buyButton;
 	private JButton addToWatchilistButton;
-	private JPanel allTheStocks;
+	private JPanel stocksTablePanel;
 	private JScrollPane stocksTableScrolled;
 	private JTable stocksTable;
 	private JPanel buttons;
@@ -66,6 +66,10 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 	private String command;
 	private JButton createANewPortfolio;
 	private JPanel chart;
+	private JButton updateInformation;
+	private JPanel updateInformationPanel;
+	private JPanel informationPanelWithUpdateButton;
+	private JPanel stockTableAndButtonsPanel;
 	
 	
 	/**
@@ -101,7 +105,7 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		
 		setSize((int)screenWidth, (int)screenHeight);
 		
-		setLayout(new GridLayout(5,  1));
+		setLayout(new GridLayout(4,  1));
 		
 		// Setup buttons
 		portfolio = new JButton("Portfolio");
@@ -155,17 +159,17 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		//Panel for all the stocks
 //		mainModel.useGetAllStocks();
 //		allTheStocks = new JPanel(new GridLayout(1, mainModel.getStocks().size()));
-		allTheStocks = new JPanel(new FlowLayout());
+//		allTheStocks = new JPanel(new FlowLayout());
 //		allTheStocks.setSize(300, 400);
 		
-		stockSymbol = new JTextArea();
-		stockSymbol.setEditable(false);
-		
-		stockName = new JTextArea();
-		stockName.setEditable(false);
-		
-		stockPrice = new JTextArea();
-		stockPrice.setEditable(false);
+//		stockSymbol = new JTextArea();
+//		stockSymbol.setEditable(false);
+//		
+//		stockName = new JTextArea();
+//		stockName.setEditable(false);
+//		
+//		stockPrice = new JTextArea();
+//		stockPrice.setEditable(false);
 		
 		buyButton = new JButton("Buy");
 		buyButton.setActionCommand("buy");
@@ -179,45 +183,6 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		buttons.add(addToWatchilistButton);
 		buttons.add(buyButton);
 		
-//		mainModel.useGetAllStocks();
-//		System.out.println(mainModel.getStocks().size());
-//		for(int i = 0; i < mainModel.getStocks().size(); i++){
-////		for(int i = 0; i < 3; i++){
-//			mainModel.useStockDetails(i);
-//			//Panel for each stock
-//			stock = new JPanel(new GridLayout(4,1));
-//			
-//			
-//			stockSymbol.setText(mainModel.getSymbol());
-////			System.out.println(stockSymbol.getText());
-//			
-//			
-//			stockName.setText(mainModel.getName());
-////			System.out.println(stockName.getText());
-//			
-//			stockPrice.setText(String.valueOf(mainModel.getPrice()));
-////			System.out.println(stockPrice.getText());
-//			
-//			stock.add(stockSymbol);
-//			stock.add(stockName);
-//			stock.add(stockPrice);
-//			stock.add(buyButton);
-//			
-////			System.out.println(stock);
-//			
-//			allTheStocks.add(stock);
-////			System.out.println(mainModel.getSymbol());
-//			allTheStocks.revalidate();
-//			allTheStocks.repaint();
-//		}
-//		
-//		allTheStocksScrolled = new JScrollPane(allTheStocks);
-//		allTheStocks.setSize(500, 200);
-//		allTheStocksScrolled.setBounds(150, 315, 195, 130);
-//		
-//		add(buttons);
-//		add(allTheStocksScrolled);
-//		System.out.println("done");
 		mainModel.useGetAllStocks();
 		String[] title = {"Symbol", "Name", "Price"};
 		stocksTable = new JTable();
@@ -228,7 +193,14 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		//Select only one
 		stocksTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		stocksTable.getSelectionModel().addListSelectionListener(this);
+		stocksTable.setPreferredScrollableViewportSize(stocksTable.getPreferredSize());
+		stocksTable.setFillsViewportHeight(true);
 		stocksTableScrolled = new JScrollPane(stocksTable);
+		
+		
+		stockTableAndButtonsPanel = new JPanel(new GridLayout(2, 1));
+		stockTableAndButtonsPanel.add(stocksTableScrolled);
+		stockTableAndButtonsPanel.add(buttons);
 		
 		
 		chart = new JPanel();
@@ -239,6 +211,14 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		
 		//Call model's method in order to get portfolios' informations
 		mainModel.usePortfoliosDetails();
+		
+		updateInformation = new JButton("Update information");
+		updateInformation.setActionCommand("update");
+		updateInformation.addActionListener(this);
+		updateInformation.setToolTipText("Press to update your portfolio's information");
+		
+		updateInformationPanel = new JPanel();
+		updateInformationPanel.add(updateInformation);
 		
 		portfoliosInformation = new JPanel(new GridLayout(2, 4));
 		
@@ -269,12 +249,16 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		portfoliosInformation.add(investedMoney);
 		portfoliosInformation.add(profitLoss);
 		
+		informationPanelWithUpdateButton = new JPanel(new GridLayout(2, 1));
+//		informationPanelWithUpdateButton.add(updateInformationPanel);
+		informationPanelWithUpdateButton.add(portfoliosInformation);
+		informationPanelWithUpdateButton.add(updateInformationPanel);
+		
 		
 		add(buttonsMenu);
-		add(stocksTableScrolled);
-		add(buttons);
+		add(stockTableAndButtonsPanel);
 		add(chart);
-		add(portfoliosInformation);
+		add(informationPanelWithUpdateButton);
 	}
 
 	@Override
@@ -283,7 +267,9 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 //			chart.removeAll();
 //			chart.add(new ChartPanel(mainModel.useDrawChart(stocksTable.getSelectedRow())), BorderLayout.CENTER);
 //			chart.setLayout(new BorderLayout());
-			
+			profitLoss.setText(mainModel.getUpdatedProfitLossSum(mainModel.getPortfolio()));
+			investedMoney.setText(mainModel.getUpdatedTotalInvestedMoney());
+			availableBalance.setText(mainModel.getUpdatedAvailableBalance());
 		}
 
 	}
@@ -298,7 +284,18 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 			if(stocksTable.getSelectedRow() != -1){
 				//If a stock has been selected
 				mainModel.useChangeToBuyView(new BuyView(new BuyModel(mainModel.getClient(), mainModel.getPortfolio(), mainModel.useSelectStock(stocksTable.getSelectedRow()))), mainModel.getPortfolio(), mainModel.useSelectStock(stocksTable.getSelectedRow()));
-//				JOptionPane.showMessageDialog(this, new BuyView(new BuyModel(mainModel.getClient(), mainModel.getPortfolio(), mainModel.useSelectStock(stocksTable.getSelectedRow()))), "Buy stock", JOptionPane.OK_CANCEL_OPTION);
+//				String[] options = {"Confirm", "Back"};
+//				int answer = JOptionPane.showOptionDialog(this, new BuyView(new BuyModel(mainModel.getClient(), mainModel.getPortfolio(), mainModel.useSelectStock(stocksTable.getSelectedRow()))), "Buy stock", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+//				/*
+//				 * Confirm = 0
+//				 * Back = 1
+//				 */
+//				if(answer == 0){
+//					
+//				}
+//				if(answer == 1){
+//					
+//				}
 			}
 			else{
 				JOptionPane.showMessageDialog(this, "You should select a stock from the table", "Error in buy", JOptionPane.WARNING_MESSAGE);
@@ -362,6 +359,11 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		}
 		if(command.equals("add watchlist")){
 			JOptionPane.showMessageDialog(this, mainModel.useAddToWatchlist(mainModel.useSelectStock(stocksTable.getSelectedRow())));
+		}
+		if(command.equals("update")){
+			mainModel.useUpdateProfitLossSum(mainModel.getPortfolio());
+			mainModel.useUpdateTotalInvestedMoney();
+			mainModel.useUpdateAvailableBalance();
 		}
 	}
 

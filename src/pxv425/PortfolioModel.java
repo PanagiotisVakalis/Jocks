@@ -120,7 +120,8 @@ public class PortfolioModel extends Model {
 	 * @version 18-07-2015
 	 */
 	private BigDecimal getPortfolioInvestedMoney(int index){
-		return portfoliosArray[index].getInvestedMoney();
+//		return portfoliosArray[index].getInvestedMoney();
+		return Database.useGetInvestedMoney(portfolios.get(index).getNumber());
 	}
 	
 	/**

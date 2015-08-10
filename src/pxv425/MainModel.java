@@ -1,5 +1,6 @@
 package pxv425;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -39,6 +40,9 @@ public class MainModel extends Model {
 	private PortfolioModel portfolioModel;
 	private ArrayList<Lot> allLots;
 	private ArrayList<Stock> watches;
+	private double profitLossSum;
+	private BigDecimal totalInvestedMoney;
+	private BigDecimal availableBalance;
 	
 	/**
 	 * Constructor of the class
@@ -218,7 +222,7 @@ public class MainModel extends Model {
 	 * @version 20-07-2015	
 	 */
 	private String totalBalance(){
-		return String.valueOf(Database.getTotalBalance());
+		return String.valueOf(Database.getTotalBalance(portfolio.getNumber()));
 	}
 	
 	/**
@@ -240,7 +244,33 @@ public class MainModel extends Model {
 	 * @version 20-07-2015	
 	 */
 	private String investedMoney(){
-		return String.valueOf(Database.getTotalInvestedMoney());
+		return String.valueOf(Database.useRetrieveInvestedMoney(portfolio.getNumber()));
+	}
+	
+	private void updateTotalInvestedMoney(){
+		totalInvestedMoney = Database.useRetrieveInvestedMoney(portfolio.getNumber());
+		update(totalInvestedMoney);
+	}
+	
+	public void useUpdateTotalInvestedMoney(){
+		updateTotalInvestedMoney();
+	}
+	
+	public String getUpdatedTotalInvestedMoney(){
+		return String.valueOf(totalInvestedMoney);
+	}
+	
+	private void updateAvailableBalance(){
+		availableBalance = Database.getTotalBalance(portfolio.getNumber());
+		update(availableBalance);
+	}
+	
+	public void useUpdateAvailableBalance(){
+		updateAvailableBalance();
+	}
+	
+	public String getUpdatedAvailableBalance(){
+		return String.valueOf(availableBalance);
 	}
 	
 	/**
@@ -714,8 +744,8 @@ public class MainModel extends Model {
 		return addToWatchlist(stock.getSymbol());
 	}
 	
-	private double getAllLotsProfitLoss(Portfolio portfolio){
-		double profitLossSum = 0;
+	private void getAllLotsProfitLoss(Portfolio portfolio){
+		profitLossSum = 0;
 		//Retrieve the lots
 		allLots = Database.useGetLotsForASpecificPortfolio(portfolio.getNumber());
 		
@@ -723,10 +753,24 @@ public class MainModel extends Model {
 			profitLossSum += lot.getCurrentProfitLoss();
 		}
 		
-		return profitLossSum;
+//		update(profitLossSum);
+	}
+	
+	private void updateProfitLossSum(Portfolio portfolio){
+		getAllLotsProfitLoss(portfolio);
+		update(profitLossSum);
+	}
+	
+	public void useUpdateProfitLossSum(Portfolio portfolio){
+		updateProfitLossSum(portfolio);
+	}
+	
+	public String getUpdatedProfitLossSum(Portfolio portfolio){
+		return String.valueOf(profitLossSum);
 	}
 	
 	public double useGetAllLotsProfitLoss(Portfolio portfolio){
-		return getAllLotsProfitLoss(portfolio);
+		getAllLotsProfitLoss(portfolio);
+		return profitLossSum;
 	}
 }

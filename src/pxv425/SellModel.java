@@ -5,6 +5,8 @@ import java.security.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.xml.crypto.Data;
 /**
  * Class which contains the model part of the sell screen
  * 
@@ -134,7 +136,8 @@ public class SellModel extends Model {
 	 * @version 28-07-2015
 	 */
 	private BigDecimal investedMoney(){
-		return portfolio.getInvestedMoney();
+//		return portfolio.getInvestedMoney();
+		return Database.useGetInvestedMoney(portfolio.getNumber());
 	}
 	
 	/**
@@ -156,7 +159,8 @@ public class SellModel extends Model {
 	 * @version 28-07-2015
 	 */
 	private BigDecimal balance(){
-		return portfolio.getBalance();
+//		return portfolio.getBalance();
+		return Database.getTotalBalance(portfolio.getNumber());
 	}
 	
 	/**
@@ -255,10 +259,10 @@ public class SellModel extends Model {
 //				Database.insertSell(lot.getStockSymbol(), portfolio.getNumber(), sharesCount, lot.getCurrentPrice());
 				Database.useInsertSell(lot.getStockSymbol(), portfolio.getNumber(), shares, lot.getCurrentPrice(), lot.getDate());
 //				Database.updatePortfolioInvestedMoney(portfolio.getNumber(), stock.getPrice() * sharesCount);
-				Database.updatePortfolioInvestedMoney(portfolio.getNumber(), (lot.getBoughtPrice() * sharesCount) * (-1));
+				Database.updatePortfolioInvestedMoney(portfolio.getNumber(), (lot.getBoughtPrice() * shares) * (-1));
 //				Database.updatePortfolioBalance(portfolio.getNumber(), (stock.getPrice() * sharesCount) * (-1));
 //				Database.updatePortfolioBalance(portfolio.getNumber(), lot.getCurrentPrice() * sharesCount);
-				Database.updatePortfolioBalance(portfolio.getNumber(), BigDecimal.valueOf(lot.getCurrentPrice() * sharesCount));
+				Database.updatePortfolioBalance(portfolio.getNumber(), BigDecimal.valueOf(lot.getCurrentPrice() * shares));
 				return "You have sold " + shares + " of " + stockName() + " stock.";
 			}
 			else{
