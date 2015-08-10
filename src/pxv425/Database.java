@@ -127,6 +127,7 @@ public class Database {
 	private static ArrayList<Integer> portfolioNumbers;
 	
 	private static BigDecimal portfolioInitialBalance;
+	private static BigDecimal portfolioInvestedMoney;
 	
 	/**
 	 * Method to use the connection instance variable
@@ -998,15 +999,58 @@ public class Database {
 		return retrieveTotalDeposits(portfolioNumber);
 	}
 	
-	/**
-	 * Method to get the total invested money outside the class
-	 * @return total invested money
-	 * 
-	 * @author Panagiotis Vakalis
-	 * @version 20-07-2015
-	 */
-	public static double getTotalInvestedMoney(){
-		return totalInvestedMoney;
+//	/**
+//	 * Method to get the total invested money outside the class
+//	 * @return total invested money
+//	 * 
+//	 * @author Panagiotis Vakalis
+//	 * @version 20-07-2015
+//	 */
+//	public static double getTotalInvestedMoney(){
+//		return totalInvestedMoney;
+//	}
+	
+	private static BigDecimal retrieveInvestedMoney(int portfolioNumber){
+		totalInvestedMoney = 0;
+		
+		
+		try {
+			query = "SELECT inv_money FROM portfolio WHERE number = ?";
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, portfolioNumber);
+			
+			resultSet = preparedStatement.executeQuery();
+			
+			while(resultSet.next()){
+				portfolioInvestedMoney = resultSet.getBigDecimal("inv_money");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return portfolioInvestedMoney;
+	}
+	
+	public static BigDecimal useRetrieveInvestedMoney(int portfolioNumber){
+		return retrieveInvestedMoney(portfolioNumber);
+	}
+	
+	private static void retrieveBalance(int portfolioNumber){
+		
+		try {
+			query = "SELECT balance FROM portfolio WHERE number = ?";
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, portfolioNumber);
+			resultSet = preparedStatement.executeQuery();
+			
+			while(resultSet.next()){
+				totalBalance = resultSet.getBigDecimal("balance");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -1016,7 +1060,8 @@ public class Database {
 	 * @author Panagiotis Vakalis
 	 * @version 20-07-2015
 	 */
-	public static BigDecimal getTotalBalance(){
+	public static BigDecimal getTotalBalance(int portfolioNumber){
+		retrieveBalance(portfolioNumber);
 		return totalBalance;
 	}
 	
