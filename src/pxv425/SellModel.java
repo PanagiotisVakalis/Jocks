@@ -300,7 +300,8 @@ public class SellModel extends Model {
 	
 	private void updateInvestedMoney(double price, int shares){
 		if(lot.getBoughtShares() >= shares){
-			newInvestedMoney = portfolio.getInvestedMoney().subtract(new BigDecimal(price * shares));
+//			newInvestedMoney = portfolio.getInvestedMoney().subtract(new BigDecimal(price * shares));
+			newInvestedMoney = Database.useGetInvestedMoney(portfolio.getNumber()).subtract(new BigDecimal(price * shares));
 			update(newInvestedMoney);
 		}
 	}
@@ -311,7 +312,8 @@ public class SellModel extends Model {
 	
 	private void updateBalance(double price, int shares){
 		if(lot.getBoughtShares() >= shares){
-			newBalance = portfolio.getBalance().add(new BigDecimal(price * shares));
+//			newBalance = portfolio.getBalance().add(new BigDecimal(price * shares));
+			newBalance = Database.getTotalBalance(portfolio.getNumber()).add(new BigDecimal(price * shares));
 			update(newBalance);
 		}
 	}
