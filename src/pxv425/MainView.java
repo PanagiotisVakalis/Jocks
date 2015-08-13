@@ -349,10 +349,11 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 						
 					}
 				}
+				else{
+					JOptionPane.showMessageDialog(this, "You should select a stock from the table", "Error in sell", JOptionPane.WARNING_MESSAGE);
+				}
 			}
-			else{
-				JOptionPane.showMessageDialog(this, "You should select a stock from the table", "Error in buy", JOptionPane.WARNING_MESSAGE);
-			}
+			
 		}
 		if(command.equals("trades")){
 //			mainModel.useChangeToTradesView(new TradesView(new TradesModel(mainModel.getClient(), mainModel.getPortfolio())), mainModel.getPortfolio());
