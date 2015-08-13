@@ -192,6 +192,10 @@ public class Password {
 	 * @version 28-07-2015
 	 */
 	private static final String ENCRYPT_PASSWORD(String password){
+		integers = new ArrayList<>();
+		indexesBackwards = new ArrayList<>();
+		added = new ArrayList<>();
+		passwordEncrypted = new StringBuilder();
 		/*
 		 * This variable is initialised using the length of the string
 		 * because it will be used into an arraylist which will count backwards

@@ -229,16 +229,16 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		availableBalanceLabel = new JLabel("Available balance");
 		availableBalance = new JTextArea();
 		availableBalance.setEditable(false);
-		availableBalance.setText(mainModel.useTotalBalance());
+		availableBalance.setText("£" + mainModel.useTotalBalance());
 		investedMoneyLabel = new JLabel("Invested money");
 		investedMoney = new JTextArea();
 		investedMoney.setEditable(false);
-		investedMoney.setText(mainModel.useInvestedMoney());
+		investedMoney.setText("£" + mainModel.useInvestedMoney());
 		profitLossLabel = new JLabel("Lots Profit / Loss");
 		profitLoss = new JTextArea();
 		profitLoss.setEditable(false);
 //		profitLoss.setText(mainModel.useProfitLoss());
-		profitLoss.setText(String.valueOf(mainModel.useGetAllLotsProfitLoss(mainModel.getPortfolio())));
+		profitLoss.setText("£" + String.valueOf(mainModel.useGetAllLotsProfitLoss(mainModel.getPortfolio())));
 		
 		portfoliosInformation.add(numberOfPortfioliosLabel);
 		portfoliosInformation.add(availableBalanceLabel);
@@ -264,12 +264,19 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o instanceof MainModel){
-//			chart.removeAll();
-//			chart.add(new ChartPanel(mainModel.useDrawChart(stocksTable.getSelectedRow())), BorderLayout.CENTER);
-//			chart.setLayout(new BorderLayout());
-			profitLoss.setText(mainModel.getUpdatedProfitLossSum(mainModel.getPortfolio()));
-			investedMoney.setText(mainModel.getUpdatedTotalInvestedMoney());
-			availableBalance.setText(mainModel.getUpdatedAvailableBalance());
+			
+			if(mainModel.getUpdatedProfitLossSum(mainModel.getPortfolio()).equals("null") || mainModel.getUpdatedTotalInvestedMoney().equals("null")){
+				/*
+				 * I have used this if statement because every time
+				 * that a stock is selected it draws the chart and updates
+				 * the panel. So, it changes the values into null.
+				 */
+			}
+			else{
+				profitLoss.setText("£" + mainModel.getUpdatedProfitLossSum(mainModel.getPortfolio()));
+				investedMoney.setText("£" + mainModel.getUpdatedTotalInvestedMoney());
+				availableBalance.setText("£" + mainModel.getUpdatedAvailableBalance());
+			}
 		}
 
 	}
@@ -316,42 +323,47 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		if(command.equals("lots")){
 //			mainModel.useChangeToLotsView(new LotsView(new LotsModel(mainModel.getClient(), mainModel.getPortfolio())), mainModel.getPortfolio());
 			mainModel.useInitializeLotsView();
-			//The two buttons
-			String[] options = {"Sell Stock", "Continue"};
-			
-			int answer = JOptionPane.showOptionDialog(this, mainModel.getLotsView(), "Lots", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
-			
-			/*
-			 * Sell = 0
-			 * Continue = 1
-			 */
-			if(answer == 0){
-//				JOptionPane.showMessageDialog(this, mainModel.getLotsModel().getSellModel().useSellStock(mainModel.getLotsModel().getSellView().getShares()));
-				if(mainModel.getLotsView().getLotsTable().getSelectedRow() != -1){
-					mainModel.getLotsModel().useInitializeSellView(mainModel.getLotsModel().useSelectLot(mainModel.getLotsView().getLotsTable().getSelectedRow()));
-					//The two buttons
-					String[] optionsInSell = {"Confirm", "Back"};
-					int answerInSell = JOptionPane.showOptionDialog(mainModel.getLotsView(), mainModel.getLotsModel().getSellView(), "Sell lot", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionsInSell, optionsInSell[0]);
-					
-					/*
-					 * Confirm = 0
-					 * Back = 1
-					 */
-					if(answerInSell == 0){
-						/*
-						 * If user has pressed confirm
-						 */
-//						mainModel.getBuyModel().useBuyStock(mainModel.getBuyView().getShares());
-//						JOptionPane.showMessageDialog(this, lotsModel.getSellModel().useSellStock(lotsModel.getSellView().getShares()));
-						JOptionPane.showMessageDialog(mainModel.getLotsView(), mainModel.getLotsModel().getSellModel().useSellStock(mainModel.getLotsModel().getSellView().getShares()));
-					}
-					if(answerInSell == 1){
+			if(!mainModel.getLotsModel().getLots().isEmpty()){
+				//The two buttons
+				String[] options = {"Sell Stock", "Continue"};
+				
+				int answer = JOptionPane.showOptionDialog(this, mainModel.getLotsView(), "Lots", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+				
+				/*
+				 * Sell = 0
+				 * Continue = 1
+				 */
+				if(answer == 0){
+//					JOptionPane.showMessageDialog(this, mainModel.getLotsModel().getSellModel().useSellStock(mainModel.getLotsModel().getSellView().getShares()));
+					if(mainModel.getLotsView().getLotsTable().getSelectedRow() != -1){
+						mainModel.getLotsModel().useInitializeSellView(mainModel.getLotsModel().useSelectLot(mainModel.getLotsView().getLotsTable().getSelectedRow()));
+						//The two buttons
+						String[] optionsInSell = {"Confirm", "Back"};
+						int answerInSell = JOptionPane.showOptionDialog(mainModel.getLotsView(), mainModel.getLotsModel().getSellView(), "Sell lot", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionsInSell, optionsInSell[0]);
 						
+						/*
+						 * Confirm = 0
+						 * Back = 1
+						 */
+						if(answerInSell == 0){
+							/*
+							 * If user has pressed confirm
+							 */
+//							mainModel.getBuyModel().useBuyStock(mainModel.getBuyView().getShares());
+//							JOptionPane.showMessageDialog(this, lotsModel.getSellModel().useSellStock(lotsModel.getSellView().getShares()));
+							JOptionPane.showMessageDialog(mainModel.getLotsView(), mainModel.getLotsModel().getSellModel().useSellStock(mainModel.getLotsModel().getSellView().getShares()));
+						}
+						if(answerInSell == 1){
+							
+						}
+					}
+					else{
+						JOptionPane.showMessageDialog(this, "You should select a stock from the table", "Error in sell", JOptionPane.WARNING_MESSAGE);
 					}
 				}
-				else{
-					JOptionPane.showMessageDialog(this, "You should select a stock from the table", "Error in sell", JOptionPane.WARNING_MESSAGE);
-				}
+			}
+			else{
+				JOptionPane.showMessageDialog(this, "You have no lots", "Lots warning", JOptionPane.WARNING_MESSAGE);
 			}
 			
 		}
@@ -371,7 +383,8 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 			if(shortPeriod != null && longPeriod != null){
 				if(!shortPeriod.isEmpty() && !longPeriod.isEmpty()){
 					ChartPanel crossSMAPanel = new ChartPanel(mainModel.useDrawCrossSMA(stocksTable.getSelectedRow(), Integer.parseInt(shortPeriod), Integer.parseInt(longPeriod)));
-					JOptionPane.showMessageDialog(this, crossSMAPanel);
+//					JOptionPane.showMessageDialog(this, crossSMAPanel);
+					JOptionPane.showMessageDialog(this, crossSMAPanel, "Cross SMA", JOptionPane.PLAIN_MESSAGE);
 				}
 				else{
 					JOptionPane.showMessageDialog(this, "You have to enter both periods", "Period input warning", JOptionPane.WARNING_MESSAGE);

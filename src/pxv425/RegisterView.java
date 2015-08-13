@@ -265,7 +265,7 @@ public class RegisterView extends View implements ActionListener, Observer, Focu
 				String initialBalance = null;
 //				registerModel.useCreateFirstPortfolio(new BigDecimal(initialBalance));
 				do{
-					initialBalance = JOptionPane.showInputDialog(this, "Enter the initial balance for your portfolio", "Create a portfolio", JOptionPane.PLAIN_MESSAGE);
+					initialBalance = JOptionPane.showInputDialog(this, "Enter the initial balance for your portfolio in £.", "Create a portfolio", JOptionPane.PLAIN_MESSAGE);
 					if(initialBalance != null){
 						JOptionPane.showMessageDialog(this, registerModel.useCreateFirstPortfolio(new BigDecimal(initialBalance)), "Portfolio created", JOptionPane.PLAIN_MESSAGE);;
 						break;

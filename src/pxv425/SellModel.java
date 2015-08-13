@@ -1,6 +1,7 @@
 package pxv425;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.security.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -323,7 +324,7 @@ public class SellModel extends Model {
 	}
 	
 	private String updateInvestedMoneyArea(){
-		return String.valueOf(newInvestedMoney);
+		return String.valueOf(newInvestedMoney.setScale(2, BigDecimal.ROUND_DOWN));
 	}
 	
 	public String useUpdateInvesteMoneyArea(){
@@ -331,7 +332,7 @@ public class SellModel extends Model {
 	}
 	
 	private String updateBalanceArea(){
-		return String.valueOf(newBalance);
+		return String.valueOf(newBalance.setScale(2, BigDecimal.ROUND_DOWN));
 	}
 	
 	public String useUpdateBalanceArea(){
@@ -349,5 +350,28 @@ public class SellModel extends Model {
 	
 	public Portfolio getPortfolio(){
 		return portfolio;
+	}
+	
+	private void updateBalanceInCheck(double price, int shares){
+		newBalance = balance().add(new BigDecimal(price).setScale(2, BigDecimal.ROUND_DOWN).multiply(new BigDecimal(shares)));
+//		newBalance = balance().subtract(new BigDecimal(price).multiply(new BigDecimal(shares)));
+//		update(newBalance);
+	}
+	
+	private void updateInvestedMoneyInCheck(double price, int shares){
+//		newInvestedMoney = portfolio.getInvestedMoney() - (price * shares);
+		newInvestedMoney = investedMoney().subtract(new BigDecimal(lot.getBoughtPrice()).multiply(new BigDecimal(shares)));
+//		update(newInvestedMoney);
+	}
+	
+	private void updateNewBalanceAndNewInvestedMoney(double price, int shares){
+		updateBalanceInCheck(price, shares);
+		updateInvestedMoneyInCheck(price, shares);
+		update(newBalance);
+		update(newInvestedMoney);
+	}
+	
+	public void useUpdateNewBalanceAndNewInvestedMoney(double price, int shares){
+		updateNewBalanceAndNewInvestedMoney(price, shares);
 	}
 }

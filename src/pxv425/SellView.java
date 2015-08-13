@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigInteger;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -97,7 +98,7 @@ public class SellView extends View implements ActionListener, Observer {
 		priceLabel = new JLabel("Price");
 		price = new JTextArea();
 		price.setEditable(false);
-		price.setText(String.valueOf(sellModel.getStockPrice()));
+		price.setText("£" + String.valueOf(sellModel.getStockPrice()));
 		
 		stockInformation.add(stockSymbolLabel);
 		stockInformation.add(stockSymbol);
@@ -143,13 +144,13 @@ public class SellView extends View implements ActionListener, Observer {
 		newInvestedMoney = new JTextArea();
 		newInvestedMoney.setEditable(false);
 		//Initialy will have the same money
-		newInvestedMoney.setText(String.valueOf(sellModel.getInvestedMoney()));
+		newInvestedMoney.setText("£" + String.valueOf(sellModel.getInvestedMoney()));
 		
 		newBalanceLabel = new JLabel("Balance");
 		newBalance = new JTextArea();
 		newBalance.setEditable(false);
 		//Initially will have the same balance
-		newBalance.setText(String.valueOf(sellModel.getBalance()));
+		newBalance.setText("£" + String.valueOf(sellModel.getBalance()));
 		
 		portfolioInformations.add(newInvestedMoneyLabel);
 		portfolioInformations.add(newInvestedMoney);
@@ -186,8 +187,8 @@ public class SellView extends View implements ActionListener, Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o instanceof SellModel){
-			newInvestedMoney.setText(sellModel.useUpdateInvesteMoneyArea());
-			newBalance.setText(sellModel.useUpdateBalanceArea());
+			newInvestedMoney.setText("£" + sellModel.useUpdateInvesteMoneyArea());
+			newBalance.setText("£" + sellModel.useUpdateBalanceArea());
 		}
 
 	}
@@ -210,8 +211,9 @@ public class SellView extends View implements ActionListener, Observer {
 //			sellModel.useChangeToLotsView(new LotsView(new LotsModel(sellModel.getClient(), sellModel.getPortfolio())));
 //		}
 		if(command.equals("check")){
-			sellModel.useUpdateInvestedMoney(sellModel.getStockPrice(), Integer.parseInt(shares.getText()));
-			sellModel.useUpdateBalance(sellModel.getStockPrice(), Integer.parseInt(shares.getText()));
+//			sellModel.useUpdateInvestedMoney(sellModel.getStockPrice(), Integer.parseInt(shares.getText()));
+//			sellModel.useUpdateBalance(sellModel.getStockPrice(), Integer.parseInt(shares.getText()));
+			sellModel.useUpdateNewBalanceAndNewInvestedMoney(sellModel.getStockPrice(), Integer.parseInt(shares.getText()));
 		}
 	}
 

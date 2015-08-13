@@ -10,6 +10,7 @@ import javax.xml.crypto.Data;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.xy.XYSeries;
@@ -578,8 +579,11 @@ public class MainModel extends Model {
 		
 		XYSeriesCollection dataCollection = new XYSeriesCollection(series);
 		
-		JFreeChart chart = ChartFactory.createXYLineChart("Price chart for the " + stocks.get(index).getSymbol(), null, "Prices", dataCollection, PlotOrientation.VERTICAL, false, true, false);
 		
+		JFreeChart chart = ChartFactory.createXYLineChart("Price chart for the " + stocks.get(index).getSymbol(), null, "Prices", dataCollection, PlotOrientation.VERTICAL, false, true, false);
+		//Delete the x axis
+		ValueAxis xAxis = chart.getXYPlot().getDomainAxis();
+		xAxis.setVisible(false);
 		update(chart);
 		
 		return chart;
@@ -716,6 +720,9 @@ public class MainModel extends Model {
 		dataCollection.addSeries(price);
 		
 		JFreeChart chart = ChartFactory.createXYLineChart("Cross SMA for the " + stocks.get(index).getSymbol(), null, "Prices", dataCollection, PlotOrientation.VERTICAL, true, true, false);
+		
+		ValueAxis xAxis = chart.getXYPlot().getDomainAxis();
+		xAxis.setVisible(false);
 		
 		return chart;
 	}

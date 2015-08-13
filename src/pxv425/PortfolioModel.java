@@ -11,9 +11,9 @@ import java.util.ArrayList;
  */
 public class PortfolioModel extends Model {
 	
-	private ArrayList<Portfolio> portfolios = super.getClient().getInvestor().getPortfolios();
-	private Portfolio[] portfoliosArray = new Portfolio[portfolios.size()];
-	private String[] portfolioNames = new String[portfolios.size()];
+	private ArrayList<Portfolio> portfolios;
+	private Portfolio[] portfoliosArray;
+	private String[] portfolioNames;
 	private MainModel mainModel;
 	private LotsModel lotsModel;
 	private Investor investor;
@@ -42,7 +42,10 @@ public class PortfolioModel extends Model {
 		super(client);
 		this.investor = super.getClient().getInvestor();
 		
-		
+//		portfolios = super.getClient().getInvestor().getPortfolios();
+		portfolios = Database.useGetInvestorPortfolioNumber(super.getClient().getInvestor().getId());
+		portfoliosArray = new Portfolio[portfolios.size()];
+		portfolioNames = new String[portfolios.size()];
 	}
 
 	/**

@@ -307,7 +307,7 @@ public class BuyModel extends Model {
 	}
 	
 	private void updateBalance(double price, BigInteger shares){
-		newBalance = balance().subtract(new BigDecimal(price).multiply(new BigDecimal(shares)));
+		newBalance = balance().subtract(new BigDecimal(price).setScale(2, BigDecimal.ROUND_DOWN).multiply(new BigDecimal(shares)));
 //		newBalance = balance().subtract(new BigDecimal(price).multiply(new BigDecimal(shares)));
 //		update(newBalance);
 	}
