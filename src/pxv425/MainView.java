@@ -355,7 +355,9 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 			}
 		}
 		if(command.equals("trades")){
-			mainModel.useChangeToTradesView(new TradesView(new TradesModel(mainModel.getClient(), mainModel.getPortfolio())), mainModel.getPortfolio());
+//			mainModel.useChangeToTradesView(new TradesView(new TradesModel(mainModel.getClient(), mainModel.getPortfolio())), mainModel.getPortfolio());
+//			JOptionPane.showMessageDialog(this, new TradesView(new TradesModel(mainModel.getClient(), mainModel.getPortfolio())));
+			JOptionPane.showMessageDialog(this, new TradesView(new TradesModel(mainModel.getClient(), mainModel.getPortfolio())), "Trades", JOptionPane.PLAIN_MESSAGE);
 		}
 		if(command.equals("create")){
 			String name = JOptionPane.showInputDialog(this, "Enter the name for your new portfolio");

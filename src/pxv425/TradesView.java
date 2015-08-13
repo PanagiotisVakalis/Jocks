@@ -1,5 +1,6 @@
 package pxv425;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +9,7 @@ import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 /**
@@ -26,7 +28,8 @@ public class TradesView extends View implements ActionListener, Observer {
 	private String command;
 	private JLabel buysLabel;
 	private JLabel sellsLabel;
-	private JButton backButton;
+//	private JButton backButton;
+//	private JPanel backButtonPanel;
 	
 	/**
 	 * Constructor of the class
@@ -52,7 +55,8 @@ public class TradesView extends View implements ActionListener, Observer {
 	 * @version 24-07-2015
 	 */
 	private void frameSetup(){
-		setLayout(new GridLayout(5, 1));
+		setLayout(new GridLayout(4, 1));
+		setPreferredSize(new Dimension(800, 400));
 		
 		//Buys label
 		buysLabel = new JLabel("Your buys");
@@ -82,15 +86,15 @@ public class TradesView extends View implements ActionListener, Observer {
 		
 		sellsTableScroll = new JScrollPane(sellsTable);
 		
-		backButton = new JButton("Back");
-		backButton.setActionCommand("back");
-		backButton.addActionListener(this);
+//		backButton = new JButton("Back");
+//		backButton.setActionCommand("back");
+//		backButton.addActionListener(this);
 		
 		add(buysLabel);
 		add(buysTableScroll);
 		add(sellsLabel);
 		add(sellsTableScroll);
-		add(backButton);
+//		add(backButton);
 	}
 
 	@Override
@@ -103,9 +107,9 @@ public class TradesView extends View implements ActionListener, Observer {
 	public void actionPerformed(ActionEvent e) {
 		command = e.getActionCommand();
 		
-		if(command.equals("back")){
-			tradesModel.useChangeToMainView(new MainView(new MainModel(tradesModel.getClient(), tradesModel.getPortfolio())), tradesModel.getPortfolio());
-		}
+//		if(command.equals("back")){
+//			tradesModel.useChangeToMainView(new MainView(new MainModel(tradesModel.getClient(), tradesModel.getPortfolio())), tradesModel.getPortfolio());
+//		}
 
 	}
 
