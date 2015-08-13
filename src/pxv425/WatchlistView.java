@@ -1,6 +1,7 @@
 package pxv425;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -30,10 +31,10 @@ public class WatchlistView extends View implements ActionListener, Observer {
 	private JLabel title;
 	private JTable watchlistTable;
 	private JScrollPane watchlistTableScroll;
-	private JPanel buttons;
-	private JButton deleteStock;
-	private JButton buyStock;
-	private JButton backButton;
+//	private JPanel buttons;
+//	private JButton deleteStock;
+//	private JButton buyStock;
+//	private JButton backButton;
 	private String command;
 	private NonEditableTable watchlistTableModel;
 
@@ -54,6 +55,14 @@ public class WatchlistView extends View implements ActionListener, Observer {
 		frameSetup();
 	}
 	
+	public JTable getWatchlistTable(){
+		return watchlistTable;
+	}
+	
+	public NonEditableTable getWatchlistTableModel(){
+		return watchlistTableModel;
+	}
+	
 	/**
 	 * Method to build the screen
 	 * 
@@ -61,7 +70,8 @@ public class WatchlistView extends View implements ActionListener, Observer {
 	 * @version 26-07-2015
 	 */
 	private void frameSetup(){
-		setLayout(new GridLayout(4, 1));
+		setLayout(new GridLayout(2, 1));
+		setPreferredSize(new Dimension(600, 400));
 		
 		title = new JLabel("Your watchlist");
 		
@@ -78,27 +88,27 @@ public class WatchlistView extends View implements ActionListener, Observer {
 		
 		watchlistTableScroll = new JScrollPane(watchlistTable);
 		
-		deleteStock = new JButton("Delete");
-		deleteStock.setActionCommand("delete");
-		deleteStock.addActionListener(this);
-		
-		buyStock = new JButton("Buy");
-		buyStock.setActionCommand("buy");
-		buyStock.addActionListener(this);
-		
-		buttons = new JPanel(new FlowLayout());
-		
-		buttons.add(deleteStock);
-		buttons.add(buyStock);
-		
-		backButton = new JButton("Back");
-		backButton.setActionCommand("back");
-		backButton.addActionListener(this);
+//		deleteStock = new JButton("Delete");
+//		deleteStock.setActionCommand("delete");
+//		deleteStock.addActionListener(this);
+//		
+//		buyStock = new JButton("Buy");
+//		buyStock.setActionCommand("buy");
+//		buyStock.addActionListener(this);
+//		
+//		buttons = new JPanel(new FlowLayout());
+//		
+//		buttons.add(deleteStock);
+//		buttons.add(buyStock);
+//		
+//		backButton = new JButton("Back");
+//		backButton.setActionCommand("back");
+//		backButton.addActionListener(this);
 		
 		add(title);
 		add(watchlistTableScroll);
-		add(buttons);
-		add(backButton);
+//		add(buttons);
+//		add(backButton);
 	}
 
 	@Override
@@ -114,27 +124,27 @@ public class WatchlistView extends View implements ActionListener, Observer {
 	public void actionPerformed(ActionEvent e) {
 		command = e.getActionCommand();
 
-		if(command.equals("back")){
-			watchlistModel.useChangeToMainView(new MainView(new MainModel(watchlistModel.getClient(), PortfolioView.getPortfolioSelection())), PortfolioView.getPortfolioSelection());
-		}
-		if(command.equals("delete")){
-			if(watchlistTable.getSelectedRow() != -1){
-				JOptionPane.showMessageDialog(this, watchlistModel.useDeleteAWatch(watchlistModel.useSelectStock(watchlistTable.getSelectedRow()).getSymbol()), "Delete a stock", JOptionPane.INFORMATION_MESSAGE);
-//				watchlistModel.useGetUpdatedWatchlist();
-				watchlistTableModel.removeRow(watchlistTable.getSelectedRow());
-			}
-			else{
-				JOptionPane.showMessageDialog(this, "You should select a stock from the table", "Error in deletion", JOptionPane.WARNING_MESSAGE);
-			}
-		}
-		if(command.equals("buy")){
-			if(watchlistTable.getSelectedRow() != -1){
-				watchlistModel.useChangeToBuyView(new BuyView(new BuyModel(watchlistModel.getClient(), PortfolioView.getPortfolioSelection(), watchlistModel.useSelectStock(watchlistTable.getSelectedRow()))), PortfolioView.getPortfolioSelection(), watchlistModel.useSelectStock(watchlistTable.getSelectedRow()));
-			}
-			else{
-				JOptionPane.showMessageDialog(this, "You should select a stock from the table", "Error in buy", JOptionPane.WARNING_MESSAGE);
-			}
-		}
+//		if(command.equals("back")){
+//			watchlistModel.useChangeToMainView(new MainView(new MainModel(watchlistModel.getClient(), PortfolioView.getPortfolioSelection())), PortfolioView.getPortfolioSelection());
+//		}
+//		if(command.equals("delete")){
+//			if(watchlistTable.getSelectedRow() != -1){
+//				JOptionPane.showMessageDialog(this, watchlistModel.useDeleteAWatch(watchlistModel.useSelectStock(watchlistTable.getSelectedRow()).getSymbol()), "Delete a stock", JOptionPane.INFORMATION_MESSAGE);
+////				watchlistModel.useGetUpdatedWatchlist();
+//				watchlistTableModel.removeRow(watchlistTable.getSelectedRow());
+//			}
+//			else{
+//				JOptionPane.showMessageDialog(this, "You should select a stock from the table", "Error in deletion", JOptionPane.WARNING_MESSAGE);
+//			}
+//		}
+//		if(command.equals("buy")){
+//			if(watchlistTable.getSelectedRow() != -1){
+//				watchlistModel.useChangeToBuyView(new BuyView(new BuyModel(watchlistModel.getClient(), PortfolioView.getPortfolioSelection(), watchlistModel.useSelectStock(watchlistTable.getSelectedRow()))), PortfolioView.getPortfolioSelection(), watchlistModel.useSelectStock(watchlistTable.getSelectedRow()));
+//			}
+//			else{
+//				JOptionPane.showMessageDialog(this, "You should select a stock from the table", "Error in buy", JOptionPane.WARNING_MESSAGE);
+//			}
+//		}
 	}
 
 }

@@ -41,8 +41,8 @@ public class WatchlistModel extends Model {
 	 * @author Panagiotis Vakalis
 	 * @version 26-07-2015
 	 */
-	private void retrieveWatchlist(int investorId){
-		watches = Database.useRetrieveStocksWhichInvestorWatches(investorId);
+	private void retrieveWatchlist(){
+		watches = Database.useRetrieveStocksWhichInvestorWatches(investor.getId());
 	}
 	
 	private void getUpdatedWatchlist(){
@@ -63,7 +63,7 @@ public class WatchlistModel extends Model {
 	 * @version 26-07-2015
 	 */
 	public ArrayList<Stock> useRetrieveWatchlist(int investorId){
-		retrieveWatchlist(investorId);
+		retrieveWatchlist();
 		return watches;
 	}
 	
@@ -75,8 +75,8 @@ public class WatchlistModel extends Model {
 	 * @author Panagiotis Vakalis
 	 * @version 26-07-2015
 	 */
-	private String[][] watchesDetails(int investorId){
-		retrieveWatchlist(investorId);
+	private String[][] watchesDetails(){
+		retrieveWatchlist();
 		watchesDetails = new String[watches.size()][3];
 		
 		for (int i = 0; i < watches.size(); i++) {
@@ -96,7 +96,7 @@ public class WatchlistModel extends Model {
 	 * @version 26-07-2015
 	 */
 	public String[][] useWatchesDetails(){
-		return watchesDetails(this.investor.getId());
+		return watchesDetails();
 	}
 	
 	/**

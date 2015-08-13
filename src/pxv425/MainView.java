@@ -392,7 +392,36 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 			}
 		}
 		if(command.equals("watchlist")){
-			mainModel.useChangeToWatchilistView(new WatchlistView(new WatchlistModel(mainModel.getClient(), mainModel.getInvestor())), mainModel.getInvestor());
+//			mainModel.useChangeToWatchilistView(new WatchlistView(new WatchlistModel(mainModel.getClient(), mainModel.getInvestor())), mainModel.getInvestor());
+			mainModel.useInitializeWatchlistView();
+			String[] options = {"Delete", "Buy", "Back"};
+			int answer = JOptionPane.showOptionDialog(this, mainModel.getWatchlistView(), "Watchlist", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
+			
+			if(answer == 0){
+				JOptionPane.showMessageDialog(this, mainModel.getWatchlistModel().useDeleteAWatch(mainModel.getWatchlistModel().useSelectStock(mainModel.getWatchlistView().getWatchlistTable().getSelectedRow()).getSymbol()));
+				mainModel.getWatchlistView().getWatchlistTableModel().removeRow(mainModel.getWatchlistView().getWatchlistTable().getSelectedRow());
+			}
+			if(answer == 1){
+				/*
+				 * Initialize the BuyView using the stock which
+				 * has been selected
+				 */
+				mainModel.useInitializeBuyView(mainModel.getWatchlistModel().useSelectStock(mainModel.getWatchlistView().getWatchlistTable().getSelectedRow()));
+				//The two buttons
+				String[] optionsInBuy = {"Confirm", "Back"};
+				int answerInBuy = JOptionPane.showOptionDialog(this, mainModel.getBuyView(), "Buy stock", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionsInBuy, optionsInBuy[0]);
+				/*
+				 * Confirm = 0
+				 * Back = 1
+				 */
+				if(answerInBuy == 0){
+					/*
+					 * If user has pressed confirm
+					 */
+//					mainModel.getBuyModel().useBuyStock(mainModel.getBuyView().getShares());
+					JOptionPane.showMessageDialog(this, mainModel.getBuyModel().useBuyStock(mainModel.getBuyView().getShares()));
+				}
+			}
 		}
 		if(command.equals("logout")){
 //			JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?", "Logout", )

@@ -35,6 +35,7 @@ public class MainModel extends Model {
 	private TradesModel tradesModel;
 	private Investor investor;
 	private WatchlistModel watchlistModel;
+	private WatchlistView watchlistView;
 	private BuyModel buyModel;
 	private BuyView buyView;
 	private IntroModel introModel;
@@ -908,5 +909,26 @@ public class MainModel extends Model {
 	
 	public LotsView getLotsView(){
 		return lotsView;
+	}
+	
+	private void initializeWatchlistModel(){
+		watchlistModel = new WatchlistModel(getClient(), getClient().getInvestor());
+	}
+	
+	private void initializeWatchlistView(){
+		initializeWatchlistModel();
+		watchlistView = new WatchlistView(watchlistModel);
+	}
+	
+	public void useInitializeWatchlistView(){
+		initializeWatchlistView();
+	}
+	
+	public WatchlistModel getWatchlistModel(){
+		return watchlistModel;
+	}
+	
+	public WatchlistView getWatchlistView(){
+		return watchlistView;
 	}
 }
