@@ -283,19 +283,28 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 //			JOptionPane.showInternalConfirmDialog(this, new BuyView(new BuyModel(mainModel.getClient(), mainModel.getPortfolio(), mainModel.useSelectStock(stocksTable.getSelectedRow()))));
 			if(stocksTable.getSelectedRow() != -1){
 				//If a stock has been selected
-				mainModel.useChangeToBuyView(new BuyView(new BuyModel(mainModel.getClient(), mainModel.getPortfolio(), mainModel.useSelectStock(stocksTable.getSelectedRow()))), mainModel.getPortfolio(), mainModel.useSelectStock(stocksTable.getSelectedRow()));
-//				String[] options = {"Confirm", "Back"};
-//				int answer = JOptionPane.showOptionDialog(this, new BuyView(new BuyModel(mainModel.getClient(), mainModel.getPortfolio(), mainModel.useSelectStock(stocksTable.getSelectedRow()))), "Buy stock", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
-//				/*
-//				 * Confirm = 0
-//				 * Back = 1
-//				 */
-//				if(answer == 0){
-//					
-//				}
-//				if(answer == 1){
-//					
-//				}
+				/*
+				 * Initialize the BuyView using the stock which
+				 * has been selected
+				 */
+				mainModel.useInitializeBuyView(mainModel.useSelectStock(stocksTable.getSelectedRow()));
+				//The two buttons
+				String[] options = {"Confirm", "Back"};
+				int answer = JOptionPane.showOptionDialog(this, mainModel.getBuyView(), "Buy stock", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+				/*
+				 * Confirm = 0
+				 * Back = 1
+				 */
+				if(answer == 0){
+					/*
+					 * If user has pressed confirm
+					 */
+//					mainModel.getBuyModel().useBuyStock(mainModel.getBuyView().getShares());
+					JOptionPane.showMessageDialog(this, mainModel.getBuyModel().useBuyStock(mainModel.getBuyView().getShares()));
+				}
+				if(answer == 1){
+					
+				}
 			}
 			else{
 				JOptionPane.showMessageDialog(this, "You should select a stock from the table", "Error in buy", JOptionPane.WARNING_MESSAGE);

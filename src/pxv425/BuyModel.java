@@ -213,8 +213,8 @@ public class BuyModel extends Model {
 	
 	private void updateInvestedMoney(double price, BigInteger shares){
 //		newInvestedMoney = portfolio.getInvestedMoney() - (price * shares);
-		newInvestedMoney = portfolio.getInvestedMoney().add(new BigDecimal(price).multiply(new BigDecimal(shares)));
-		update(newInvestedMoney);
+		newInvestedMoney = investedMoney().add(new BigDecimal(price).multiply(new BigDecimal(shares)));
+//		update(newInvestedMoney);
 	}
 	
 	public void useUpdateInvestedMoney(double price, BigInteger shares){
@@ -223,7 +223,7 @@ public class BuyModel extends Model {
 	
 	private String updateInvestedMoneyArea(){
 //		return String.valueOf((portfolio.getInvestedMoney()).add(new BigDecimal(price * shares)));
-		return String.valueOf(newInvestedMoney);
+		return String.valueOf(newInvestedMoney.setScale(2, BigDecimal.ROUND_DOWN));
 	}
 	
 	public String useUpdateInvesteMoneyArea(){
@@ -231,7 +231,7 @@ public class BuyModel extends Model {
 	}
 	
 	private String updateBalanceArea(){
-		return String.valueOf(newBalance);
+		return String.valueOf(newBalance.setScale(2, BigDecimal.ROUND_DOWN));
 	}
 	
 	public String useUpdateBalanceArea(){
@@ -307,11 +307,23 @@ public class BuyModel extends Model {
 	}
 	
 	private void updateBalance(double price, BigInteger shares){
-		newBalance = portfolio.getBalance().subtract(new BigDecimal(price).multiply(new BigDecimal(shares)));
-		update(newBalance);
+		newBalance = balance().subtract(new BigDecimal(price).multiply(new BigDecimal(shares)));
+//		newBalance = balance().subtract(new BigDecimal(price).multiply(new BigDecimal(shares)));
+//		update(newBalance);
 	}
 	
 	public void useUpdateBalance(double price, BigInteger shares){
 		updateBalance(price, shares);
+	}
+	
+	private void updateNewBalanceAndNewInvestedMoney(double price, BigInteger shares){
+		updateBalance(price, shares);
+		updateInvestedMoney(price, shares);
+		update(balance);
+		update(newInvestedMoney);
+	}
+	
+	public void useUpdateNewBalanceAndNewInvestedMoney(double price, BigInteger shares){
+		updateNewBalanceAndNewInvestedMoney(price, shares);
 	}
 }

@@ -46,9 +46,9 @@ public class BuyView extends View implements ActionListener, Observer {
 	private JTextArea newInvestedMoney;
 	private JLabel newBalanceLabel;
 	private JTextArea newBalance;
-	private JPanel buttons;
-	private JButton confirmButton;
-	private JButton backButton;
+//	private JPanel buttons;
+//	private JButton confirmButton;
+//	private JButton backButton;
 	private JLabel afterBought;
 	private String command;
 	private JButton check;
@@ -77,7 +77,7 @@ public class BuyView extends View implements ActionListener, Observer {
 	 * @version 27-07-2015
 	 */
 	private void frameSetup(){
-		setLayout(new GridLayout(7, 1));
+		setLayout(new GridLayout(6, 1));
 		
 		viewTitle = new JLabel("Buy");
 	
@@ -158,19 +158,19 @@ public class BuyView extends View implements ActionListener, Observer {
 		portfolioInformations.add(newBalanceLabel);
 		portfolioInformations.add(newBalance);
 		
-		//Panel for the bottom buttons
-		buttons = new JPanel(new FlowLayout());
-		
-		backButton = new JButton("Back");
-		backButton.setActionCommand("back");
-		backButton.addActionListener(this);
-		
-		confirmButton = new JButton("Confirm");
-		confirmButton.setActionCommand("confirm");
-		confirmButton.addActionListener(this);
-		
-		buttons.add(backButton);
-		buttons.add(confirmButton);
+//		//Panel for the bottom buttons
+//		buttons = new JPanel(new FlowLayout());
+//		
+//		backButton = new JButton("Back");
+//		backButton.setActionCommand("back");
+//		backButton.addActionListener(this);
+//		
+//		confirmButton = new JButton("Confirm");
+//		confirmButton.setActionCommand("confirm");
+//		confirmButton.addActionListener(this);
+//		
+//		buttons.add(backButton);
+//		buttons.add(confirmButton);
 		
 		add(viewTitle);
 		add(stockInformation);
@@ -178,7 +178,11 @@ public class BuyView extends View implements ActionListener, Observer {
 		add(afterBought);
 		add(check);
 		add(portfolioInformations);
-		add(buttons);
+//		add(buttons);
+	}
+	
+	public int getShares(){
+		return Integer.parseInt(shares.getText());
 	}
 	
 	@Override
@@ -196,25 +200,19 @@ public class BuyView extends View implements ActionListener, Observer {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		command = e.getActionCommand();
-		
-//		if(command.equals("increase")){
-//			buyModel.useIncreaseSharesCount();
+
+//		if(command.equals("back")){
+//			buyModel.useChangeToMainView(new MainView(new MainModel(buyModel.getClient(), buyModel.getPortfolio())));
 //		}
-//		if(command.equals("decrease")){
-//			buyModel.useDecreaseSharesCount();
+//		if(command.equals("confirm")){
+//			JOptionPane.showMessageDialog(this, buyModel.useBuyStock(Integer.parseInt(shares.getText())));
+//			buyModel.useChangeToMainView(new MainView(new MainModel(buyModel.getClient(), buyModel.getPortfolio())));
 //		}
-		if(command.equals("back")){
-			buyModel.useChangeToMainView(new MainView(new MainModel(buyModel.getClient(), buyModel.getPortfolio())));
-		}
-		if(command.equals("confirm")){
-			JOptionPane.showMessageDialog(this, buyModel.useBuyStock(Integer.parseInt(shares.getText())));
-//			portfolioModel.useChangeToMainView(new MainView(new MainModel(portfolioModel.getClient(), portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()))), portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()));
-			buyModel.useChangeToMainView(new MainView(new MainModel(buyModel.getClient(), buyModel.getPortfolio())));
-		}
 		if(command.equals("check")){
 			if(!shares.getText().equals("")){
-				buyModel.useUpdateInvestedMoney(buyModel.getStockPrice(), new BigInteger(shares.getText()));
-				buyModel.useUpdateBalance(buyModel.getStockPrice(), new BigInteger(shares.getText()));
+//				buyModel.useUpdateInvestedMoney(buyModel.getStockPrice(), new BigInteger(shares.getText()));
+//				buyModel.useUpdateBalance(buyModel.getStockPrice(), new BigInteger(shares.getText()));
+				buyModel.useUpdateNewBalanceAndNewInvestedMoney(buyModel.getStockPrice(), new BigInteger((shares.getText())));
 			}
 		}
 	}

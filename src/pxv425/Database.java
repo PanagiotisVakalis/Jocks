@@ -1062,7 +1062,7 @@ public class Database {
 	 */
 	public static BigDecimal getTotalBalance(int portfolioNumber){
 		retrieveBalance(portfolioNumber);
-		return totalBalance;
+		return totalBalance.setScale(2, BigDecimal.ROUND_DOWN);
 	}
 	
 	/**
@@ -2216,7 +2216,7 @@ public class Database {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return investedMoney;
+		return investedMoney.setScale(2, BigDecimal.ROUND_DOWN);
 	}
 	
 	public static BigDecimal useGetInvestedMoney(int portfolioNumber){

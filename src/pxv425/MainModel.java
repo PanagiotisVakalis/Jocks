@@ -1,6 +1,7 @@
 package pxv425;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -34,6 +35,7 @@ public class MainModel extends Model {
 	private Investor investor;
 	private WatchlistModel watchlistModel;
 	private BuyModel buyModel;
+	private BuyView buyView;
 	private IntroModel introModel;
 	private MainModel mainModel;
 	private JFreeChart chartPanel;
@@ -43,6 +45,15 @@ public class MainModel extends Model {
 	private double profitLossSum;
 	private BigDecimal totalInvestedMoney;
 	private BigDecimal availableBalance;
+	
+	/*
+	 * The following variables will be used only
+	 * from the methods in buy process.
+	 * These variable have been copied from the
+	 * BuyModel.java
+	 */
+//	private BigDecimal newInvestedMoney;
+//	private BigDecimal newBalance;
 	
 	/**
 	 * Constructor of the class
@@ -771,6 +782,109 @@ public class MainModel extends Model {
 	
 	public double useGetAllLotsProfitLoss(Portfolio portfolio){
 		getAllLotsProfitLoss(portfolio);
-		return profitLossSum;
+		return Math.round(profitLossSum);
+	}
+	
+	/*
+	 * The following methods correspond to the
+	 * buy process. They have been copied from
+	 * the BuyModel.java
+	 */
+//	private void updateInvestedMoney(double price, BigInteger shares){
+////		newInvestedMoney = portfolio.getInvestedMoney() - (price * shares);
+//		newInvestedMoney = portfolio.getInvestedMoney().add(new BigDecimal(price).multiply(new BigDecimal(shares)));
+//		update(newInvestedMoney);
+//	}
+//	
+//	public void useUpdateInvestedMoney(double price, BigInteger shares){
+//		updateInvestedMoney(price, shares);
+//	}
+//	
+//	private String updateInvestedMoneyArea(){
+////		return String.valueOf((portfolio.getInvestedMoney()).add(new BigDecimal(price * shares)));
+//		return String.valueOf(newInvestedMoney);
+//	}
+//	
+//	public String useUpdateInvesteMoneyArea(){
+//		return updateInvestedMoneyArea();
+//	}
+//	
+//	private String updateBalanceArea(){
+//		return String.valueOf(newBalance);
+//	}
+//	
+//	public String useUpdateBalanceArea(){
+//		return updateBalanceArea();
+//	}
+//	
+//	/**
+//	 * Method which is used when a stock is bought.
+//	 * It updates the database and returns a message
+//	 * @return "You have bought " + sharesCount + " of " + stock.getName() + " stock.", if sharesCount > 0
+//	 * @return "You have not selected the amount of shares", otherwise
+//	 * 
+//	 * @author Panagiotis Vakalis
+//	 * @version 27-07-2015
+//	 */
+//	/*
+//	 * In this method the stock has been added
+//	 */
+//	private String buyStock(int shares, Stock stock){
+//		if(shares > 0){
+////			if(balance.compareTo(new BigDecimal((stock.getPrice() * shares)).compareTo(new BigDecimal(0))){
+////			if(balance.compareTo(new BigDecimal(stock.getPrice() * shares)) == new BigDecimal(1))
+//			int compare = portfolio.getBalance().compareTo(new BigDecimal(stock.getPrice() * shares));
+//			if(compare == 0 || compare == 1){
+//				Database.insertLot(portfolio.getNumber(), stock.getSymbol(), shares);
+//				Database.insertBuy(stock.getSymbol(), portfolio.getNumber(), shares);
+//				Database.updatePortfolioInvestedMoney(portfolio.getNumber(), stock.getPrice() * shares);
+////				Database.updatePortfolioBalance(portfolio.getNumber(), (stock.getPrice() * sharesCount) * (-1));
+//				Database.updatePortfolioBalance(portfolio.getNumber(), BigDecimal.valueOf((stock.getPrice() * shares) * (-1)));
+//				return "You have bought " + shares + " of " + stock.getName() + " stock.";
+//			}
+//			else{
+//				return "You do not have enough balance";
+//			}
+//		}
+//		else{
+//			return "You have not selected the amount of shares";
+//		}
+//	}
+//	
+//	/**
+//	 * Method to use the buyStock() outside the class
+//	 * @return "You have bought " + sharesCount + " of " + stock.getName() + " stock.", if sharesCount > 0
+//	 * @return "You have not selected the amount of shares", otherwise
+//	 * 
+//	 * @author Panagiotis Vakalis
+//	 * @version 27-07-2015
+//	 */
+//	public String useBuyStock(int shares, Stock stock){
+//		return buyStock(shares, stock);
+//	}
+	
+	private void initializeBuyModel(Stock stock){
+		buyModel = new BuyModel(this.getClient(), portfolio, stock);
+	}
+	
+	public void useInitializeBuyModel(Stock stock){
+		initializeBuyModel(stock);
+	}
+	
+	public BuyModel getBuyModel(){
+		return buyModel;
+	}
+	
+	private void initializeBuyView(Stock stock){
+		initializeBuyModel(stock);
+		buyView = new BuyView(buyModel);
+	}
+	
+	public void useInitializeBuyView(Stock stock){
+		initializeBuyView(stock);
+	}
+	
+	public BuyView getBuyView(){
+		return buyView;
 	}
 }
