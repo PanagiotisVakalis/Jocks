@@ -47,8 +47,8 @@ public class SellView extends View implements ActionListener, Observer {
 	private JLabel newBalanceLabel;
 	private JTextArea newBalance;
 	private JPanel buttons;
-	private JButton confirmButton;
-	private JButton backButton;
+//	private JButton confirmButton;
+//	private JButton backButton;
 	private JLabel afterSell;
 	private String command;
 	private JButton check;
@@ -77,7 +77,7 @@ public class SellView extends View implements ActionListener, Observer {
 	 * @version 28-07-2015
 	 */
 	private void frameSetup(){
-		setLayout(new GridLayout(7, 1));
+		setLayout(new GridLayout(6, 1));
 		
 		viewTitle = new JLabel("Sell");
 	
@@ -156,19 +156,19 @@ public class SellView extends View implements ActionListener, Observer {
 		portfolioInformations.add(newBalanceLabel);
 		portfolioInformations.add(newBalance);
 		
-		//Panel for the bottom buttons
-		buttons = new JPanel(new FlowLayout());
-		
-		backButton = new JButton("Back");
-		backButton.setActionCommand("back");
-		backButton.addActionListener(this);
-		
-		confirmButton = new JButton("Confirm");
-		confirmButton.setActionCommand("confirm");
-		confirmButton.addActionListener(this);
-		
-		buttons.add(backButton);
-		buttons.add(confirmButton);
+//		//Panel for the bottom buttons
+//		buttons = new JPanel(new FlowLayout());
+//		
+//		backButton = new JButton("Back");
+//		backButton.setActionCommand("back");
+//		backButton.addActionListener(this);
+//		
+//		confirmButton = new JButton("Confirm");
+//		confirmButton.setActionCommand("confirm");
+//		confirmButton.addActionListener(this);
+//		
+//		buttons.add(backButton);
+//		buttons.add(confirmButton);
 		
 		add(viewTitle);
 		add(stockInformation);
@@ -176,7 +176,11 @@ public class SellView extends View implements ActionListener, Observer {
 		add(afterSell);
 		add(check);
 		add(portfolioInformations);
-		add(buttons);
+//		add(buttons);
+	}
+	
+	public int getShares(){
+		return Integer.parseInt(shares.getText());
 	}
 
 	@Override
@@ -198,13 +202,13 @@ public class SellView extends View implements ActionListener, Observer {
 //		if(command.equals("decrease")){
 //			sellModel.useDecreaseSharesCount();
 //		}
-		if(command.equals("back")){
-			sellModel.useChangeToLotsView(new LotsView(new LotsModel(sellModel.getClient(), sellModel.getPortfolio())));
-		}
-		if(command.equals("confirm")){
-			JOptionPane.showMessageDialog(this, sellModel.useSellStock(Integer.parseInt(shares.getText())));
-			sellModel.useChangeToLotsView(new LotsView(new LotsModel(sellModel.getClient(), sellModel.getPortfolio())));
-		}
+//		if(command.equals("back")){
+//			sellModel.useChangeToLotsView(new LotsView(new LotsModel(sellModel.getClient(), sellModel.getPortfolio())));
+//		}
+//		if(command.equals("confirm")){
+//			JOptionPane.showMessageDialog(this, sellModel.useSellStock(Integer.parseInt(shares.getText())));
+//			sellModel.useChangeToLotsView(new LotsView(new LotsModel(sellModel.getClient(), sellModel.getPortfolio())));
+//		}
 		if(command.equals("check")){
 			sellModel.useUpdateInvestedMoney(sellModel.getStockPrice(), Integer.parseInt(shares.getText()));
 			sellModel.useUpdateBalance(sellModel.getStockPrice(), Integer.parseInt(shares.getText()));

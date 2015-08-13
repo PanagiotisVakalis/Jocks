@@ -314,7 +314,45 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 			mainModel.useChangeToPortfolioView(new PortfolioView(new PortfolioModel(mainModel.getClient())));
 		}
 		if(command.equals("lots")){
-			mainModel.useChangeToLotsView(new LotsView(new LotsModel(mainModel.getClient(), mainModel.getPortfolio())), mainModel.getPortfolio());
+//			mainModel.useChangeToLotsView(new LotsView(new LotsModel(mainModel.getClient(), mainModel.getPortfolio())), mainModel.getPortfolio());
+			mainModel.useInitializeLotsView();
+			//The two buttons
+			String[] options = {"Sell Stock", "Continue"};
+			
+			int answer = JOptionPane.showOptionDialog(this, mainModel.getLotsView(), "Lots", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+			
+			/*
+			 * Sell = 0
+			 * Continue = 1
+			 */
+			if(answer == 0){
+//				JOptionPane.showMessageDialog(this, mainModel.getLotsModel().getSellModel().useSellStock(mainModel.getLotsModel().getSellView().getShares()));
+				if(mainModel.getLotsView().getLotsTable().getSelectedRow() != -1){
+					mainModel.getLotsModel().useInitializeSellView(mainModel.getLotsModel().useSelectLot(mainModel.getLotsView().getLotsTable().getSelectedRow()));
+					//The two buttons
+					String[] optionsInSell = {"Confirm", "Back"};
+					int answerInSell = JOptionPane.showOptionDialog(mainModel.getLotsView(), mainModel.getLotsModel().getSellView(), "Sell lot", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionsInSell, optionsInSell[0]);
+					
+					/*
+					 * Confirm = 0
+					 * Back = 1
+					 */
+					if(answerInSell == 0){
+						/*
+						 * If user has pressed confirm
+						 */
+//						mainModel.getBuyModel().useBuyStock(mainModel.getBuyView().getShares());
+//						JOptionPane.showMessageDialog(this, lotsModel.getSellModel().useSellStock(lotsModel.getSellView().getShares()));
+						JOptionPane.showMessageDialog(mainModel.getLotsView(), mainModel.getLotsModel().getSellModel().useSellStock(mainModel.getLotsModel().getSellView().getShares()));
+					}
+					if(answerInSell == 1){
+						
+					}
+				}
+			}
+			else{
+				JOptionPane.showMessageDialog(this, "You should select a stock from the table", "Error in buy", JOptionPane.WARNING_MESSAGE);
+			}
 		}
 		if(command.equals("trades")){
 			mainModel.useChangeToTradesView(new TradesView(new TradesModel(mainModel.getClient(), mainModel.getPortfolio())), mainModel.getPortfolio());

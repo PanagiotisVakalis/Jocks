@@ -122,6 +122,7 @@ public class LotsModel extends Model {
 	private String[][] lotsDetails;
 	private MainModel mainModel;
 	private SellModel sellModel;
+	private SellView sellView;
 
 	/**
 	 * Constructor of the class
@@ -276,5 +277,30 @@ public class LotsModel extends Model {
 	 */
 	public Lot useSelectLot(int index){
 		return selectLot(index);
+	}
+	
+	private void initializeSellModel(Lot lot){
+		sellModel = new SellModel(this.getClient(), portfolio, lot);
+	}
+	
+//	public void useInitializeSellModel(Lot lot){
+//		initializeSellModel(lot);
+//	}
+	
+	public SellModel getSellModel(){
+		return sellModel;
+	}
+	
+	private void initializeSellView(Lot lot){
+		initializeSellModel(lot);
+		sellView = new SellView(sellModel);
+	}
+	
+	public void useInitializeSellView(Lot lot){
+		initializeSellView(lot);
+	}
+	
+	public SellView getSellView(){
+		return sellView;
 	}
 }

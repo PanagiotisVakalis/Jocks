@@ -31,6 +31,7 @@ public class MainModel extends Model {
 	private String[][] stocksDetails;
 	private Portfolio portfolio;
 	private LotsModel lotsModel;
+	private LotsView lotsView;
 	private TradesModel tradesModel;
 	private Investor investor;
 	private WatchlistModel watchlistModel;
@@ -886,5 +887,26 @@ public class MainModel extends Model {
 	
 	public BuyView getBuyView(){
 		return buyView;
+	}
+	
+	private void initializeLotsModel(){
+		lotsModel = new LotsModel(this.getClient(), portfolio);
+	}
+	
+	private void initializeLotsView(){
+		initializeLotsModel();
+		lotsView = new LotsView(lotsModel);
+	}
+	
+	public void useInitializeLotsView(){
+		initializeLotsView();
+	}
+	
+	public LotsModel getLotsModel(){
+		return lotsModel;
+	}
+	
+	public LotsView getLotsView(){
+		return lotsView;
 	}
 }
