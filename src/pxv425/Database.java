@@ -805,6 +805,7 @@ public class Database {
 	 * @version 18-07-2015
 	 */
 	private static void getInvestorPortfolio(Integer id){
+		portfoliosResult = new ArrayList<>();
 		try {
 			connectToDatabase();
 			query = "SELECT * FROM portfolio WHERE inv_id = ?";
