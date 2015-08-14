@@ -634,12 +634,13 @@ public class Database {
 		try {
 			connectToDatabase();
 			
-			query = "INSERT INTO portfolio (name, inv_id, balance) " + "VALUES (?, ?, ?)";
+			query = "INSERT INTO portfolio (name, inv_id, balance, initial_balance) " + "VALUES (?, ?, ?, ?)";
 			
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, name);
 			preparedStatement.setInt(2, id);
 			preparedStatement.setDouble(3, balance);
+			preparedStatement.setDouble(4, balance);
 			
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {

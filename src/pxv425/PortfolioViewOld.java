@@ -108,12 +108,12 @@ public class PortfolioViewOld extends View implements ActionListener, Observer {
 		balanceArea.setEditable(false);
 		investedMoneyLabel = new JLabel("Invested money ");
 		investedMoneyArea = new JTextArea();
-		investedMoneyArea.setText(portfolioModel.useGetPortfolioInvestedMoney(portfolios.getSelectedIndex()));
+		investedMoneyArea.setText(String.valueOf(portfolioModel.getPortfolioInvestedMoney(portfolios.getSelectedIndex())));
 		investedMoneyArea.setEditable(false);
 		profitLossLabel = new JLabel("Lots Profit/Loss: ");
 		profitLossArea = new JTextArea();
 //		profitLossArea.setText(portfolioModel.useGetPortfolioProfitLoss(portfolios.getSelectedIndex()));
-		profitLossArea.setText(String.valueOf(portfolioModel.useGetAllLotsProfitLoss(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()))));
+		profitLossArea.setText(String.valueOf(portfolioModel.useGetAllLotsProfitLoss(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
 		profitLossArea.setEditable(false);
 		
 		portfolioInformation.add(balanceLabel);
@@ -211,7 +211,7 @@ public class PortfolioViewOld extends View implements ActionListener, Observer {
 		if(command.equals("return")){
 //			portfolioModel.useGetTotalReturn(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()));
 //			JOptionPane.showMessageDialog(this, portfolioModel.useGetTotalReturn(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex())), "Total return", JOptionPane.INFORMATION_MESSAGE);
-			JOptionPane.showMessageDialog(this, portfolioModel.retrieveTotalReturn(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex())), "Total return", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, portfolioModel.retrieveTotalReturn(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber()), "Total return", JOptionPane.INFORMATION_MESSAGE);
 		}
 //		if(command.equals("change")){
 //			String newName = JOptionPane.showInputDialog("Enter the new name");
