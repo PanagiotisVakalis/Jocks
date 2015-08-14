@@ -375,13 +375,18 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		if(command.equals("create")){
 			String name = JOptionPane.showInputDialog(this, "Enter the name for your new portfolio");
 			if(name != null){
-				String amount = JOptionPane.showInputDialog(this, "Enter the intitial amount of money");
-				if(amount != null){
-					mainModel.useCreatePortfolio(name, Double.parseDouble(amount));
-					JOptionPane.showMessageDialog(this, "The " + name + " portfolio has been created.");
+				if(!mainModel.useNameExists(name)){
+					String amount = JOptionPane.showInputDialog(this, "Enter the intitial amount of money");
+					if(amount != null){
+						mainModel.useCreatePortfolio(name, Double.parseDouble(amount));
+						JOptionPane.showMessageDialog(this, "The " + name + " portfolio has been created.");
+					}
+					else{
+						JOptionPane.showMessageDialog(this, "You have to enter an initial amount", "Portfolio creation error", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 				else{
-					JOptionPane.showMessageDialog(this, "You have to enter an initial amount", "Portfolio creation error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this, "This name already exists", "Portfolio creation error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}

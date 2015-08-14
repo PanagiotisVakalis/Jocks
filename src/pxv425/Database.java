@@ -626,26 +626,28 @@ public class Database {
 	 * @author Panagiotis Vakalis
 	 * @version 28-07-2015
 	 */
-	private static void createNewPortfolio(int id, String name, double balance){
+	private static void createNewPortfolio(String email, String name, double balance){
 		/*
 		 * This method is used to create a new portfolio for the already
 		 * registered investors, using their id.
 		 */
-		try {
-			connectToDatabase();
-			
-			query = "INSERT INTO portfolio (name, inv_id, balance, initial_balance) " + "VALUES (?, ?, ?, ?)";
-			
-			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1, name);
-			preparedStatement.setInt(2, id);
-			preparedStatement.setDouble(3, balance);
-			preparedStatement.setDouble(4, balance);
-			
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(!portfolioNameExists(email, name)){
+			try {
+				connectToDatabase();
+				
+				query = "INSERT INTO portfolio (name, inv_id, balance, initial_balance) " + "VALUES (?, (SELECT id FROM investor WHERE email = ?), ?, ?)";
+				
+				preparedStatement = connection.prepareStatement(query);
+				preparedStatement.setString(1, name);
+				preparedStatement.setString(2, email);
+				preparedStatement.setDouble(3, balance);
+				preparedStatement.setDouble(4, balance);
+				
+				preparedStatement.executeUpdate();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -658,8 +660,8 @@ public class Database {
 	 * @author Panagiotis Vakalis
 	 * @version 28-07-2015
 	 */
-	public static void useCreateNewPortfolio(int id, String name, double balance){
-		createNewPortfolio(id, name, balance);
+	public static void useCreateNewPortfolio(String email, String name, double balance){
+		createNewPortfolio(email, name, balance);
 	}
 	
 	/**

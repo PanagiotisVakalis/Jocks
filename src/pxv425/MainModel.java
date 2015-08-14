@@ -542,7 +542,15 @@ public class MainModel extends Model {
 	 * @version 28-07-2015
 	 */
 	private void createPortfolio(String name, double balance){
-		Database.useCreateNewPortfolio(investor.getId(), name, balance);
+		Database.useCreateNewPortfolio(investor.getEmail(), name, balance);
+	}
+	
+	private boolean nameExists(String name){
+		return Database.usePortfolioNameExists(investor.getEmail(), name);
+	}
+	
+	public boolean useNameExists(String name){
+		return nameExists(name);
 	}
 	
 	/**
