@@ -66,7 +66,7 @@ public class LotsView extends View implements Observer, ActionListener{
 		lotsModel.useGetAllLots();
 		
 		//Title for the table's columns
-		String[] title = {"Symbol", "Price bought", "Shares bought", "Amount bought", "Current price", "Current amount", "Profit / Loss", "Date"};
+		String[] title = {"Symbol", "Price bought", "Shares bought", "Purchase amount", "Current price", "Current value", "Profit / Loss", "Purchase date"};
 		
 		lotsTable = new JTable();
 		lotsTable.setModel(new NonEditableTable(lotsModel.useLotsDetails(), title));

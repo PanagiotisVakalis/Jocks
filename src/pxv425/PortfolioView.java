@@ -99,7 +99,7 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 	
 	private void frameSetup(){
 		setLayout(new GridLayout(5, 1));
-		setPreferredSize(new Dimension(800, 700));
+		setPreferredSize(new Dimension(900, 800));
 		
 //		//Title panel
 //		title = new JLabel("Hello " + portfolioModel.getClient().getInvestor().getFirstName() + " check your portfolio(s).");
@@ -131,8 +131,8 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		
 		// Title for the table's columns
 		String[] tableTitle = { "Symbol", "Price bought", "Shares bought",
-				"Amount bought", "Current price", "Current amount",
-				"Profit / Loss", "Date" };
+				"Purchase amount", "Current price", "Current value",
+				"Profit / Loss", "Purchase date" };
 
 		lots = new JTable();
 		lots.setModel(new NonEditableTable(portfolioModel.useLotsDetails(),
@@ -228,7 +228,7 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		options.add(withdraw);
 		options.add(deposit);
 		
-		continueButton = new JButton("Continue");
+		continueButton = new JButton("Main screen");
 		continueButton.setActionCommand("continue");
 		continueButton.setToolTipText("Press to go to main screen");
 		continueButton.addActionListener(this);
