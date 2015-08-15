@@ -138,7 +138,7 @@ public class MainModel extends Model {
 //				for (int j = 0; j < 3; j++) {
 					stocksDetails[i][0] = stocks.get(i).getSymbol();
 					stocksDetails[i][1] = stocks.get(i).getName();
-					stocksDetails[i][2] = String.valueOf(stocks.get(i).getPrice());
+					stocksDetails[i][2] = View.currencyFormat(new BigDecimal(stocks.get(i).getPrice()));
 //				}
 			}
 			
@@ -236,7 +236,8 @@ public class MainModel extends Model {
 	 * @version 20-07-2015	
 	 */
 	private String totalBalance(){
-		return String.valueOf(Database.getTotalBalance(portfolio.getNumber()));
+//		return String.valueOf(Database.getTotalBalance(portfolio.getNumber()));
+		return String.valueOf(View.currencyFormat(Database.getTotalBalance(portfolio.getNumber())));
 	}
 	
 	/**
@@ -258,7 +259,8 @@ public class MainModel extends Model {
 	 * @version 20-07-2015	
 	 */
 	private String investedMoney(){
-		return String.valueOf(Database.useRetrieveInvestedMoney(portfolio.getNumber()));
+//		return String.valueOf(Database.useRetrieveInvestedMoney(portfolio.getNumber()));
+		return String.valueOf(View.currencyFormat(Database.useRetrieveInvestedMoney(portfolio.getNumber())));
 	}
 	
 	private void updateTotalInvestedMoney(){
@@ -271,7 +273,7 @@ public class MainModel extends Model {
 	}
 	
 	public String getUpdatedTotalInvestedMoney(){
-		return String.valueOf(totalInvestedMoney);
+		return View.currencyFormat(totalInvestedMoney);
 	}
 	
 	private void updateAvailableBalance(){
@@ -284,7 +286,7 @@ public class MainModel extends Model {
 	}
 	
 	public String getUpdatedAvailableBalance(){
-		return String.valueOf(availableBalance);
+		return View.currencyFormat(availableBalance);
 	}
 	
 	/**
@@ -618,7 +620,7 @@ public class MainModel extends Model {
 	 */
 	private void update(Object arg){
 		setChanged();
-		notifyObservers();
+		notifyObservers(arg);
 	}
 	
 	/**
@@ -794,7 +796,7 @@ public class MainModel extends Model {
 	}
 	
 	public String getUpdatedProfitLossSum(Portfolio portfolio){
-		return String.valueOf(profitLossSum);
+		return View.currencyFormat(new BigDecimal(profitLossSum));
 	}
 	
 	public double useGetAllLotsProfitLoss(Portfolio portfolio){

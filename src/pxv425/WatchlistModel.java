@@ -1,5 +1,6 @@
 package pxv425;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 /**
  * Model part of the watchlist screen
@@ -82,7 +83,7 @@ public class WatchlistModel extends Model {
 		for (int i = 0; i < watches.size(); i++) {
 			watchesDetails[i][0] = watches.get(i).getSymbol();
 			watchesDetails[i][1] = watches.get(i).getName();
-			watchesDetails[i][2] = String.valueOf(watches.get(i).getPrice());
+			watchesDetails[i][2] = View.currencyFormat(new BigDecimal(watches.get(i).getPrice()));
 		}
 		
 		return watchesDetails;

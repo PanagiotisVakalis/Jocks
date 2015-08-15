@@ -144,13 +144,15 @@ public class SellView extends View implements ActionListener, Observer {
 		newInvestedMoney = new JTextArea();
 		newInvestedMoney.setEditable(false);
 		//Initialy will have the same money
-		newInvestedMoney.setText("£" + String.valueOf(sellModel.getInvestedMoney()));
+//		newInvestedMoney.setText("£" + String.valueOf(sellModel.getInvestedMoney()));
+		newInvestedMoney.setText(currencyFormat(sellModel.getInvestedMoney()));
 		
 		newBalanceLabel = new JLabel("Balance");
 		newBalance = new JTextArea();
 		newBalance.setEditable(false);
 		//Initially will have the same balance
-		newBalance.setText("£" + String.valueOf(sellModel.getBalance()));
+//		newBalance.setText("£" + String.valueOf(sellModel.getBalance()));
+		newBalance.setText(currencyFormat(sellModel.getBalance()));
 		
 		portfolioInformations.add(newInvestedMoneyLabel);
 		portfolioInformations.add(newInvestedMoney);
@@ -187,8 +189,8 @@ public class SellView extends View implements ActionListener, Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o instanceof SellModel){
-			newInvestedMoney.setText("£" + sellModel.useUpdateInvesteMoneyArea());
-			newBalance.setText("£" + sellModel.useUpdateBalanceArea());
+			newInvestedMoney.setText(sellModel.useUpdateInvesteMoneyArea());
+			newBalance.setText(sellModel.useUpdateBalanceArea());
 		}
 
 	}

@@ -62,7 +62,7 @@ public class TradesView extends View implements ActionListener, Observer {
 		buysLabel = new JLabel("Your buys");
 		
 		//Buys table
-		String[] buysTitle = {"Stock symbol", "Price", "Shares", "Amount", "Date"};
+		String[] buysTitle = {"Stock symbol", "Bought price", "Bought shares", "Purchase amount", "Purchase date"};
 		
 		//Method to get the buys from database
 		tradesModel.useGetAllBuys();
@@ -76,7 +76,7 @@ public class TradesView extends View implements ActionListener, Observer {
 		sellsLabel = new JLabel("Your sells");
 		
 		//Sells table
-		String[] sellsTitle = {"Stock symbol", "Price", "Shares", "Amount", "Profit/Loss", "Date"};
+		String[] sellsTitle = {"Stock symbol", "Sold price", "Sold shares", "Sold amount", "Profit/Loss", "Sold date"};
 		
 		//Method to get all the sells from the database
 		tradesModel.useGetAllSells();

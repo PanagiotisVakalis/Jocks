@@ -221,20 +221,20 @@ public class BuyModel extends Model {
 		updateInvestedMoney(price, shares);
 	}
 	
-	private String updateInvestedMoneyArea(){
+	private BigDecimal updateInvestedMoneyArea(){
 //		return String.valueOf((portfolio.getInvestedMoney()).add(new BigDecimal(price * shares)));
-		return String.valueOf(newInvestedMoney.setScale(2, BigDecimal.ROUND_DOWN));
+		return newInvestedMoney.setScale(2, BigDecimal.ROUND_DOWN);
 	}
 	
-	public String useUpdateInvesteMoneyArea(){
+	public BigDecimal useUpdateInvesteMoneyArea(){
 		return updateInvestedMoneyArea();
 	}
 	
-	private String updateBalanceArea(){
-		return String.valueOf(newBalance.setScale(2, BigDecimal.ROUND_DOWN));
+	private BigDecimal updateBalanceArea(){
+		return newBalance.setScale(2, BigDecimal.ROUND_DOWN);
 	}
 	
-	public String useUpdateBalanceArea(){
+	public BigDecimal useUpdateBalanceArea(){
 		return updateBalanceArea();
 	}
 	

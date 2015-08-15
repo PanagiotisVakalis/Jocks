@@ -349,7 +349,7 @@ public class PortfolioModel extends Model {
 	
 	private String updatePortfolioBalanceArea(int index){
 //		updatePortfolioBalanceArea(index);
-		return String.valueOf(Database.useRetrievePortfolioBalance(portfolios.get(index).getNumber()));
+		return View.currencyFormat(Database.useRetrievePortfolioBalance(portfolios.get(index).getNumber()));
 	}
 	
 	public String useUpdatePortfolioBalanceArea(int index){
@@ -357,7 +357,7 @@ public class PortfolioModel extends Model {
 	}
 	
 	private String updateTotalWithdrawsArea(int index){
-		return String.valueOf(totalWithdraws);
+		return View.currencyFormat(totalWithdraws);
 	}
 	
 	public String useUpdateTotalWithdrawsArea(int index){
@@ -365,7 +365,7 @@ public class PortfolioModel extends Model {
 	}
 	
 	private String updateTotalDepositsArea(int index){
-		return String.valueOf(totalDeposits);
+		return View.currencyFormat(totalDeposits);
 	}
 	
 	public String useUpdateTotalDepositsArea(int index){
@@ -373,7 +373,7 @@ public class PortfolioModel extends Model {
 	}
 	
 	private String updatePortfolioInitialBalanceArea(int index){
-		return String.valueOf(getInitialBalance(portfolios.get(index).getNumber()));
+		return View.currencyFormat(getInitialBalance(portfolios.get(index).getNumber()));
 	}
 	
 	public String useUpdatePortfolioInitialBalanceArea(int index){
@@ -381,7 +381,7 @@ public class PortfolioModel extends Model {
 	}
 	
 	private String updatePortfolioInvestedMoney(int index){
-		return String.valueOf(getPortfolioInvestedMoney(portfolios.get(index).getNumber()));
+		return View.currencyFormat(getPortfolioInvestedMoney(portfolios.get(index).getNumber()));
 	}
 	
 	public String useUpdatePortfolioInvestedMoney(int index){
@@ -389,7 +389,7 @@ public class PortfolioModel extends Model {
 	}
 	
 	private String updatePortfolioProfitLoss(int index){
-		return String.valueOf(Math.round(getAllLotsProfitLoss(portfolios.get(index).getNumber())));
+		return View.currencyFormat(new BigDecimal(Math.round(getAllLotsProfitLoss(portfolios.get(index).getNumber()))));
 	}
 	
 	public String useUpdatePortfolioProfitLoss(int index){
@@ -397,7 +397,7 @@ public class PortfolioModel extends Model {
 	}
 	
 	private String updatePortfolioTotalReturn(int index){
-		return String.valueOf(retrieveTotalReturn(portfolios.get(index).getNumber()));
+		return retrieveTotalReturn(portfolios.get(index).getNumber());
 	}
 	
 	public String useUpdatePortfolioTotalReturn(int index){
@@ -508,7 +508,7 @@ public class PortfolioModel extends Model {
 //		calculateTotalReturn(portfolioNumber);
 		
 //		return "Your balance now is: " + balanceNow + ", your initial balance was: " + initialBalance + ", your total withdraws are: " + totalWithdraws + ", your total deposits are: " + totalDeposits +". Your total return is: " + totalReturn; 
-		return String.valueOf(calculateTotalReturn(portfolioNumber));
+		return View.currencyFormat(calculateTotalReturn(portfolioNumber));
 	}
 	
 	/**
@@ -544,13 +544,12 @@ public class PortfolioModel extends Model {
 
 		for (int i = 0; i < allLots.size(); i++) {
 			lotsDetails[i][0] = allLots.get(i).getStockSymbol();
-			lotsDetails[i][1] = String.valueOf(allLots.get(i).getBoughtPrice());
+			lotsDetails[i][1] = View.currencyFormat(new BigDecimal(allLots.get(i).getBoughtPrice()));
 			lotsDetails[i][2] = String.valueOf(allLots.get(i).getBoughtShares());
-			lotsDetails[i][3] = String.valueOf(allLots.get(i).getAmount());
-			lotsDetails[i][4] = String.valueOf(allLots.get(i).getCurrentPrice());
-			lotsDetails[i][5] = String.valueOf(allLots.get(i).getCurrentAmount());
-			lotsDetails[i][6] = String.valueOf(allLots.get(i)
-					.getCurrentProfitLoss());
+			lotsDetails[i][3] = View.currencyFormat(new BigDecimal(allLots.get(i).getAmount()));
+			lotsDetails[i][4] = View.currencyFormat(new BigDecimal(allLots.get(i).getCurrentPrice()));
+			lotsDetails[i][5] = View.currencyFormat(new BigDecimal(allLots.get(i).getCurrentAmount()));
+			lotsDetails[i][6] = View.currencyFormat(new BigDecimal(allLots.get(i).getCurrentProfitLoss()));
 			lotsDetails[i][7] = String.valueOf(allLots.get(i).getDate());
 		}
 		return lotsDetails;

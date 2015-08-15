@@ -148,7 +148,8 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		//initial balance panel
 		initialBalancePanel = new JPanel(new FlowLayout());
 		initialBalance = new JLabel("Initial balance");
-		initialBalanceArea = new JTextArea("£" + String.valueOf(portfolioModel.getInitialBalance(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
+//		initialBalanceArea = new JTextArea("£" + String.valueOf(portfolioModel.getInitialBalance(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
+		initialBalanceArea = new JTextArea(currencyFormat(portfolioModel.getInitialBalance(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
 		initialBalanceArea.setEditable(false);
 		initialBalancePanel.add(initialBalance);
 		initialBalancePanel.add(initialBalanceArea);
@@ -156,7 +157,8 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		//balance today panel
 		balanceNowPanel = new JPanel(new FlowLayout());
 		balanceNow = new JLabel("Balance now");
-		balanceNowArea = new JTextArea("£" + String.valueOf(portfolioModel.getBalanceNow(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
+//		balanceNowArea = new JTextArea("£" + String.valueOf(portfolioModel.getBalanceNow(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
+		balanceNowArea = new JTextArea(currencyFormat(portfolioModel.getBalanceNow(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
 		balanceNowArea.setEditable(false);
 		balanceNowPanel.add(balanceNow);
 		balanceNowPanel.add(balanceNowArea);
@@ -164,7 +166,8 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		//invested money panel
 		investedMoneyPanel = new JPanel(new FlowLayout());
 		investedMoney = new JLabel("Invested money");
-		investedMoneyArea = new JTextArea("£" + String.valueOf(portfolioModel.getPortfolioInvestedMoney(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
+//		investedMoneyArea = new JTextArea("£" + String.valueOf(portfolioModel.getPortfolioInvestedMoney(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
+		investedMoneyArea = new JTextArea(currencyFormat(portfolioModel.getPortfolioInvestedMoney(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
 		investedMoneyArea.setEditable(false);
 		investedMoneyPanel.add(investedMoney);
 		investedMoneyPanel.add(investedMoneyArea);
@@ -172,7 +175,8 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		//profit loss lots panel
 		profitLossLotsPanel = new JPanel(new FlowLayout());
 		profitLossLots = new JLabel("Lots' profit/loss");
-		profitLossLotsArea = new JTextArea("£" + String.valueOf(portfolioModel.useGetAllLotsProfitLoss(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
+//		profitLossLotsArea = new JTextArea("£" + String.valueOf(portfolioModel.useGetAllLotsProfitLoss(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
+		profitLossLotsArea = new JTextArea(currencyFormat(new BigDecimal(portfolioModel.useGetAllLotsProfitLoss(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber()))));
 		profitLossLotsArea.setEditable(false);
 		profitLossLotsPanel.add(profitLossLots);
 		profitLossLotsPanel.add(profitLossLotsArea);
@@ -180,7 +184,8 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		//Total withdraws panel
 		totalWithdrawsPanel = new JPanel(new FlowLayout());
 		totalWithdraws = new JLabel("Total withdraws");
-		totalWithdrawsArea = new JTextArea("£" + String.valueOf(portfolioModel.getTotalWithdraws(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
+//		totalWithdrawsArea = new JTextArea("£" + String.valueOf(portfolioModel.getTotalWithdraws(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
+		totalWithdrawsArea = new JTextArea(currencyFormat(portfolioModel.getTotalWithdraws(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
 		totalWithdrawsArea.setEditable(false);
 		totalWithdrawsPanel.add(totalWithdraws);
 		totalWithdrawsPanel.add(totalWithdrawsArea);
@@ -188,7 +193,8 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		//Total deposits panel
 		totalDepositsPanel = new JPanel(new FlowLayout());
 		totalDeposits = new JLabel("Total deposits");
-		totalDepositsArea = new JTextArea("£" + String.valueOf(portfolioModel.getTotalDeposits(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
+//		totalDepositsArea = new JTextArea("£" + String.valueOf(portfolioModel.getTotalDeposits(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
+		totalDepositsArea = new JTextArea(currencyFormat(portfolioModel.getTotalDeposits(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
 		totalDepositsArea.setEditable(false);
 		totalDepositsPanel.add(totalDeposits);
 		totalDepositsPanel.add(totalDepositsArea);
@@ -196,7 +202,7 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		//Total return panel
 		totalReturnPanel = new JPanel(new FlowLayout());
 		totalReturn = new JLabel("Total return");
-		totalReturnArea = new JTextArea("£" + portfolioModel.retrieveTotalReturn(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber()));
+		totalReturnArea = new JTextArea(portfolioModel.retrieveTotalReturn(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber()));
 		totalReturnArea.setEditable(false);
 		totalReturnPanel.add(totalReturn);
 		totalReturnPanel.add(totalReturnArea);
@@ -247,19 +253,19 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o instanceof PortfolioModel){
-			initialBalanceArea.setText("£" + portfolioModel.useUpdatePortfolioInitialBalanceArea(portfolios.getSelectedIndex()));
-			investedMoneyArea.setText("£" + portfolioModel.useUpdatePortfolioInvestedMoney(portfolios.getSelectedIndex()));
+			initialBalanceArea.setText(portfolioModel.useUpdatePortfolioInitialBalanceArea(portfolios.getSelectedIndex()));
+			investedMoneyArea.setText(portfolioModel.useUpdatePortfolioInvestedMoney(portfolios.getSelectedIndex()));
 //			profitLossArea.setText("£" + portfolioModel.useUpdatePortfolioProfitLoss(portfolios.getSelectedIndex()));
 			if(portfolioModel.useUpdatePortfolioProfitLoss(portfolios.getSelectedIndex()) != null){
-				profitLossLotsArea.setText("£" + portfolioModel.useUpdatePortfolioProfitLoss(portfolios.getSelectedIndex()));
+				profitLossLotsArea.setText(portfolioModel.useUpdatePortfolioProfitLoss(portfolios.getSelectedIndex()));
 			}
-			totalWithdrawsArea.setText("£" + portfolioModel.useUpdateTotalWithdrawsArea(portfolios.getSelectedIndex()));
-			totalDepositsArea.setText("£" + portfolioModel.useUpdateTotalDepositsArea(portfolios.getSelectedIndex()));
-			balanceNowArea.setText("£" + portfolioModel.useUpdatePortfolioBalanceArea(portfolios.getSelectedIndex()));
-			totalReturnArea.setText("£" + portfolioModel.useUpdatePortfolioTotalReturn(portfolios.getSelectedIndex()));
+			totalWithdrawsArea.setText(portfolioModel.useUpdateTotalWithdrawsArea(portfolios.getSelectedIndex()));
+			totalDepositsArea.setText(portfolioModel.useUpdateTotalDepositsArea(portfolios.getSelectedIndex()));
+			balanceNowArea.setText(portfolioModel.useUpdatePortfolioBalanceArea(portfolios.getSelectedIndex()));
+			totalReturnArea.setText(portfolioModel.useUpdatePortfolioTotalReturn(portfolios.getSelectedIndex()));
 			String[] tableTitle = { "Symbol", "Price bought", "Shares bought",
-					"Amount bought", "Current price", "Current amount",
-					"Profit / Loss", "Date" };
+					"Purchase amount", "Current price", "Current value",
+					"Profit / Loss", "Purchase date" };
 			lots.setModel(new NonEditableTable(portfolioModel.useLotsDetails(),
 					tableTitle));
 		}

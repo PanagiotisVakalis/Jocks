@@ -1,5 +1,6 @@
 package pxv425;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 /**
  * Model part of the trades screen
@@ -194,9 +195,9 @@ public class TradesModel extends Model {
 		for (int i = 0; i < buys.size(); i++) {
 			System.out.println(String.valueOf(buys.get(i).getDate().getTime()));
 			buysDetails[i][0] = buys.get(i).getStockSymbol();
-			buysDetails[i][1] = String.valueOf(buys.get(i).getBoughtPrice());
+			buysDetails[i][1] = View.currencyFormat(new BigDecimal(buys.get(i).getBoughtPrice()));
 			buysDetails[i][2] = String.valueOf(buys.get(i).getBoughtShares());
-			buysDetails[i][3] = String.valueOf(buys.get(i).getBoughtAmount());
+			buysDetails[i][3] = View.currencyFormat(new BigDecimal(buys.get(i).getBoughtAmount()));
 			buysDetails[i][4] = String.valueOf(buys.get(i).getDate());
 		}
 		
@@ -246,10 +247,10 @@ public class TradesModel extends Model {
 		
 		for (int i = 0; i < sells.size(); i++) {
 			sellsDetails[i][0] = sells.get(i).getStockSymbol();
-			sellsDetails[i][1] = String.valueOf(sells.get(i).getSoldPrice());
+			sellsDetails[i][1] = View.currencyFormat(new BigDecimal(sells.get(i).getSoldPrice()));
 			sellsDetails[i][2] = String.valueOf(sells.get(i).getSoldShares());
-			sellsDetails[i][3] = String.valueOf(sells.get(i).getSoldAmount());
-			sellsDetails[i][4] = String.valueOf(sells.get(i).getProfitLoss());
+			sellsDetails[i][3] = View.currencyFormat(new BigDecimal(sells.get(i).getSoldAmount()));
+			sellsDetails[i][4] = View.currencyFormat(new BigDecimal(sells.get(i).getProfitLoss()));
 			sellsDetails[i][5] = String.valueOf(sells.get(i).getDate());
 		}
 		

@@ -145,13 +145,16 @@ public class BuyView extends View implements ActionListener, Observer {
 		newInvestedMoney = new JTextArea();
 		newInvestedMoney.setEditable(false);
 		//Initialy will have the same money
-		newInvestedMoney.setText("£" + String.valueOf(buyModel.getInvestedMoney()));
+//		newInvestedMoney.setText("£" + String.valueOf(buyModel.getInvestedMoney()));
+//		newInvestedMoney.setText("£" + String.format("%,d", String.valueOf(buyModel.getInvestedMoney())));
+		newInvestedMoney.setText(currencyFormat(buyModel.getInvestedMoney()));
 		
 		newBalanceLabel = new JLabel("Balance");
 		newBalance = new JTextArea();
 		newBalance.setEditable(false);
 		//Initially will have the same balance
-		newBalance.setText("£" + String.valueOf(buyModel.getBalance()));
+//		newBalance.setText("£" + String.valueOf(buyModel.getBalance()));
+		newBalance.setText(currencyFormat(buyModel.getBalance()));
 		
 		portfolioInformations.add(newInvestedMoneyLabel);
 		portfolioInformations.add(newInvestedMoney);
@@ -191,8 +194,10 @@ public class BuyView extends View implements ActionListener, Observer {
 //			shares.setText(String.valueOf(arg));
 //			newInvestedMoney.setText(String.valueOf(buyModel.useUpdateInvestedMoney(buyModel.getStockPrice(), Integer.parseInt(shares.getText()))));
 //			newInvestedMoney.setText(buyModel.useUpdateInvesteMoneyArea(buyModel.getStockPrice(), Integer.parseInt(shares.getText())));
-			newInvestedMoney.setText("£" + buyModel.useUpdateInvesteMoneyArea());
-			newBalance.setText("£" + buyModel.useUpdateBalanceArea());
+//			newInvestedMoney.setText("£" + buyModel.useUpdateInvesteMoneyArea());
+			newInvestedMoney.setText(currencyFormat(buyModel.useUpdateInvesteMoneyArea()));
+//			newBalance.setText("£" + buyModel.useUpdateBalanceArea());
+			newBalance.setText(currencyFormat(buyModel.useUpdateBalanceArea()));
 		}
 
 	}

@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -229,16 +230,17 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		availableBalanceLabel = new JLabel("Available balance");
 		availableBalance = new JTextArea();
 		availableBalance.setEditable(false);
-		availableBalance.setText("£" + mainModel.useTotalBalance());
+		availableBalance.setText(mainModel.useTotalBalance());
 		investedMoneyLabel = new JLabel("Invested money");
 		investedMoney = new JTextArea();
 		investedMoney.setEditable(false);
-		investedMoney.setText("£" + mainModel.useInvestedMoney());
+		investedMoney.setText(mainModel.useInvestedMoney());
 		profitLossLabel = new JLabel("Lots Profit / Loss");
 		profitLoss = new JTextArea();
 		profitLoss.setEditable(false);
 //		profitLoss.setText(mainModel.useProfitLoss());
-		profitLoss.setText("£" + String.valueOf(mainModel.useGetAllLotsProfitLoss(mainModel.getPortfolio())));
+//		profitLoss.setText("£" + String.valueOf(mainModel.useGetAllLotsProfitLoss(mainModel.getPortfolio())));
+		profitLoss.setText(currencyFormat(new BigDecimal(mainModel.useGetAllLotsProfitLoss(mainModel.getPortfolio()))));
 		
 		portfoliosInformation.add(numberOfPortfioliosLabel);
 		portfoliosInformation.add(availableBalanceLabel);
@@ -264,22 +266,32 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o instanceof MainModel){
-			
-			if(mainModel.getUpdatedProfitLossSum(mainModel.getPortfolio()).equals("null") || mainModel.getUpdatedTotalInvestedMoney().equals("null")){
-				/*
-				 * I have used this if statement because every time
-				 * that a stock is selected it draws the chart and updates
-				 * the panel. So, it changes the values into null.
-				 */
+			if(arg instanceof Double){
+//				if(mainModel.getUpdatedProfitLossSum(mainModel.getPortfolio()).equals("null") || mainModel.getUpdatedTotalInvestedMoney().equals("null")){
+//					/*
+//					 * I have used this if statement because every time
+//					 * that a stock is selected it draws the chart and updates
+//					 * the panel. So, it changes the values into null.
+//					 */
+//				}
+//				else{
+				
+				profitLoss.setText(mainModel.getUpdatedProfitLossSum(mainModel.getPortfolio()));
 			}
-			else{
-				profitLoss.setText("£" + mainModel.getUpdatedProfitLossSum(mainModel.getPortfolio()));
-				investedMoney.setText("£" + mainModel.getUpdatedTotalInvestedMoney());
-				availableBalance.setText("£" + mainModel.getUpdatedAvailableBalance());
+			else if(arg instanceof BigDecimal){
+				try{
+					investedMoney.setText(mainModel.getUpdatedTotalInvestedMoney());
+					availableBalance.setText(mainModel.getUpdatedAvailableBalance());
+				}
+				catch(IllegalArgumentException e){
+					
+				}
+			}
+//				}
 			}
 		}
 
-	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

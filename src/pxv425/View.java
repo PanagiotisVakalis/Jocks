@@ -2,6 +2,8 @@ package pxv425;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -29,5 +31,9 @@ public abstract class View extends JPanel{
 	 */
 	public View(Model model){
 		this.model = model;
+	}
+	
+	public static String currencyFormat(BigDecimal bG){
+		return NumberFormat.getCurrencyInstance().format(bG);
 	}
 }

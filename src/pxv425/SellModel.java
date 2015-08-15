@@ -324,7 +324,8 @@ public class SellModel extends Model {
 	}
 	
 	private String updateInvestedMoneyArea(){
-		return String.valueOf(newInvestedMoney.setScale(2, BigDecimal.ROUND_DOWN));
+//		return String.valueOf(newInvestedMoney.setScale(2, BigDecimal.ROUND_DOWN));
+		return View.currencyFormat(newInvestedMoney.setScale(2, BigDecimal.ROUND_DOWN));
 	}
 	
 	public String useUpdateInvesteMoneyArea(){
@@ -332,7 +333,8 @@ public class SellModel extends Model {
 	}
 	
 	private String updateBalanceArea(){
-		return String.valueOf(newBalance.setScale(2, BigDecimal.ROUND_DOWN));
+//		return String.valueOf(newBalance.setScale(2, BigDecimal.ROUND_DOWN));
+		return View.currencyFormat(newBalance.setScale(2, BigDecimal.ROUND_DOWN));
 	}
 	
 	public String useUpdateBalanceArea(){

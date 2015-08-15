@@ -1,5 +1,6 @@
 package pxv425;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -195,13 +196,12 @@ public class LotsModel extends Model {
 
 		for (int i = 0; i < lots.size(); i++) {
 			lotsDetails[i][0] = lots.get(i).getStockSymbol();
-			lotsDetails[i][1] = String.valueOf(lots.get(i).getBoughtPrice());
+			lotsDetails[i][1] = View.currencyFormat(new BigDecimal(lots.get(i).getBoughtPrice()));
 			lotsDetails[i][2] = String.valueOf(lots.get(i).getBoughtShares());
-			lotsDetails[i][3] = String.valueOf(lots.get(i).getAmount());
-			lotsDetails[i][4] = String.valueOf(lots.get(i).getCurrentPrice());
-			lotsDetails[i][5] = String.valueOf(lots.get(i).getCurrentAmount());
-			lotsDetails[i][6] = String.valueOf(lots.get(i)
-					.getCurrentProfitLoss());
+			lotsDetails[i][3] = View.currencyFormat(new BigDecimal(lots.get(i).getAmount()));
+			lotsDetails[i][4] = View.currencyFormat(new BigDecimal(lots.get(i).getCurrentPrice()));
+			lotsDetails[i][5] = View.currencyFormat(new BigDecimal(lots.get(i).getCurrentAmount()));
+			lotsDetails[i][6] = View.currencyFormat(new BigDecimal(lots.get(i).getCurrentProfitLoss()));
 			lotsDetails[i][7] = String.valueOf(lots.get(i).getDate());
 		}
 		return lotsDetails;
