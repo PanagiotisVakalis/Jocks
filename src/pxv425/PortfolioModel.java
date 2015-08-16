@@ -26,6 +26,7 @@ public class PortfolioModel extends Model {
 	private String[][] lotsDetails;
 	private BigDecimal investedMoney;
 	private double lotsProfitLoss;
+	private BigDecimal totalBalance;
 	
 //	/*
 //	 * The following variables will be used when
@@ -585,6 +586,7 @@ public class PortfolioModel extends Model {
 		totalDeposits = getTotalDeposits(portfolios.get(index).getNumber());
 		totalReturn = calculateTotalReturn(portfolios.get(index).getNumber());
 		getAllLots(portfolios.get(index));
+		totalBalance = calculateTotalBalance(index);
 		
 		update(initialBalance);
 		update(balanceNow);
@@ -594,6 +596,7 @@ public class PortfolioModel extends Model {
 		update(totalDeposits);
 		update(totalReturn);
 		update(allLots);
+		update(totalBalance);
 	}
 	
 	public void usePortfolioChanged(int index){

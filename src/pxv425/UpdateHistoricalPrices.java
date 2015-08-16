@@ -41,7 +41,7 @@ public class UpdateHistoricalPrices implements Runnable {
 			 * are equal to 24 hours) to set the start from the next day
 			 */
 			start.setTimeInMillis(Database.useGetLastUpdatedDate(stockSymbol)
-					.getTime());
+					.getTime() + 86400000);
 			// System.out.println(start.getTime().toString());
 			// System.out.println(start.getTime().toString());
 			end = Calendar.getInstance();

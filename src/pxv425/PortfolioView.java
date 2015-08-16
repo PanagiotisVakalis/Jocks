@@ -329,6 +329,7 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 			totalWithdrawsArea.setText(portfolioModel.useUpdateTotalWithdrawsArea(portfolios.getSelectedIndex()));
 			totalDepositsArea.setText(portfolioModel.useUpdateTotalDepositsArea(portfolios.getSelectedIndex()));
 			balanceNowArea.setText(portfolioModel.useUpdatePortfolioBalanceArea(portfolios.getSelectedIndex()));
+			totalBalanceArea.setText(String.valueOf(portfolioModel.getTotalBalance(portfolios.getSelectedIndex())));
 			totalReturnArea.setText(portfolioModel.useUpdatePortfolioTotalReturn(portfolios.getSelectedIndex()));
 			String[] tableTitle = { "Symbol", "Price bought", "Shares bought",
 					"Purchase amount", "Current price", "Current value",
