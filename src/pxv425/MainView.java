@@ -411,21 +411,52 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 				}
 			}
 		}
+//		if(command.equals("cross")){
+//			String shortPeriod = JOptionPane.showInputDialog(this, "Enter the short period (days)");
+//			String longPeriod = JOptionPane.showInputDialog(this, "Enter the long period (days)");
+//			if(stocksTable.getSelectedRow() != -1){
+//				if(shortPeriod != null && longPeriod != null){
+//					if(!shortPeriod.isEmpty() && !longPeriod.isEmpty()){
+//						ChartPanel crossSMAPanel = new ChartPanel(mainModel.useDrawCrossSMA(stocksTable.getSelectedRow(), Integer.parseInt(shortPeriod), Integer.parseInt(longPeriod)));
+////						JOptionPane.showMessageDialog(this, crossSMAPanel);
+//						JOptionPane.showMessageDialog(this, crossSMAPanel, "Cross SMA", JOptionPane.PLAIN_MESSAGE);
+//					}
+//					else{
+//						JOptionPane.showMessageDialog(this, "You have to enter both periods", "Period input warning", JOptionPane.WARNING_MESSAGE);
+//					}
+//				}
+//				else{
+//					JOptionPane.showMessageDialog(this, "You have to enter both periods", "Period input warning", JOptionPane.WARNING_MESSAGE);
+//				}
+//			}
+//			else{
+//				JOptionPane.showMessageDialog(this, "You have to select a stock", "Cross SMA warning", JOptionPane.WARNING_MESSAGE);
+//			}
+//		}
 		if(command.equals("cross")){
-			String shortPeriod = JOptionPane.showInputDialog(this, "Enter the short period (days)");
-			String longPeriod = JOptionPane.showInputDialog(this, "Enter the long period (days)");
-			if(shortPeriod != null && longPeriod != null){
-				if(!shortPeriod.isEmpty() && !longPeriod.isEmpty()){
-					ChartPanel crossSMAPanel = new ChartPanel(mainModel.useDrawCrossSMA(stocksTable.getSelectedRow(), Integer.parseInt(shortPeriod), Integer.parseInt(longPeriod)));
-//					JOptionPane.showMessageDialog(this, crossSMAPanel);
-					JOptionPane.showMessageDialog(this, crossSMAPanel, "Cross SMA", JOptionPane.PLAIN_MESSAGE);
+			if(stocksTable.getSelectedRow() != -1){
+				String shortPeriod = JOptionPane.showInputDialog(this, "Enter the short period (days)");
+				if(shortPeriod != null){
+					if(!shortPeriod.isEmpty()){
+						String longPeriod = JOptionPane.showInputDialog(this, "Enter the long period (days)");
+						if(longPeriod != null){
+							if(!longPeriod.isEmpty()){
+								ChartPanel crossSMAPanel = new ChartPanel(mainModel.useDrawCrossSMA(stocksTable.getSelectedRow(), Integer.parseInt(shortPeriod), Integer.parseInt(longPeriod)));
+								JOptionPane.showMessageDialog(this, crossSMAPanel, "Cross SMA", JOptionPane.PLAIN_MESSAGE);
+							}
+							else{
+								JOptionPane.showMessageDialog(this, "You have to the long period", "Period input warning", JOptionPane.WARNING_MESSAGE);
+							}
+						}
+					}
+					else{
+						JOptionPane.showMessageDialog(this, "You have to enter the short period", "Period input warning", JOptionPane.WARNING_MESSAGE);
+					}
 				}
-				else{
-					JOptionPane.showMessageDialog(this, "You have to enter both periods", "Period input warning", JOptionPane.WARNING_MESSAGE);
-				}
+				
 			}
 			else{
-				JOptionPane.showMessageDialog(this, "You have to enter both periods", "Period input warning", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, "You have to select a stock", "Cross SMA warning", JOptionPane.WARNING_MESSAGE);
 			}
 		}
 		if(command.equals("help")){

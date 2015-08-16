@@ -737,6 +737,8 @@ public class MainModel extends Model {
 		
 		ValueAxis xAxis = chart.getXYPlot().getDomainAxis();
 		xAxis.setVisible(false);
+		ValueAxis yAxis = chart.getXYPlot().getRangeAxis();
+		yAxis.setVisible(false);
 		
 		return chart;
 	}
