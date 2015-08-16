@@ -108,7 +108,7 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		screenHeight = screenSize.getHeight();
 		
 		setSize((int)screenWidth, (int)screenHeight);
-		
+		setBackground(getWindowColor());
 		setLayout(new GridLayout(4,  1));
 		
 		// Setup buttons
@@ -146,6 +146,7 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		
 		// Panel for buttons
 		buttonsMenu = new JPanel(new FlowLayout());
+		buttonsMenu.setBackground(getWindowColor());
 		// add buttons on panel
 		buttonsMenu.add(portfolio);
 		buttonsMenu.add(lots);
@@ -156,25 +157,6 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		buttonsMenu.add(watchlist);
 		buttonsMenu.add(logout);
 		
-//		//Panel for each stock
-//		stock = new JPanel(new GridLayout(4, 1));
-//		stockSymbol = new JTextArea();
-		
-		//Panel for all the stocks
-//		mainModel.useGetAllStocks();
-//		allTheStocks = new JPanel(new GridLayout(1, mainModel.getStocks().size()));
-//		allTheStocks = new JPanel(new FlowLayout());
-//		allTheStocks.setSize(300, 400);
-		
-//		stockSymbol = new JTextArea();
-//		stockSymbol.setEditable(false);
-//		
-//		stockName = new JTextArea();
-//		stockName.setEditable(false);
-//		
-//		stockPrice = new JTextArea();
-//		stockPrice.setEditable(false);
-		
 		buyButton = new JButton("Buy");
 		buyButton.setActionCommand("buy");
 		buyButton.addActionListener(this);
@@ -184,6 +166,7 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		addToWatchilistButton.addActionListener(this);
 		
 		buttons = new JPanel(new FlowLayout());
+		buttons.setBackground(getWindowColor());
 		buttons.add(addToWatchilistButton);
 		buttons.add(buyButton);
 		
@@ -209,11 +192,13 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		
 		
 		stockTableAndButtonsPanel = new JPanel(new GridLayout(2, 1));
+		stockTableAndButtonsPanel.setBackground(getWindowColor());
 		stockTableAndButtonsPanel.add(stocksTableScrolled);
 		stockTableAndButtonsPanel.add(buttons);
 		
 		
 		chart = new JPanel();
+		chart.setBackground(getWindowColor());
 		chart.setLayout(new BorderLayout());
 //		ChartPanel chartPanel =  mainModel.useDrawChart(0);
 		
@@ -228,24 +213,30 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		updateInformation.setToolTipText("Press to update your portfolio's information");
 		
 		updateInformationPanel = new JPanel();
+		updateInformationPanel.setBackground(getWindowColor());
 		updateInformationPanel.add(updateInformation);
 		
 		portfoliosInformation = new JPanel(new GridLayout(2, 4));
+		portfoliosInformation.setBackground(getWindowColor());
 		
 		numberOfPortfioliosLabel = new JLabel("Number of porftolios");
 		numberOfPortfolios = new JTextArea();
+		numberOfPortfolios.setBackground(getWindowColor());
 		numberOfPortfolios.setEditable(false);
 		numberOfPortfolios.setText(mainModel.usePortfoliosAmount());
 		availableBalanceLabel = new JLabel("Available balance");
 		availableBalance = new JTextArea();
+		availableBalance.setBackground(getWindowColor());
 		availableBalance.setEditable(false);
 		availableBalance.setText(mainModel.useTotalBalance());
 		investedMoneyLabel = new JLabel("Invested money");
 		investedMoney = new JTextArea();
+		investedMoney.setBackground(getWindowColor());
 		investedMoney.setEditable(false);
 		investedMoney.setText(mainModel.useInvestedMoney());
 		profitLossLabel = new JLabel("Lots Profit / Loss");
 		profitLoss = new JTextArea();
+		profitLoss.setBackground(getWindowColor());
 		profitLoss.setEditable(false);
 //		profitLoss.setText(mainModel.useProfitLoss());
 //		profitLoss.setText("£" + String.valueOf(mainModel.useGetAllLotsProfitLoss(mainModel.getPortfolio())));
@@ -261,6 +252,7 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		portfoliosInformation.add(profitLoss);
 		
 		informationPanelWithUpdateButton = new JPanel(new GridLayout(2, 1));
+		informationPanelWithUpdateButton.setBackground(getWindowColor());
 //		informationPanelWithUpdateButton.add(updateInformationPanel);
 		informationPanelWithUpdateButton.add(portfoliosInformation);
 		informationPanelWithUpdateButton.add(updateInformationPanel);
@@ -304,7 +296,10 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+//		changeOptionPaneBackground();
 		command = e.getActionCommand();
+		
+		changeOptionPaneBackground();
 		
 		if(command.equals("buy")){
 //			mainModel.useBuyStock(stocksTable.getSelectedRow());
@@ -347,7 +342,7 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 			if(!mainModel.getLotsModel().getLots().isEmpty()){
 				//The two buttons
 				String[] options = {"Sell Stock", "Continue"};
-				
+	
 				int answer = JOptionPane.showOptionDialog(this, mainModel.getLotsView(), "Lots", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 				
 				/*
@@ -395,7 +390,7 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		}
 		if(command.equals("create")){
 			String name = JOptionPane.showInputDialog(this, "Enter the name for your new portfolio");
-			if(name != null){
+			if(name != null && !name.isEmpty()){
 				if(!mainModel.useNameExists(name)){
 					String amount = JOptionPane.showInputDialog(this, "Enter the intitial amount of money");
 					if(amount != null){

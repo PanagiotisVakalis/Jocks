@@ -101,10 +101,11 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 	private void frameSetup() {
 		setLayout(new GridLayout(6, 1));
 		setPreferredSize(new Dimension(900, 800));
-		setBackground(Color.LIGHT_GRAY);
+		setBackground(getWindowColor());
 
 		// Portfolios panel
 		portfoliosPanel = new JPanel(new GridLayout(2, 1));
+		portfoliosPanel.setBackground(getWindowColor());
 		// Portfolio selection
 		portfolioSelectionLabel = new JLabel("Select portfolio");
 		portfolios = new JComboBox<String>(portfolioModel.getPortfolioNames());
@@ -114,14 +115,13 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		// Get the first portfolio as default
 		portfolioSelection = portfolioModel.getPortfolios()[portfolios
 				.getSelectedIndex()];
-
-		portfoliosPanel.setBackground(Color.LIGHT_GRAY);
 		
 		portfoliosPanel.add(portfolioSelectionLabel);
 		portfoliosPanel.add(portfolios);
 		
 		// Lots panel
 		lotsPanel = new JPanel(new GridLayout(2, 1));
+		lotsPanel.setBackground(getWindowColor());
 
 		lotsLabel = new JLabel(
 				"These are your lots which are contained in the selected portfolio.");
@@ -150,8 +150,6 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		lots.getColumnModel().getColumn(6).setCellRenderer(rightAlign);
 
 		lotsScroll = new JScrollPane(lots);
-
-		lotsPanel.setBackground(Color.LIGHT_GRAY);
 		
 		lotsPanel.add(lotsLabel);
 		lotsPanel.add(lotsScroll);
@@ -162,7 +160,7 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 //		initialBalancePanel.add(initialBalance, JPanel.LEFT_ALIGNMENT);
 		initialBalanceArea = new JTextArea(currencyFormat(portfolioModel.getInitialBalance(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
 		initialBalanceArea.setEditable(false);
-		initialBalanceArea.setBackground(Color.LIGHT_GRAY);
+		initialBalanceArea.setBackground(getWindowColor());
 //		initialBalanceAreaPanel = new JPanel();
 //		initialBalanceAreaPanel.add(initialBalanceArea, JPanel.RIGHT_ALIGNMENT);
 		
@@ -172,7 +170,7 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 //		totalWithdrawsPanel.add(totalWithdraws, JPanel.LEFT_ALIGNMENT);
 		totalWithdrawsArea = new JTextArea(currencyFormat(portfolioModel.getTotalWithdraws(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
 		totalWithdrawsArea.setEditable(false);
-		totalWithdrawsArea.setBackground(Color.LIGHT_GRAY);
+		totalWithdrawsArea.setBackground(getWindowColor());
 //		totalWithdrawsAreaPanel = new JPanel();
 //		totalWithdrawsAreaPanel.add(totalWithdrawsArea, JPanel.RIGHT_ALIGNMENT);
 		
@@ -182,14 +180,14 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 //		totalDepositsPanel.add(totalDeposits, JPanel.LEFT_ALIGNMENT);
 		totalDepositsArea = new JTextArea(currencyFormat(portfolioModel.getTotalDeposits(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
 		totalDepositsArea.setEditable(false);
-		totalDepositsArea.setBackground(Color.LIGHT_GRAY);
+		totalDepositsArea.setBackground(getWindowColor());
 //		totalDepositsAreaPanel = new JPanel();
 //		totalDepositsAreaPanel.add(totalDepositsArea, JPanel.RIGHT_ALIGNMENT);
 		
 		//Historical information panel
 		historicalInformationPanel = new JPanel(new GridLayout(3, 3));
 		
-		historicalInformationPanel.setBackground(Color.LIGHT_GRAY);
+		historicalInformationPanel.setBackground(getWindowColor());
 		
 		historicalInformationPanel.add(initialBalance);
 		historicalInformationPanel.add(initialBalanceArea);
@@ -204,7 +202,7 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 //		balanceNowPanel.add(balanceNow, JPanel.LEFT_ALIGNMENT);
 		balanceNowArea = new JTextArea(currencyFormat(portfolioModel.getBalanceNow(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
 		balanceNowArea.setEditable(false);
-		balanceNowArea.setBackground(Color.LIGHT_GRAY);
+		balanceNowArea.setBackground(getWindowColor());
 //		balanceNowAreaPanel = new JPanel();
 //		balanceNowAreaPanel.add(balanceNowArea, JPanel.RIGHT_ALIGNMENT);
 		
@@ -214,7 +212,7 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 //		investedMoneyPanel.add(investedMoney, JPanel.LEFT_ALIGNMENT);
 		investedMoneyArea = new JTextArea(currencyFormat(portfolioModel.getPortfolioInvestedMoney(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
 		investedMoneyArea.setEditable(false);
-		investedMoneyArea.setBackground(Color.LIGHT_GRAY);
+		investedMoneyArea.setBackground(getWindowColor());
 //		investedMoneyAreaPanel = new JPanel();
 //		investedMoneyAreaPanel.add(investedMoneyArea, JPanel.RIGHT_ALIGNMENT);
 		
@@ -224,14 +222,14 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 //		profitLossLotsPanel.add(profitLossLots, JPanel.LEFT_ALIGNMENT);
 		profitLossLotsArea = new JTextArea(currencyFormat(new BigDecimal(portfolioModel.useGetAllLotsProfitLoss(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber()))));
 		profitLossLotsArea.setEditable(false);
-		profitLossLotsArea.setBackground(Color.LIGHT_GRAY);
+		profitLossLotsArea.setBackground(getWindowColor());
 //		profitLossLotsAreaPanel = new JPanel();
 //		profitLossLotsAreaPanel.add(profitLossLotsArea, RIGHT_ALIGNMENT);
 		
 		//Current information panel
 		currentInformationPanel = new JPanel(new GridLayout(3, 3));
 		
-		currentInformationPanel.setBackground(Color.LIGHT_GRAY);
+		currentInformationPanel.setBackground(getWindowColor());
 		
 		currentInformationPanel.add(balanceNow);
 		currentInformationPanel.add(balanceNowArea);
@@ -246,7 +244,7 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		totalReturn = new JLabel("Total return");
 		totalReturnArea = new JTextArea(portfolioModel.retrieveTotalReturn(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber()));
 		totalReturnArea.setEditable(false);
-		totalReturnArea.setBackground(Color.LIGHT_GRAY);
+		totalReturnArea.setBackground(getWindowColor());
 		
 		totalReturnPanel.add(totalReturn, LEFT_ALIGNMENT);
 		totalReturnPanel.add(totalReturnArea, RIGHT_ALIGNMENT);
@@ -257,14 +255,14 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		totalBalance.setToolTipText("Balance now plus the invested money");
 		totalBalanceArea = new JTextArea(currencyFormat(portfolioModel.getTotalBalance(portfolios.getSelectedIndex())));
 		totalBalanceArea.setEditable(false);
-		totalBalanceArea.setBackground(Color.LIGHT_GRAY);
+		totalBalanceArea.setBackground(getWindowColor());
 		
 		totalBalancePanel.add(totalBalance, LEFT_ALIGNMENT);
 		totalBalancePanel.add(totalBalanceArea, RIGHT_ALIGNMENT);
 		
-		totalBalancePanel.setBackground(Color.LIGHT_GRAY);
+		totalBalancePanel.setBackground(getWindowColor());
 		
-		totalReturnPanel.setBackground(Color.LIGHT_GRAY);
+		totalReturnPanel.setBackground(getWindowColor());
 		
 		//Total panel
 		total = new JPanel(new GridLayout(2, 1));
@@ -274,7 +272,7 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		//Portfolio information panel
 		portfolioInformationPanel = new JPanel(new GridLayout(1, 2));
 		
-		portfolioInformationPanel.setBackground(Color.LIGHT_GRAY);
+		portfolioInformationPanel.setBackground(getWindowColor());
 		
 		portfolioInformationPanel.add(historicalInformationPanel, JPanel.LEFT_ALIGNMENT);
 		portfolioInformationPanel.add(currentInformationPanel, JPanel.RIGHT_ALIGNMENT);
@@ -293,7 +291,7 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		withdraw.addActionListener(this);
 
 		options = new JPanel(new FlowLayout());
-		options.setBackground(Color.LIGHT_GRAY);
+		options.setBackground(getWindowColor());
 		
 		options.setPreferredSize(new Dimension(1000, 50));
 
@@ -308,7 +306,7 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		
 		continueButtonPanel = new JPanel(new FlowLayout());
 		
-		continueButtonPanel.setBackground(Color.LIGHT_GRAY);
+		continueButtonPanel.setBackground(getWindowColor());
 		continueButtonPanel.add(continueButton);
 		
 		add(portfoliosPanel);

@@ -7,6 +7,7 @@ package pxv425;
  * 
  */
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -67,6 +68,7 @@ public class LoginView extends View implements Observer, ActionListener {
 	 */
 	private void frameSetup(){
 		setSize(350, 200);
+		setBackground(getWindowColor());
 		
 		setLayout(new BorderLayout());
 		
@@ -78,6 +80,7 @@ public class LoginView extends View implements Observer, ActionListener {
 		
 		// Panel for inputs (email, password)
 		inputs = new JPanel(new GridLayout(4, 0));
+		inputs.setBackground(getWindowColor());
 		inputs.add(emailLabel);
 		inputs.add(emailInput);
 		inputs.add(passwordLabel);
@@ -98,11 +101,13 @@ public class LoginView extends View implements Observer, ActionListener {
 		
 		// Pannel for buttons
 		buttons = new JPanel(new FlowLayout());
+		buttons.setBackground(getWindowColor());
 		buttons.add(exitButton);
 		buttons.add(changePasswordButton);
 		buttons.add(loginButton);
 		
 		title = new JLabel("Login to your account");
+		title.setBackground(getWindowColor());
 		
 		// Add panels on layout
 		add(title, BorderLayout.NORTH);
@@ -139,6 +144,7 @@ public class LoginView extends View implements Observer, ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		changeOptionPaneBackground();
 		command = e.getActionCommand();
 		
 		if(command.equals("exit")){
@@ -153,19 +159,23 @@ public class LoginView extends View implements Observer, ActionListener {
 			if(!getEmail().isEmpty() && !getPassword().isEmpty()){
 				if(loginModel.useValidEmail(getEmail())){
 					if((loginModel.useLoginUser(getEmail(), getPassword())).equals("ok")){
+//						changeOptionPaneBackground();
 						JOptionPane.showMessageDialog(this, "Hello " + loginModel.getClient().getInvestor().getFirstName(), "Welcome", JOptionPane.PLAIN_MESSAGE);
 						loginModel.useChangeToPortfolioView(new PortfolioView(new PortfolioModel(loginModel.getClient())));
 					}
 					else{
+//						changeOptionPaneBackground();
 						JOptionPane.showMessageDialog(this, "Wrong email or password");
 //						loginModel.useChangeToLoginView(new LoginView(new LoginModel(loginModel.getClient())));
 					}
 				}
 				else{
+//					changeOptionPaneBackground();
 					JOptionPane.showMessageDialog(this, "Email is not valid", "Error in login", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 			else{
+//				changeOptionPaneBackground();
 				JOptionPane.showMessageDialog(this, "Enter email and password", "Error in login", JOptionPane.ERROR_MESSAGE);
 			}
 		}

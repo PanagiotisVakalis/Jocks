@@ -61,10 +61,12 @@ public class LotsView extends View implements Observer, ActionListener{
 	private void frameSetup(){
 		//Set the layout
 		setLayout(new GridLayout(2, 1));
+		setBackground(getPopUpWindowColor());
 		
 		setPreferredSize(new Dimension(600, 400));
 		
 		lotsLabel = new JLabel("These are your lots which are contained in the " + lotsModel.useGetPortfolioName() + " portfolio.");
+		lotsLabel.setBackground(getPopUpWindowColor());
 		
 		//Call method in order to get the lots
 		lotsModel.useGetAllLots();

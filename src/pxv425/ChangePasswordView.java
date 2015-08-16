@@ -1,5 +1,6 @@
 package pxv425;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -62,10 +63,14 @@ public class ChangePasswordView extends View implements ActionListener, Observer
 	private void frameSetup(){
 		setLayout(new GridLayout(7, 1));
 		
+		setBackground(getWindowColor());
+		
 		title = new JLabel("Change your password");
+		title.setBackground(getWindowColor());
 		
 		//Email
 		emailPanel = new JPanel(new FlowLayout());
+		emailPanel.setBackground(getWindowColor());
 		emailInput = new JTextField("Email", 16);
 		emailInput.addFocusListener(this);
 		
@@ -79,11 +84,14 @@ public class ChangePasswordView extends View implements ActionListener, Observer
 		submitButton.setToolTipText("Press submit in order to retrieve youe security question");
 		
 		submitButtonPanel = new JPanel(new FlowLayout());
+		submitButtonPanel.setBackground(getWindowColor());
 		submitButtonPanel.add(submitButton);
 		
 		//Security question area
 		securityQuestionPanel = new JPanel(new FlowLayout());
+		securityQuestionPanel.setBackground(getWindowColor());
 		securityQuestion = new JTextArea("Security question");
+		securityQuestion.setBackground(getAreaColor());
 		securityQuestion.setEditable(false);
 		securityQuestion.setLineWrap(true);
 		securityQuestion.setPreferredSize(new Dimension(500, 30));
@@ -91,6 +99,7 @@ public class ChangePasswordView extends View implements ActionListener, Observer
 		
 		//Security answer panel
 		securityAnswerPanel = new JPanel(new GridLayout(2, 1));
+		securityAnswerPanel.setBackground(getWindowColor());
 		
 		securityAnswerLabel = new JLabel("Enter your security answer");
 		securityAnswer = new JPasswordField(16);
@@ -100,6 +109,7 @@ public class ChangePasswordView extends View implements ActionListener, Observer
 		
 		//Panel for the new password
 		newPasswordPanel = new JPanel(new GridLayout(2, 2));
+		newPasswordPanel.setBackground(getWindowColor());
 		newPasswordLabel = new JLabel("Enter you new password");
 		reEnterNewPasswordLabel = new JLabel("Re - enter password");
 		newPassword = new JPasswordField(16);
@@ -113,6 +123,7 @@ public class ChangePasswordView extends View implements ActionListener, Observer
 		
 		// Panel for buttons
 		buttonsPannel = new JPanel(new FlowLayout());
+		buttonsPannel.setBackground(getWindowColor());
 
 		backButton = new JButton("Back");
 		backButton.setActionCommand("back");

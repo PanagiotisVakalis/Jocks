@@ -1,5 +1,6 @@
 package pxv425;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -79,13 +80,16 @@ public class RegisterView extends View implements ActionListener, Observer, Focu
 	private void frameSetup(){
 		
 		setLayout(new GridLayout(6, 1));
+		setBackground(getWindowColor());
 		
 		title = new JLabel("Register");
+		title.setBackground(getWindowColor());
 		
 		//Panels for inputs
 		
 		//Email panel
 		emailPanel = new JPanel(new FlowLayout());
+		emailPanel.setBackground(getWindowColor());
 		emailInput = new JTextField("Email", 15);
 		emailInput.addFocusListener(this);
 //		emailCorrectIcon = new ImageIcon(".//images//greenTickIcon.png");
@@ -97,6 +101,7 @@ public class RegisterView extends View implements ActionListener, Observer, Focu
 		
 		//Password panel
 		passwordPanel = new JPanel(new GridLayout(2, 2));
+		passwordPanel.setBackground(getWindowColor());
 		passwordLabel = new JLabel("Password");
 		passwordInput = new JPasswordField(16);
 		passwordInput.setToolTipText("Password should contain 8 to 16 characters, \nat least one number \nand one of the following symbols: ! @ # $ % ^ & * - _");
@@ -110,6 +115,7 @@ public class RegisterView extends View implements ActionListener, Observer, Focu
 		
 		//Name panel
 		namePanel = new JPanel(new GridLayout(2, 2));
+		namePanel.setBackground(getWindowColor());
 		firstNameLabel = new JLabel("First name");
 		firstNameInput = new JTextField(16);
 		lastNameLabel = new JLabel("Last name");
@@ -122,6 +128,7 @@ public class RegisterView extends View implements ActionListener, Observer, Focu
 		
 		//Security question panel
 		securityQuestionPanel = new JPanel(new GridLayout(2, 2));
+		securityQuestionPanel.setBackground(getWindowColor());
 		securityQuestionLabel = new JLabel("Security question");
 		securityQuestionInput = new JTextField(16);
 		securityQuestionInput.setToolTipText("do not include ?");
@@ -135,6 +142,7 @@ public class RegisterView extends View implements ActionListener, Observer, Focu
 		
 		// Buttons
 		buttons = new JPanel(new FlowLayout());
+		buttons.setBackground(getWindowColor());
 
 		JButton back = new JButton("Back");
 		back.setActionCommand("back");
@@ -246,6 +254,7 @@ public class RegisterView extends View implements ActionListener, Observer, Focu
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		changeOptionPaneBackground();
 		command = e.getActionCommand();
 		
 		if(command.equals("back")){

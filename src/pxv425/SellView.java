@@ -89,21 +89,25 @@ public class SellView extends View implements ActionListener, Observer {
 		
 		stockSymbolLabel = new JLabel("Stock symbol");
 		stockSymbol = new JTextArea();
+		stockSymbol.setBackground(getPopUpWindowColor());
 		stockSymbol.setEditable(false);
 		stockSymbol.setText(sellModel.getStockSymbol());
 		
 		stockNameLabel = new JLabel("Stock name");
 		stockName = new JTextArea();
+		stockName.setBackground(getPopUpWindowColor());
 		stockName.setEditable(false);
 		stockName.setText(sellModel.getStockName());
 		
 		sharesBoughtLabel = new JLabel("Your shares");
 		sharesBoughtArea = new JTextArea();
+		sharesBoughtArea.setBackground(getPopUpWindowColor());
 		sharesBoughtArea.setEditable(false);
 		sharesBoughtArea.setText(String.valueOf(sellModel.getBoughtShares()));
 		
 		priceLabel = new JLabel("Price");
 		price = new JTextArea();
+		price.setBackground(getPopUpWindowColor());
 		price.setEditable(false);
 		price.setText("£" + String.valueOf(sellModel.getStockPrice()));
 		
@@ -118,26 +122,14 @@ public class SellView extends View implements ActionListener, Observer {
 		
 		//Panel regarding the amount of shares which the investor wants to buy
 		sharesPanel = new JPanel(new FlowLayout());
+		sharesPanel.setBackground(getPopUpWindowColor());
 		
 		sharesLabel = new JLabel("Shares");
-		
-//		upImage = new ImageIcon(".//images//UpButtonImage.jpeg");
-//		upButton = new JButton("Increase");
-//		upButton.setActionCommand("increase");
-//		upButton.addActionListener(this);
-		
-//		downImage = new ImageIcon(".//images//DownButtonImage.jpeg");
-//		downButton = new JButton("Decrease");
-//		downButton.setActionCommand("decrease");
-//		downButton.addActionListener(this);
-		
+
 		shares = new JTextField(5);
-//		shares.setEditable(false);
-//		shares.setText(String.valueOf(sellModel.getSharesCount()));
+		shares.setBackground(getAreaColor());
 		
 		sharesPanel.add(sharesLabel);
-//		sharesPanel.add(upButton);
-//		sharesPanel.add(downButton);
 		sharesPanel.add(shares);
 		
 		afterSell = new JLabel("After trade:");
@@ -148,39 +140,26 @@ public class SellView extends View implements ActionListener, Observer {
 		
 		//Panel regarding the portfolio information
 		portfolioInformations = new JPanel(new GridLayout(2, 2));
+		portfolioInformations.setBackground(getPopUpWindowColor());
 		
 		newInvestedMoneyLabel = new JLabel("Invested money");
 		newInvestedMoney = new JTextArea();
 		newInvestedMoney.setEditable(false);
 		//Initialy will have the same money
-//		newInvestedMoney.setText("£" + String.valueOf(sellModel.getInvestedMoney()));
 		newInvestedMoney.setText(currencyFormat(sellModel.getInvestedMoney()));
+		newInvestedMoney.setBackground(getPopUpWindowColor());
 		
 		newBalanceLabel = new JLabel("Balance");
 		newBalance = new JTextArea();
 		newBalance.setEditable(false);
 		//Initially will have the same balance
-//		newBalance.setText("£" + String.valueOf(sellModel.getBalance()));
 		newBalance.setText(currencyFormat(sellModel.getBalance()));
+		newBalance.setBackground(getPopUpWindowColor());
 		
 		portfolioInformations.add(newInvestedMoneyLabel);
 		portfolioInformations.add(newInvestedMoney);
 		portfolioInformations.add(newBalanceLabel);
 		portfolioInformations.add(newBalance);
-		
-//		//Panel for the bottom buttons
-//		buttons = new JPanel(new FlowLayout());
-//		
-//		backButton = new JButton("Back");
-//		backButton.setActionCommand("back");
-//		backButton.addActionListener(this);
-//		
-//		confirmButton = new JButton("Confirm");
-//		confirmButton.setActionCommand("confirm");
-//		confirmButton.addActionListener(this);
-//		
-//		buttons.add(backButton);
-//		buttons.add(confirmButton);
 		
 		add(viewTitle);
 		add(stockInformation);
@@ -188,7 +167,6 @@ public class SellView extends View implements ActionListener, Observer {
 		add(afterSell);
 		add(check);
 		add(portfolioInformations);
-//		add(buttons);
 	}
 	
 	public int getShares(){
@@ -224,7 +202,10 @@ public class SellView extends View implements ActionListener, Observer {
 		if(command.equals("check")){
 //			sellModel.useUpdateInvestedMoney(sellModel.getStockPrice(), Integer.parseInt(shares.getText()));
 //			sellModel.useUpdateBalance(sellModel.getStockPrice(), Integer.parseInt(shares.getText()));
-			sellModel.useUpdateNewBalanceAndNewInvestedMoney(sellModel.getStockPrice(), Integer.parseInt(shares.getText()));
+//			sellModel.useUpdateNewBalanceAndNewInvestedMoney(sellModel.getStockPrice(), Integer.parseInt(shares.getText()));
+			if(!shares.getText().equals("")){
+				sellModel.useUpdateNewBalanceAndNewInvestedMoney(sellModel.getStockPrice(), Integer.parseInt(shares.getText()));
+			}
 		}
 	}
 

@@ -1,6 +1,7 @@
 package pxv425;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -30,6 +31,7 @@ public class IntroView extends View implements Observer, ActionListener{
 	private JLabel loginLabel;
 	private String command;
 	private IntroModel introModel;
+	
 
 	private static final long serialVersionUID = 1L;
 	
@@ -63,10 +65,13 @@ public class IntroView extends View implements Observer, ActionListener{
 		//Layout for Panel
 		setLayout(new BorderLayout());
 		
+		
 		//Construct panel for buttons
 		buttons = new JPanel(new FlowLayout());
+		buttons.setBackground(Color.LIGHT_GRAY);
 		//Construct buttons
 		login = new JButton("Login");
+		login.setBackground(new Color(9, 137, 210));
 		login.setActionCommand("login");
 		login.addActionListener(this);
 		
