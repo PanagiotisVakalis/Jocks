@@ -1120,7 +1120,8 @@ public class Database {
 		try {
 //			connectToDatabase();
 //			query = "UPDATE stock " + "SET trade_price = ? WHERE symbol = ?";
-			query = "UPDATE stock " + "SET trade_price = ROUND((? / 100), 4) WHERE symbol = ?";
+//			query = "UPDATE stock " + "SET trade_price = ROUND ((? / 100), 4) WHERE symbol = ?";
+			query = "UPDATE stock " + "SET trade_price = ROUND (CAST(? AS numeric) / 100, 4) WHERE symbol = ?";
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setDouble(1, trade_price);
 //			preparedStatement.setString(2, symbol.substring(1, symbol.length()-1));
