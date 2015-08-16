@@ -16,8 +16,8 @@ public class DatabaseMain {
 		ArrayList<String> symbols = Database.useGetStockSymbols();
 		ArrayList<Thread> threadsStockPrice = new ArrayList<Thread>();
 		ArrayList<Thread> threadsHistoricalPrices = new ArrayList<Thread>();
-		Thread portfolioBalanceInsertion = new Thread(new UpdatePortfolioBalance());
-		portfolioBalanceInsertion.start();
+//		Thread portfolioBalanceInsertion = new Thread(new UpdatePortfolioBalance());
+//		portfolioBalanceInsertion.start();
 //		try {
 //			portfolioBalanceInsertion.sleep(3600000);
 //		} catch (InterruptedException e) {
