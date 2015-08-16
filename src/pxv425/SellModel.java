@@ -118,6 +118,14 @@ public class SellModel extends Model {
 //		update(sharesCount);
 //	}
 	
+	private int boughtShares(){
+		return lot.getBoughtShares();
+	}
+	
+	public int getBoughtShares(){
+		return boughtShares();
+	}
+	
 	/**
 	 * Method to get the shares count
 	 * @return shares count

@@ -53,6 +53,8 @@ public class SellView extends View implements ActionListener, Observer {
 	private JLabel afterSell;
 	private String command;
 	private JButton check;
+	private JLabel sharesBoughtLabel;
+	private JTextArea sharesBoughtArea;
 	
 	/**
 	 * Constructor of the class
@@ -83,7 +85,7 @@ public class SellView extends View implements ActionListener, Observer {
 		viewTitle = new JLabel("Sell");
 	
 		//Panel for information regarding stock
-		stockInformation = new JPanel(new GridLayout(3, 2));
+		stockInformation = new JPanel(new GridLayout(4, 2));
 		
 		stockSymbolLabel = new JLabel("Stock symbol");
 		stockSymbol = new JTextArea();
@@ -95,6 +97,11 @@ public class SellView extends View implements ActionListener, Observer {
 		stockName.setEditable(false);
 		stockName.setText(sellModel.getStockName());
 		
+		sharesBoughtLabel = new JLabel("Your shares");
+		sharesBoughtArea = new JTextArea();
+		sharesBoughtArea.setEditable(false);
+		sharesBoughtArea.setText(String.valueOf(sellModel.getBoughtShares()));
+		
 		priceLabel = new JLabel("Price");
 		price = new JTextArea();
 		price.setEditable(false);
@@ -104,6 +111,8 @@ public class SellView extends View implements ActionListener, Observer {
 		stockInformation.add(stockSymbol);
 		stockInformation.add(stockNameLabel);
 		stockInformation.add(stockName);
+		stockInformation.add(sharesBoughtLabel);
+		stockInformation.add(sharesBoughtArea);
 		stockInformation.add(priceLabel);
 		stockInformation.add(price);
 		

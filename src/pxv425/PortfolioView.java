@@ -126,7 +126,7 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 				.getSelectedIndex()));
 
 		// Title for the table's columns
-		String[] tableTitle = { "Symbol", "Price bought", "Shares bought",
+		String[] tableTitle = { "Symbol", "Price bought", "Shares",
 				"Purchase amount", "Current price", "Current value",
 				"Profit / Loss", "Purchase date" };
 
