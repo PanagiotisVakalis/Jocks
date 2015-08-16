@@ -356,6 +356,14 @@ public class PortfolioModel extends Model {
 		return updatePortfolioBalanceArea(index);
 	}
 	
+	private BigDecimal calculateTotalBalance(int index){
+		return getPortfolio(index).getBalance().add(getPortfolio(index).getInvestedMoney());
+	}
+	
+	public BigDecimal getTotalBalance(int index){
+		return calculateTotalBalance(index);
+	}
+	
 	private String updateTotalWithdrawsArea(int index){
 		return View.currencyFormat(totalWithdraws);
 	}

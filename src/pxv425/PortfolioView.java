@@ -72,6 +72,10 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 	private String command;
 	private DefaultTableCellRenderer rightAlign;
 	private DefaultTableCellRenderer centerAlign;
+	private JPanel totalBalancePanel;
+	private JLabel totalBalance;
+	private JTextArea totalBalanceArea;
+	private JPanel total;
 
 	/**
 	 * Constructor of the class
@@ -244,10 +248,28 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		totalReturnArea.setEditable(false);
 		totalReturnArea.setBackground(Color.LIGHT_GRAY);
 		
-		totalReturnPanel.setBackground(Color.LIGHT_GRAY);
-		
 		totalReturnPanel.add(totalReturn, LEFT_ALIGNMENT);
 		totalReturnPanel.add(totalReturnArea, RIGHT_ALIGNMENT);
+		
+		//Total balance panel
+		totalBalancePanel = new JPanel(new FlowLayout());
+		totalBalance = new JLabel("Total balance");
+		totalBalance.setToolTipText("Balance now plus the invested money");
+		totalBalanceArea = new JTextArea(currencyFormat(portfolioModel.getTotalBalance(portfolios.getSelectedIndex())));
+		totalBalanceArea.setEditable(false);
+		totalBalanceArea.setBackground(Color.LIGHT_GRAY);
+		
+		totalBalancePanel.add(totalBalance, LEFT_ALIGNMENT);
+		totalBalancePanel.add(totalBalanceArea, RIGHT_ALIGNMENT);
+		
+		totalBalancePanel.setBackground(Color.LIGHT_GRAY);
+		
+		totalReturnPanel.setBackground(Color.LIGHT_GRAY);
+		
+		//Total panel
+		total = new JPanel(new GridLayout(2, 1));
+		total.add(totalBalancePanel);
+		total.add(totalReturnPanel);
 		
 		//Portfolio information panel
 		portfolioInformationPanel = new JPanel(new GridLayout(1, 2));
@@ -256,7 +278,8 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		
 		portfolioInformationPanel.add(historicalInformationPanel, JPanel.LEFT_ALIGNMENT);
 		portfolioInformationPanel.add(currentInformationPanel, JPanel.RIGHT_ALIGNMENT);
-		portfolioInformationPanel.add(totalReturnPanel, CENTER_ALIGNMENT);
+//		portfolioInformationPanel.add(totalBalancePanel, CENTER_ALIGNMENT);
+//		portfolioInformationPanel.add(totalReturnPanel, CENTER_ALIGNMENT);
 		
 		// Withdraw, deposit options
 		deposit = new JButton("Deposit");
@@ -291,7 +314,7 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		add(portfoliosPanel);
 		add(lotsPanel);
 		add(portfolioInformationPanel);
-		add(totalReturnPanel, CENTER_ALIGNMENT);
+		add(total, CENTER_ALIGNMENT);
 		add(options);
 		add(continueButtonPanel);
 	}
