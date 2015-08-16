@@ -20,8 +20,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import org.jfree.chart.ChartPanel;
 /**
@@ -71,6 +73,7 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 	private JPanel updateInformationPanel;
 	private JPanel informationPanelWithUpdateButton;
 	private JPanel stockTableAndButtonsPanel;
+	private DefaultTableCellRenderer rightAlign;
 	
 	
 	/**
@@ -196,6 +199,12 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		stocksTable.getSelectionModel().addListSelectionListener(this);
 		stocksTable.setPreferredScrollableViewportSize(stocksTable.getPreferredSize());
 		stocksTable.setFillsViewportHeight(true);
+		
+		//Align price to the right
+		rightAlign = new DefaultTableCellRenderer();
+		rightAlign.setHorizontalAlignment(SwingConstants.RIGHT);
+		stocksTable.getColumnModel().getColumn(2).setCellRenderer(rightAlign);
+		
 		stocksTableScrolled = new JScrollPane(stocksTable);
 		
 		

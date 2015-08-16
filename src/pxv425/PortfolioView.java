@@ -20,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 
 public class PortfolioView extends View implements ActionListener, ItemListener, Observer {
 	
@@ -68,6 +70,8 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 	private JButton continueButton;
 	private JPanel continueButtonPanel;
 	private String command;
+	private DefaultTableCellRenderer rightAlign;
+	private DefaultTableCellRenderer centerAlign;
 
 	/**
 	 * Constructor of the class
@@ -130,6 +134,20 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		lots.setModel(new NonEditableTable(portfolioModel.useLotsDetails(),
 				tableTitle));
 		lots.setRowSelectionAllowed(false);
+		
+		//Align money to the right
+		rightAlign = new DefaultTableCellRenderer();
+		rightAlign.setHorizontalAlignment(SwingConstants.RIGHT);
+		lots.getColumnModel().getColumn(1).setCellRenderer(rightAlign);
+		lots.getColumnModel().getColumn(3).setCellRenderer(rightAlign);
+		lots.getColumnModel().getColumn(4).setCellRenderer(rightAlign);
+		lots.getColumnModel().getColumn(5).setCellRenderer(rightAlign);
+		lots.getColumnModel().getColumn(6).setCellRenderer(rightAlign);
+		
+		//Align shares in the center
+		centerAlign = new DefaultTableCellRenderer();
+		centerAlign.setHorizontalAlignment(SwingConstants.CENTER);
+		lots.getColumnModel().getColumn(2).setCellRenderer(centerAlign);
 
 		lotsScroll = new JScrollPane(lots);
 

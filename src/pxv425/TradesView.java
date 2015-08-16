@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 /**
  * Class which contains the view part of the trades screen
  * @author Panagiotis Vakalis
@@ -30,6 +32,8 @@ public class TradesView extends View implements ActionListener, Observer {
 	private JLabel sellsLabel;
 //	private JButton backButton;
 //	private JPanel backButtonPanel;
+	private DefaultTableCellRenderer rightAlign;
+private DefaultTableCellRenderer centerAlign;
 	
 	/**
 	 * Constructor of the class
@@ -70,6 +74,17 @@ public class TradesView extends View implements ActionListener, Observer {
 		buysTable.setModel(new NonEditableTable(tradesModel.useBuysDetails(), buysTitle));
 		buysTable.setRowSelectionAllowed(false);
 		
+		//Align money to the right
+				rightAlign = new DefaultTableCellRenderer();
+				rightAlign.setHorizontalAlignment(SwingConstants.RIGHT);
+				buysTable.getColumnModel().getColumn(1).setCellRenderer(rightAlign);
+				buysTable.getColumnModel().getColumn(3).setCellRenderer(rightAlign);
+				
+				//Align shares in the center
+				centerAlign = new DefaultTableCellRenderer();
+				centerAlign.setHorizontalAlignment(SwingConstants.CENTER);
+				buysTable.getColumnModel().getColumn(2).setCellRenderer(centerAlign);
+		
 		buysTableScroll = new JScrollPane(buysTable);
 		
 		//Sells label
@@ -83,6 +98,18 @@ public class TradesView extends View implements ActionListener, Observer {
 		sellsTable = new JTable();
 		sellsTable.setModel(new NonEditableTable(tradesModel.useSellsDetails(), sellsTitle));
 		sellsTable.setRowSelectionAllowed(false);
+		
+		//Align money to the right
+				rightAlign = new DefaultTableCellRenderer();
+				rightAlign.setHorizontalAlignment(SwingConstants.RIGHT);
+				sellsTable.getColumnModel().getColumn(1).setCellRenderer(rightAlign);
+				sellsTable.getColumnModel().getColumn(3).setCellRenderer(rightAlign);
+				sellsTable.getColumnModel().getColumn(4).setCellRenderer(rightAlign);
+				
+				//Align shares in the center
+				centerAlign = new DefaultTableCellRenderer();
+				centerAlign.setHorizontalAlignment(SwingConstants.CENTER);
+				sellsTable.getColumnModel().getColumn(2).setCellRenderer(centerAlign);
 		
 		sellsTableScroll = new JScrollPane(sellsTable);
 		

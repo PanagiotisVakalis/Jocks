@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 /**
  * Class which contains the view part of the lots screen
  * @author Panagiotis Vakalis
@@ -30,6 +32,8 @@ public class LotsView extends View implements Observer, ActionListener{
 	private JButton sellButton;
 	private String command;
 	private JPanel buttons;
+	private DefaultTableCellRenderer rightAlign;
+	private DefaultTableCellRenderer centerAlign;
 
 	/**
 	 * Constructor of the class
@@ -72,6 +76,20 @@ public class LotsView extends View implements Observer, ActionListener{
 		lotsTable.setModel(new NonEditableTable(lotsModel.useLotsDetails(), title));
 		lotsTable.setRowSelectionAllowed(true);
 		lotsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		//Align money to the right
+				rightAlign = new DefaultTableCellRenderer();
+				rightAlign.setHorizontalAlignment(SwingConstants.RIGHT);
+				lotsTable.getColumnModel().getColumn(1).setCellRenderer(rightAlign);
+				lotsTable.getColumnModel().getColumn(3).setCellRenderer(rightAlign);
+				lotsTable.getColumnModel().getColumn(4).setCellRenderer(rightAlign);
+				lotsTable.getColumnModel().getColumn(5).setCellRenderer(rightAlign);
+				lotsTable.getColumnModel().getColumn(6).setCellRenderer(rightAlign);
+				
+				//Align shares in the center
+				centerAlign = new DefaultTableCellRenderer();
+				centerAlign.setHorizontalAlignment(SwingConstants.CENTER);
+				lotsTable.getColumnModel().getColumn(2).setCellRenderer(centerAlign);
 		
 		lotsTableScroll = new JScrollPane(lotsTable);
 		

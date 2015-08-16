@@ -16,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 
 /**
@@ -37,6 +39,7 @@ public class WatchlistView extends View implements ActionListener, Observer {
 //	private JButton backButton;
 	private String command;
 	private NonEditableTable watchlistTableModel;
+	private DefaultTableCellRenderer rightAlign;
 
 	/**
 	 * Constrictor of the class
@@ -82,6 +85,12 @@ public class WatchlistView extends View implements ActionListener, Observer {
 		watchlistTable = new JTable();
 		watchlistTableModel = new NonEditableTable(watchlistModel.useWatchesDetails(), tableTitle);
 		watchlistTable.setModel(watchlistTableModel);
+		
+		//Align money to the right
+				rightAlign = new DefaultTableCellRenderer();
+				rightAlign.setHorizontalAlignment(SwingConstants.RIGHT);
+				watchlistTable.getColumnModel().getColumn(2).setCellRenderer(rightAlign);
+			
 		
 		watchlistTable.setRowSelectionAllowed(true);
 		watchlistTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

@@ -138,7 +138,8 @@ public class MainModel extends Model {
 //				for (int j = 0; j < 3; j++) {
 					stocksDetails[i][0] = stocks.get(i).getSymbol();
 					stocksDetails[i][1] = stocks.get(i).getName();
-					stocksDetails[i][2] = View.currencyFormat(new BigDecimal(stocks.get(i).getPrice()));
+//					stocksDetails[i][2] = View.currencyFormat(new BigDecimal(stocks.get(i).getPrice()));
+					stocksDetails[i][2] = "£" + String.valueOf(stocks.get(i).getPrice());
 //				}
 			}
 			
@@ -594,6 +595,9 @@ public class MainModel extends Model {
 		//Delete the x axis
 		ValueAxis xAxis = chart.getXYPlot().getDomainAxis();
 		xAxis.setVisible(false);
+		//Delete the y axis
+		ValueAxis yAxis = chart.getXYPlot().getRangeAxis();
+		yAxis.setVisible(false);
 		update(chart);
 		
 		return chart;

@@ -82,6 +82,43 @@ public class DatabaseManagement{
 		System.out.println("Done");
 	}
 	
+	private static void convertPenceToPounds(){
+		String queryGetSymbols;
+		PreparedStatement statementGetSymbols;
+		ResultSet resultSymbols;
+		String stockSymbol;
+		
+		try {
+			connection = Database.getConnection();
+			//Get the symbols from the table
+			queryGetSymbols = "SELECT symbol FROM stock";
+			statementGetSymbols = connection.prepareStatement(queryGetSymbols);
+			resultSymbols = statementGetSymbols.executeQuery();
+			
+			while(resultSymbols.next()){
+				stockSymbol = resultSymbols.getString("symbol");
+				/*
+				 * Convert the trade price from the stock
+				 * which has this stock symbol.
+				 */
+				query = "UPDATE stock SET trade_price = round(((SELECT trade_price FROM stock WHERE symbol = ?) / 100), 4) WHERE symbol = ?";
+				preparedStatement = connection.prepareStatement(query);
+				preparedStatement.setString(1, stockSymbol);
+				preparedStatement.setString(2, stockSymbol);
+				
+				preparedStatement.executeUpdate();
+				System.out.println(stockSymbol + " converted");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void useConvertPenceToPounds(){
+		convertPenceToPounds();
+	}
+	
 	/**
 	 * Method which allows other classes to use the populateStockTable method
 	 * @param csvFileDirectory
