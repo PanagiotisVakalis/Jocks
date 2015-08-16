@@ -489,7 +489,7 @@ public class PortfolioModel extends Model {
 		
 		/*
 		 * The total return can be calculated using the following formula:
-		 * totalReturn = balanceNow - initialBalance + sum(withdraws) - sum(deposits)
+		 * totalReturn = balanceNow - initialBalance + sum(withdraws) - sum(deposits) + investedMoney
 		 */
 //		balanceNow = Database.useRetrievePortfolioBalance(portfolio.getNumber());
 		balanceNow = getBalanceNow(portfolioNumber);
@@ -499,8 +499,9 @@ public class PortfolioModel extends Model {
 		totalWithdraws = getTotalWithdraws(portfolioNumber);
 //		totalDeposits = Database.useRetrieveTotalDeposits(portfolio.getNumber());
 		totalDeposits = getTotalDeposits(portfolioNumber);
+		investedMoney = getPortfolioInvestedMoney(portfolioNumber);
 		
-		totalReturn = balanceNow.subtract(initialBalance).add(totalWithdraws).subtract(totalDeposits);
+		totalReturn = balanceNow.subtract(initialBalance).add(totalWithdraws).subtract(totalDeposits).add(investedMoney);
 		return totalReturn;
 	}
 	
