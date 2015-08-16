@@ -81,15 +81,12 @@ public class LotsView extends View implements Observer, ActionListener{
 				rightAlign = new DefaultTableCellRenderer();
 				rightAlign.setHorizontalAlignment(SwingConstants.RIGHT);
 				lotsTable.getColumnModel().getColumn(1).setCellRenderer(rightAlign);
+				lotsTable.getColumnModel().getColumn(2).setCellRenderer(rightAlign);
 				lotsTable.getColumnModel().getColumn(3).setCellRenderer(rightAlign);
 				lotsTable.getColumnModel().getColumn(4).setCellRenderer(rightAlign);
 				lotsTable.getColumnModel().getColumn(5).setCellRenderer(rightAlign);
 				lotsTable.getColumnModel().getColumn(6).setCellRenderer(rightAlign);
 				
-				//Align shares in the center
-				centerAlign = new DefaultTableCellRenderer();
-				centerAlign.setHorizontalAlignment(SwingConstants.CENTER);
-				lotsTable.getColumnModel().getColumn(2).setCellRenderer(centerAlign);
 		
 		lotsTableScroll = new JScrollPane(lotsTable);
 		

@@ -139,15 +139,11 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		rightAlign = new DefaultTableCellRenderer();
 		rightAlign.setHorizontalAlignment(SwingConstants.RIGHT);
 		lots.getColumnModel().getColumn(1).setCellRenderer(rightAlign);
+		lots.getColumnModel().getColumn(2).setCellRenderer(rightAlign);
 		lots.getColumnModel().getColumn(3).setCellRenderer(rightAlign);
 		lots.getColumnModel().getColumn(4).setCellRenderer(rightAlign);
 		lots.getColumnModel().getColumn(5).setCellRenderer(rightAlign);
 		lots.getColumnModel().getColumn(6).setCellRenderer(rightAlign);
-		
-		//Align shares in the center
-		centerAlign = new DefaultTableCellRenderer();
-		centerAlign.setHorizontalAlignment(SwingConstants.CENTER);
-		lots.getColumnModel().getColumn(2).setCellRenderer(centerAlign);
 
 		lotsScroll = new JScrollPane(lots);
 

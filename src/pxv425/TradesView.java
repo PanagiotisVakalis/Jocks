@@ -78,12 +78,8 @@ private DefaultTableCellRenderer centerAlign;
 				rightAlign = new DefaultTableCellRenderer();
 				rightAlign.setHorizontalAlignment(SwingConstants.RIGHT);
 				buysTable.getColumnModel().getColumn(1).setCellRenderer(rightAlign);
+				buysTable.getColumnModel().getColumn(2).setCellRenderer(rightAlign);
 				buysTable.getColumnModel().getColumn(3).setCellRenderer(rightAlign);
-				
-				//Align shares in the center
-				centerAlign = new DefaultTableCellRenderer();
-				centerAlign.setHorizontalAlignment(SwingConstants.CENTER);
-				buysTable.getColumnModel().getColumn(2).setCellRenderer(centerAlign);
 		
 		buysTableScroll = new JScrollPane(buysTable);
 		
@@ -103,13 +99,9 @@ private DefaultTableCellRenderer centerAlign;
 				rightAlign = new DefaultTableCellRenderer();
 				rightAlign.setHorizontalAlignment(SwingConstants.RIGHT);
 				sellsTable.getColumnModel().getColumn(1).setCellRenderer(rightAlign);
+				sellsTable.getColumnModel().getColumn(2).setCellRenderer(rightAlign);
 				sellsTable.getColumnModel().getColumn(3).setCellRenderer(rightAlign);
 				sellsTable.getColumnModel().getColumn(4).setCellRenderer(rightAlign);
-				
-				//Align shares in the center
-				centerAlign = new DefaultTableCellRenderer();
-				centerAlign.setHorizontalAlignment(SwingConstants.CENTER);
-				sellsTable.getColumnModel().getColumn(2).setCellRenderer(centerAlign);
 		
 		sellsTableScroll = new JScrollPane(sellsTable);
 		
