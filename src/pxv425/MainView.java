@@ -15,7 +15,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -35,6 +34,11 @@ import org.jfree.chart.ChartPanel;
  */
 public class MainView extends View implements ListSelectionListener, ActionListener, Observer {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private MainModel mainModel;
 	private Dimension screenSize;
 	private double screenWidth;
@@ -47,13 +51,8 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 	private JButton watchlist;
 	private JButton logout;
 	private JPanel buttonsMenu;
-	private JPanel stock;
-	private JTextArea stockSymbol;
-	private JTextArea stockName;
-	private JTextArea stockPrice;
 	private JButton buyButton;
 	private JButton addToWatchilistButton;
-	private JPanel stocksTablePanel;
 	private JScrollPane stocksTableScrolled;
 	private JTable stocksTable;
 	private JPanel buttons;
@@ -147,7 +146,7 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		// Panel for buttons
 		buttonsMenu = new JPanel(new FlowLayout());
 		buttonsMenu.setBackground(getWindowColor());
-		// add buttons on panel
+		// Add buttons on panel
 		buttonsMenu.add(portfolio);
 		buttonsMenu.add(lots);
 		buttonsMenu.add(trades);
@@ -173,11 +172,10 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		mainModel.useGetAllStocks();
 		String[] title = {"Symbol", "Name", "Price"};
 		stocksTable = new JTable();
-		//Set the model in oreder to make the table non editable
+		//Set the model in order to make the table non editable
 		stocksTable.setModel(new NonEditableTable(mainModel.useStocksDetails(), title));
-//		stocksTable.setFocusable(false);
 		stocksTable.setRowSelectionAllowed(true);
-		//Select only one
+		//Select only one row
 		stocksTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		stocksTable.getSelectionModel().addListSelectionListener(this);
 		stocksTable.setPreferredScrollableViewportSize(stocksTable.getPreferredSize());
@@ -200,7 +198,6 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		chart = new JPanel();
 		chart.setBackground(getWindowColor());
 		chart.setLayout(new BorderLayout());
-//		ChartPanel chartPanel =  mainModel.useDrawChart(0);
 		
 		//Portfolio informations
 		
@@ -238,8 +235,6 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		profitLoss = new JTextArea();
 		profitLoss.setBackground(getWindowColor());
 		profitLoss.setEditable(false);
-//		profitLoss.setText(mainModel.useProfitLoss());
-//		profitLoss.setText("£" + String.valueOf(mainModel.useGetAllLotsProfitLoss(mainModel.getPortfolio())));
 		profitLoss.setText(currencyFormat(new BigDecimal(mainModel.useGetAllLotsProfitLoss(mainModel.getPortfolio()))));
 		
 		portfoliosInformation.add(numberOfPortfioliosLabel);
@@ -253,7 +248,6 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 		
 		informationPanelWithUpdateButton = new JPanel(new GridLayout(2, 1));
 		informationPanelWithUpdateButton.setBackground(getWindowColor());
-//		informationPanelWithUpdateButton.add(updateInformationPanel);
 		informationPanelWithUpdateButton.add(portfoliosInformation);
 		informationPanelWithUpdateButton.add(updateInformationPanel);
 		
@@ -268,15 +262,6 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 	public void update(Observable o, Object arg) {
 		if(o instanceof MainModel){
 			if(arg instanceof Double){
-//				if(mainModel.getUpdatedProfitLossSum(mainModel.getPortfolio()).equals("null") || mainModel.getUpdatedTotalInvestedMoney().equals("null")){
-//					/*
-//					 * I have used this if statement because every time
-//					 * that a stock is selected it draws the chart and updates
-//					 * the panel. So, it changes the values into null.
-//					 */
-//				}
-//				else{
-				
 				profitLoss.setText(mainModel.getUpdatedProfitLossSum(mainModel.getPortfolio()));
 			}
 			else if(arg instanceof BigDecimal){
@@ -288,7 +273,6 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 					
 				}
 			}
-//				}
 			}
 		}
 
@@ -296,14 +280,11 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-//		changeOptionPaneBackground();
 		command = e.getActionCommand();
 		
 		changeOptionPaneBackground();
 		
 		if(command.equals("buy")){
-//			mainModel.useBuyStock(stocksTable.getSelectedRow());
-//			JOptionPane.showInternalConfirmDialog(this, new BuyView(new BuyModel(mainModel.getClient(), mainModel.getPortfolio(), mainModel.useSelectStock(stocksTable.getSelectedRow()))));
 			if(stocksTable.getSelectedRow() != -1){
 				//If a stock has been selected
 				/*
@@ -322,16 +303,12 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 					/*
 					 * If user has pressed confirm
 					 */
-//					mainModel.getBuyModel().useBuyStock(mainModel.getBuyView().getShares());
 					if(!mainModel.useIsValidDayAndTime()){
 						JOptionPane.showMessageDialog(this, "You cannot buy now", "Closed stock market", JOptionPane.WARNING_MESSAGE);
 					}
 					else{
 						JOptionPane.showMessageDialog(this, mainModel.getBuyModel().useBuyStock(mainModel.getBuyView().getShares()));
 					}
-					
-				}
-				if(answer == 1){
 					
 				}
 			}
@@ -343,7 +320,6 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 			mainModel.useChangeToPortfolioView(new PortfolioView(new PortfolioModel(mainModel.getClient())));
 		}
 		if(command.equals("lots")){
-//			mainModel.useChangeToLotsView(new LotsView(new LotsModel(mainModel.getClient(), mainModel.getPortfolio())), mainModel.getPortfolio());
 			mainModel.useInitializeLotsView();
 			if(!mainModel.getLotsModel().getLots().isEmpty()){
 				//The two buttons
@@ -356,8 +332,8 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 				 * Continue = 1
 				 */
 				if(answer == 0){
-//					JOptionPane.showMessageDialog(this, mainModel.getLotsModel().getSellModel().useSellStock(mainModel.getLotsModel().getSellView().getShares()));
 					if(mainModel.getLotsView().getLotsTable().getSelectedRow() != -1){
+						//If a lot has been selected
 						mainModel.getLotsModel().useInitializeSellView(mainModel.getLotsModel().useSelectLot(mainModel.getLotsView().getLotsTable().getSelectedRow()));
 						//The two buttons
 						String[] optionsInSell = {"Confirm", "Back"};
@@ -371,17 +347,12 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 							/*
 							 * If user has pressed confirm
 							 */
-//							mainModel.getBuyModel().useBuyStock(mainModel.getBuyView().getShares());
-//							JOptionPane.showMessageDialog(this, lotsModel.getSellModel().useSellStock(lotsModel.getSellView().getShares()));
 							if(!mainModel.useIsValidDayAndTime()){
 								JOptionPane.showMessageDialog(this, "You cannot sell now", "Closed stock market", JOptionPane.WARNING_MESSAGE);
 							}
 							else{
 								JOptionPane.showMessageDialog(mainModel.getLotsView(), mainModel.getLotsModel().getSellModel().useSellStock(mainModel.getLotsModel().getSellView().getShares()));
 							}
-							
-						}
-						if(answerInSell == 1){
 							
 						}
 					}
@@ -396,16 +367,23 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 			
 		}
 		if(command.equals("trades")){
-//			mainModel.useChangeToTradesView(new TradesView(new TradesModel(mainModel.getClient(), mainModel.getPortfolio())), mainModel.getPortfolio());
-//			JOptionPane.showMessageDialog(this, new TradesView(new TradesModel(mainModel.getClient(), mainModel.getPortfolio())));
 			JOptionPane.showMessageDialog(this, new TradesView(new TradesModel(mainModel.getClient(), mainModel.getPortfolio())), "Trades", JOptionPane.PLAIN_MESSAGE);
 		}
 		if(command.equals("create")){
 			String name = JOptionPane.showInputDialog(this, "Enter the name for your new portfolio");
 			if(name != null && !name.isEmpty()){
+				/*
+				 * If a name has been entered
+				 */
 				if(!mainModel.useNameExists(name)){
+					/*
+					 * If this name does not exist
+					 */
 					String amount = JOptionPane.showInputDialog(this, "Enter the intitial amount of money");
 					if(amount != null){
+						/*
+						 * If initial amount has been entered
+						 */
 						mainModel.useCreatePortfolio(name, Double.parseDouble(amount));
 						JOptionPane.showMessageDialog(this, "The " + name + " portfolio has been created.");
 					}
@@ -418,36 +396,23 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 				}
 			}
 		}
-//		if(command.equals("cross")){
-//			String shortPeriod = JOptionPane.showInputDialog(this, "Enter the short period (days)");
-//			String longPeriod = JOptionPane.showInputDialog(this, "Enter the long period (days)");
-//			if(stocksTable.getSelectedRow() != -1){
-//				if(shortPeriod != null && longPeriod != null){
-//					if(!shortPeriod.isEmpty() && !longPeriod.isEmpty()){
-//						ChartPanel crossSMAPanel = new ChartPanel(mainModel.useDrawCrossSMA(stocksTable.getSelectedRow(), Integer.parseInt(shortPeriod), Integer.parseInt(longPeriod)));
-////						JOptionPane.showMessageDialog(this, crossSMAPanel);
-//						JOptionPane.showMessageDialog(this, crossSMAPanel, "Cross SMA", JOptionPane.PLAIN_MESSAGE);
-//					}
-//					else{
-//						JOptionPane.showMessageDialog(this, "You have to enter both periods", "Period input warning", JOptionPane.WARNING_MESSAGE);
-//					}
-//				}
-//				else{
-//					JOptionPane.showMessageDialog(this, "You have to enter both periods", "Period input warning", JOptionPane.WARNING_MESSAGE);
-//				}
-//			}
-//			else{
-//				JOptionPane.showMessageDialog(this, "You have to select a stock", "Cross SMA warning", JOptionPane.WARNING_MESSAGE);
-//			}
-//		}
 		if(command.equals("cross")){
 			if(stocksTable.getSelectedRow() != -1){
+				/*
+				 * If a stock has been selected
+				 */
 				String shortPeriod = JOptionPane.showInputDialog(this, "Enter the short period (days)");
 				if(shortPeriod != null){
 					if(!shortPeriod.isEmpty()){
+						/*
+						 * If short period has been entered
+						 */
 						String longPeriod = JOptionPane.showInputDialog(this, "Enter the long period (days)");
 						if(longPeriod != null){
 							if(!longPeriod.isEmpty()){
+								/*
+								 * If long period has been entered
+								 */
 								ChartPanel crossSMAPanel = new ChartPanel(mainModel.useDrawCrossSMA(stocksTable.getSelectedRow(), Integer.parseInt(shortPeriod), Integer.parseInt(longPeriod)));
 								JOptionPane.showMessageDialog(this, crossSMAPanel, "Cross SMA", JOptionPane.PLAIN_MESSAGE);
 							}
@@ -470,6 +435,9 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 			String message = JOptionPane.showInputDialog(this, "Enter your message");
 			if(message != null){
 				if(!message.isEmpty()){
+					/*
+					 * If message has been entered
+					 */
 					JOptionPane.showMessageDialog(this, mainModel.useRequestHelp(message));
 				}
 				else{
@@ -478,42 +446,56 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 			}
 		}
 		if(command.equals("watchlist")){
-//			mainModel.useChangeToWatchilistView(new WatchlistView(new WatchlistModel(mainModel.getClient(), mainModel.getInvestor())), mainModel.getInvestor());
+			//Initialize watchlistView
 			mainModel.useInitializeWatchlistView();
 			String[] options = {"Delete", "Buy", "Back"};
 			int answer = JOptionPane.showOptionDialog(this, mainModel.getWatchlistView(), "Watchlist", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
 			
 			if(answer == 0){
-				JOptionPane.showMessageDialog(this, mainModel.getWatchlistModel().useDeleteAWatch(mainModel.getWatchlistModel().useSelectStock(mainModel.getWatchlistView().getWatchlistTable().getSelectedRow()).getSymbol()));
-				mainModel.getWatchlistView().getWatchlistTableModel().removeRow(mainModel.getWatchlistView().getWatchlistTable().getSelectedRow());
+				if(mainModel.getWatchlistView().getWatchlistTable().getSelectedRow() != -1){
+					/*
+					 * If stock is selected
+					 */
+					JOptionPane.showMessageDialog(this, mainModel.getWatchlistModel().useDeleteAWatch(mainModel.getWatchlistModel().useSelectStock(mainModel.getWatchlistView().getWatchlistTable().getSelectedRow()).getSymbol()));
+					mainModel.getWatchlistView().getWatchlistTableModel().removeRow(mainModel.getWatchlistView().getWatchlistTable().getSelectedRow());
+				}
+				else{
+					JOptionPane.showMessageDialog(this, "You have to select a stock", "Select a stock", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 			if(answer == 1){
-				/*
-				 * Initialize the BuyView using the stock which
-				 * has been selected
-				 */
-				mainModel.useInitializeBuyView(mainModel.getWatchlistModel().useSelectStock(mainModel.getWatchlistView().getWatchlistTable().getSelectedRow()));
-				//The two buttons
-				String[] optionsInBuy = {"Confirm", "Back"};
-				int answerInBuy = JOptionPane.showOptionDialog(this, mainModel.getBuyView(), "Buy stock", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionsInBuy, optionsInBuy[0]);
-				/*
-				 * Confirm = 0
-				 * Back = 1
-				 */
-				if(answerInBuy == 0){
+				if(mainModel.getWatchlistView().getWatchlistTable().getSelectedRow() != -1){
 					/*
-					 * If user has pressed confirm
+					 * if stock is selected
 					 */
-//					mainModel.getBuyModel().useBuyStock(mainModel.getBuyView().getShares());
-					JOptionPane.showMessageDialog(this, mainModel.getBuyModel().useBuyStock(mainModel.getBuyView().getShares()));
+					
+					/*
+					 * Initialize the BuyView using the stock which
+					 * has been selected
+					 */
+					mainModel.useInitializeBuyView(mainModel.getWatchlistModel().useSelectStock(mainModel.getWatchlistView().getWatchlistTable().getSelectedRow()));
+					//The two buttons
+					String[] optionsInBuy = {"Confirm", "Back"};
+					int answerInBuy = JOptionPane.showOptionDialog(this, mainModel.getBuyView(), "Buy stock", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionsInBuy, optionsInBuy[0]);
+					/*
+					 * Confirm = 0
+					 * Back = 1
+					 */
+					if(answerInBuy == 0){
+						/*
+						 * If user has pressed confirm
+						 */
+						JOptionPane.showMessageDialog(this, mainModel.getBuyModel().useBuyStock(mainModel.getBuyView().getShares()));
+					}
+				}
+				else{
+					JOptionPane.showMessageDialog(this, "You have to select a stock", "Select a stock", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		}
 		if(command.equals("logout")){
-//			JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?", "Logout", )
 			int answer = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?", "Logout", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if(answer == JOptionPane.OK_OPTION){
-//				mainModel.useChangeToIntroView(new IntroView(new IntroModel(mainModel.getClient())));
 				mainModel.useLogout();
 			}
 			if(answer == JOptionPane.CANCEL_OPTION){
@@ -533,8 +515,10 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-//		mainModel.useDrawChart(stocksTable.getSelectedRow());
-		//Chart
+		/*
+		 * When a stock in stock table is selected
+		 * draw a price chart
+		 */
 		ChartPanel chartPanel = new ChartPanel(mainModel.useDrawChart(stocksTable.getSelectedRow()));
 		chart.add(chartPanel, BorderLayout.CENTER);
 		chart.validate();
