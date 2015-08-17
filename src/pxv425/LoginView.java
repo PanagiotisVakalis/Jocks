@@ -1,13 +1,6 @@
 package pxv425;
 
-
-//import RegisterView;
-//import ResetPasswordView;
-/**
- * 
- */
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -23,13 +16,18 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 /**
- * Class which contain the View part of the Login process
+ * Class which contains the View part of the Login process
  * 
  * @author Panagiotis Vakalis
  * @version 16-07-2015
  *
  */
 public class LoginView extends View implements Observer, ActionListener {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	private LoginModel loginModel;
 	private JLabel emailLabel;
@@ -124,10 +122,7 @@ public class LoginView extends View implements Observer, ActionListener {
 	 */
 	private String getEmail(){
 		//Convert email to lower case
-//		return String.valueOf(emailInput.getText());
 		String emailLower = emailInput.getText().toLowerCase();
-		
-//		return String.valueOf(emailLower);
 		return emailLower;
 	}
 	
@@ -154,31 +149,36 @@ public class LoginView extends View implements Observer, ActionListener {
 			loginModel.useChangeToChangePasswordView(new ChangePasswordView(new ChangePasswordModel(loginModel.getClient())));
 		}
 		if (command.equals("login")) {
-//			JOptionPane.showMessageDialog(null, loginModel.useLoginUser(getEmail(), getPassword()));
-//			loginModel.useLoginUser(getEmail(), getPassword());
 			if(!getEmail().isEmpty() && !getPassword().isEmpty()){
+				/*
+				 * If email and password are not empty
+				 */
 				if(loginModel.useValidEmail(getEmail())){
+					/*
+					 * If the email which the user has typed is valid
+					 */
 					if((loginModel.useLoginUser(getEmail(), getPassword())).equals("ok")){
-//						changeOptionPaneBackground();
+						/*
+						 * If the user has been found in database
+						 */
 						JOptionPane.showMessageDialog(this, "Hello " + loginModel.getClient().getInvestor().getFirstName(), "Welcome", JOptionPane.PLAIN_MESSAGE);
 						if(!loginModel.useIsValidDayAndTime()){
+							/*
+							 * If the stock market is closed
+							 */
 							JOptionPane.showMessageDialog(this, "The stock market is currently closed", "Closed stock market", JOptionPane.WARNING_MESSAGE);
 						}
 						loginModel.useChangeToPortfolioView(new PortfolioView(new PortfolioModel(loginModel.getClient())));
 					}
 					else{
-//						changeOptionPaneBackground();
 						JOptionPane.showMessageDialog(this, "Wrong email or password");
-//						loginModel.useChangeToLoginView(new LoginView(new LoginModel(loginModel.getClient())));
 					}
 				}
 				else{
-//					changeOptionPaneBackground();
 					JOptionPane.showMessageDialog(this, "Email is not valid", "Error in login", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 			else{
-//				changeOptionPaneBackground();
 				JOptionPane.showMessageDialog(this, "Enter email and password", "Error in login", JOptionPane.ERROR_MESSAGE);
 			}
 		}
@@ -186,8 +186,9 @@ public class LoginView extends View implements Observer, ActionListener {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-
+		/*
+		 * No body
+		 */
 	}
 
 }

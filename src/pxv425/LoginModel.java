@@ -79,13 +79,15 @@ public class LoginModel extends Model {
 	private String loginUser(String email, String password){
 		signInResult = Database.useGetInvestor(email, password);
 		
-		
 		if(signInResult instanceof Investor){
+			/*
+			 * If database has returned an investor, set the investor
+			 * in the client class, retrieve the portfolios which investor
+			 * holds and return ok.
+			 * Otherwise return no
+			 */
 			super.getClient().setInvestor((Investor)signInResult);
 			portfolios = Database.useGetInvestorPortfolioNumber(super.getClient().getInvestor().getId());
-//			for(int i = 0; i < portfolios.size(); i++){
-//				System.out.println(portfolios.get(0).toString());
-//			}
 			super.getClient().getInvestor().setPortfolios(portfolios);
 			return "ok";
 		}
@@ -117,7 +119,6 @@ public class LoginModel extends Model {
 	 */
 	private void changeToChangePasswordView(ChangePasswordView changePasswordView){
 		changePasswordModel = new ChangePasswordModel(super.getClient());
-//		super.getClient().useChangePanel(new ResetPasswordView(resetPasswordModel));
 		super.getClient().useChangePanel(changePasswordView);
 	}
 	
@@ -172,14 +173,38 @@ public class LoginModel extends Model {
 		return emailMatcher.matches();
 	}
 	
+	/**
+	 * Method to check if the email which is provided
+	 * matches the email pattern
+	 * @param email
+	 * @return true, if it matches
+	 * @return false, if it does not match
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 14-07-2015
+	 */
 	public boolean useValidEmail(String email){
 		return validEmail(email);
 	}
 	
+	/**
+	 * Method to change to login view
+	 * @param loginView
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 18-07-2015
+	 */
 	private void changeToLoginView(LoginView loginView){
 		super.getClient().useChangePanel(loginView);
 	}
 	
+	/**
+	 * Method to change to login view
+	 * @param loginView
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 18-07-2015
+	 */
 	public void useChangeToLoginView(LoginView loginView){
 		changeToLoginView(loginView);
 	}
