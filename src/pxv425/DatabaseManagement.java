@@ -72,7 +72,7 @@ public class DatabaseManagement{
 				//Enter the delimiter
 				csvScanner.useDelimiter(",");
 				while(csvScanner.hasNext()){
-					Database.insertStock(csvScanner.next(), csvScanner.next(), csvScanner.next(), csvScanner.nextDouble());
+					Database.useInsertStock(csvScanner.next(), csvScanner.next(), csvScanner.next(), csvScanner.nextDouble());
 				}
 			}
 		} catch (IOException e) {

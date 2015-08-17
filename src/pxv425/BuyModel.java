@@ -253,11 +253,11 @@ public class BuyModel extends Model {
 //			if(balance.compareTo(new BigDecimal(stock.getPrice() * shares)) == new BigDecimal(1))
 			int compare = portfolio.getBalance().compareTo(new BigDecimal(stock.getPrice() * shares));
 			if(compare == 0 || compare == 1){
-				Database.insertLot(portfolio.getNumber(), stock.getSymbol(), shares);
-				Database.insertBuy(stock.getSymbol(), portfolio.getNumber(), shares);
-				Database.updatePortfolioInvestedMoney(portfolio.getNumber(), stock.getPrice() * shares);
+				Database.useInsertLot(portfolio.getNumber(), stock.getSymbol(), shares);
+				Database.useInsertABuy(stock.getSymbol(), portfolio.getNumber(), shares);
+				Database.useUpdatePortfolioInvestedMoney(portfolio.getNumber(), stock.getPrice() * shares);
 //				Database.updatePortfolioBalance(portfolio.getNumber(), (stock.getPrice() * sharesCount) * (-1));
-				Database.updatePortfolioBalance(portfolio.getNumber(), BigDecimal.valueOf((stock.getPrice() * shares) * (-1)));
+				Database.useUpdatePortfolioBalance(portfolio.getNumber(), BigDecimal.valueOf((stock.getPrice() * shares) * (-1)));
 				return "You have bought " + shares + " of " + stock.getName() + " stock.";
 			}
 			else{

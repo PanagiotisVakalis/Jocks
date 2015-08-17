@@ -30,25 +30,13 @@ public class Database {
 	 * will be final static since they will not be changed and
 	 * they will be part of the whole class
 	 */
-	//Url for home
-	//Previous database
-//	private static final String DATABASEURL = "jdbc:postgresql://10.44.130.49:5432/final_project_db";
-	//new database
-//	private static final String DATABASEURL = "jdbc:postgresql://10.44.130.49:5432/jocks_db";
-	//Url for uni
-	//Previous database
-//	private static final String DATABASEURL = "jdbc:postgresql://10.8.180.117:5432/final_project_db";
 	private static final String DATABASEURL = "jdbc:postgresql://10.44.130.49:5432/jocks_db";
 	private static final String USERNAME = "postgres";
 	private static final String PASSWORD = "electro_PA16989";
 	//Instance variable to establish connection
 	private static Connection connection;
-	//Instance variable to store statement
-	private Statement statement;
 	//Instance variable to store the result
 	private static ResultSet resultSet;
-	//Instance variable to store the metadata
-	private ResultSetMetaData metaData;
 	//Instance variable to keep track of database connection status
 	private static boolean connectedToDatabase = false;
 	//Instance variable which will be used for queries
@@ -88,8 +76,8 @@ public class Database {
 	private static double lotBoughtPrice;
 	private static int lotBoughtShares;
 	private static double lotAmount;
-	private static double lotCurrentAmount;
-	private static double lotCurrentProfitLoss;
+	
+	
 	private static Timestamp lotDate;
 	
 	//Buys
@@ -148,7 +136,6 @@ public class Database {
 	 * @author Panagiotis Vakalis
 	 * @version 07-07-2015
 	 */
-	
 	private static void connectToDatabase() throws SQLException{
 		/*
 		 * getConnection method is used to connect to database
@@ -159,7 +146,7 @@ public class Database {
 	}
 	
 	/**
-	 * Method to use connect to database method outside of the class
+	 * Method to connect to database
 	 * @throws SQLException
 	 * 
 	 * @author Panagiotis Vakalis
@@ -167,6 +154,19 @@ public class Database {
 	 */
 	public static void useConnectToDatabase() throws SQLException{
 		connectToDatabase();
+	}
+	
+	/**
+	 * Method to use the connectedToDatabase private field
+	 * outside the class
+	 * @return true if it is connected
+	 * @return false if it is not connected
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 12-07-2015
+	 */
+	public static boolean getConnectedToDatabase(){
+		return connectedToDatabase;
 	}
 	
 	/**
@@ -184,8 +184,6 @@ public class Database {
 	 */
 	private static void registerInvestor(String email, String password, String firstName, String lastName, String securityQuestion, String securityAnswer){
 		try {
-//			if(checkEmail(email) == false){
-//				connectToDatabase();
 				//Create sql query which will be used in order to insert a new entry in the table
 				query = "INSERT INTO investor (email, password, f_name, l_name, sec_question, sec_answer)" + " VALUES (?, ?, ?, ?, ?, ?)";
 				//Execute the prepared statement
@@ -201,13 +199,7 @@ public class Database {
 				
 				//Execute SQL statement
 				preparedStatement.executeUpdate();
-//				System.out.println("User has been registered");
-//			}
-//			else{
-//				System.out.println("Email already used");
-//			}
 		} catch (SQLException e) {
-//			System.err.println("Connection failed");
 			e.printStackTrace();
 		}
 		finally{
@@ -222,7 +214,8 @@ public class Database {
 	}
 	
 	/**
-	 * Method to use the register investor outside of the class
+	 * Method to register a new investor by inserting this particular
+	 * investor as a new entry into the investor table
 	 * @param email
 	 * @param password
 	 * @param firstName
@@ -260,7 +253,6 @@ public class Database {
 			//Call method in order to connect to database
 			connectToDatabase();
 			//Setup query
-//			query = "SELECT email, password FROM investor WHERE email = ?";
 			query = "SELECT * FROM investor WHERE email = ?";
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, email);
@@ -279,22 +271,28 @@ public class Database {
 				dateRegisteredResult = new Date(time.getTime());
 				securityQuestionResult = resultSet.getString("sec_question");
 				securityAnswerResult = resultSet.getString("sec_answer");
-//				System.out.println(emailResult + " " + passwordResult);
 			}
 			
 			if(checkEmail(email)){
-//				if(emailResult.equals(email) && passwordResult.equals(password)){
+				/*
+				 * If the email exists
+				 */
 				if(emailResult.equals(email) && Password.USE_DECRYPT_PASSWORD(passwordResult).equals(password)){
+					/*
+					 * If email and the decrypted password
+					 * which are stored in the database
+					 * match the email and password which
+					 * the user entered, then an investor
+					 * object is created.
+					 */
 					investorResult = new Investor(idResult, emailResult, passwordResult, firstNameResult, lastNameResult, dateRegisteredResult, securityQuestionResult, securityAnswerResult);
-//					System.out.println("singed in");
 				}
 				else{
+					/*
+					 * Otherwise a String object is created
+					 */
 					investorResult = new String("unsuccesful");
-//					System.out.println("not signed in");
 				}
-			}
-			else{
-//				System.out.println("no investor with this email");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -303,10 +301,11 @@ public class Database {
 	}
 	
 	/**
-	 * Method to use getInvestor method outside class
+	 * Method to signIn an already registered investor
 	 * @param email
 	 * @param password
-	 * @return 
+	 * @return investor object if the sign in is succesfull
+	 * @return string object if the sing in is unsuccessfull
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 15-07-2015
@@ -317,13 +316,6 @@ public class Database {
 		 * signInResult value
 		 */
 		getInvestor(email, password);
-		
-//		if(signInResult instanceof Investor){
-//			return signInResult;
-//		}
-//		else{
-//			return "Unsuccesful sign in";
-//		}
 		return investorResult;
 	}
 	
@@ -367,7 +359,7 @@ public class Database {
 	}
 	
 	/**
-	 * Method to use the checkEmail() outside of the class
+	 * Method which checks whether the email is used
 	 * @param email
 	 * @return true if the email exists
 	 * @return false if the email does not exist
@@ -416,6 +408,16 @@ public class Database {
 		return false;
 	}
 	
+	/**
+	 * Method to check whether the portfolio name already exists
+	 * @param email
+	 * @param portfolioName
+	 * @return true if portfolio name already exists
+	 * @return false if portfolio name does not exist
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 11-07-2015
+	 */
 	public static boolean usePortfolioNameExists(String email, String portfolioName){
 		return portfolioNameExists(email, portfolioName);
 	}
@@ -428,50 +430,17 @@ public class Database {
 	 * @version 08-07-2015
 	 */
 	private static void changeInvestorPassword(String email, String newPassword){
-		if(checkEmail(email)){
-//			//Variables where the security question and answer will be stored
-//			String securityQuestion = null;
-//			String securityAnswer = null;
 			try {
-				//If email exists retrieve the security question and answer
-//				query = "SELECT sec_question, sec_answer FROM investor WHERE email = ?";
-//				preparedStatement = connection.prepareStatement(query);
-//				preparedStatement.setString(1, email);
-				
-//				resultSet = preparedStatement.executeQuery();
-				
-//				//Iterate the result
-//				while(resultSet.next()){
-//					securityQuestion = resultSet.getString("sec_question");
-//					securityAnswer = resultSet.getString("sec_answer");
-//				}
-				
-				//Ask investor
-//				System.out.println(securityQuestion + "?");
-//				Scanner input = new Scanner(System.in);
-				//Investor answers
-//				String answer = input.next();
-				
-//				if(securityAnswer.equals(answer)){
 					query = "UPDATE investor " + "SET password = ? WHERE email = ?";
 					preparedStatement = connection.prepareStatement(query);
 					preparedStatement.setString(1, Password.USE_ENCRYPT_PASSWORD(newPassword));
 					preparedStatement.setString(2, email);
 					
 					preparedStatement.executeUpdate();
-//					System.out.println("Password has been changed");
-//				}
-//				else{
-//					System.out.println("Wrong answer");
-//				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else{
-//			System.out.println("No such email");
-		}
 	}
 	
 	/**
@@ -518,7 +487,7 @@ public class Database {
 	}
 	
 	/**
-	 * Method to use the getSecurityQuestion outside the class
+	 * Method to get the security question for a specific email address
 	 * @param email
 	 * @return security question
 	 * 
@@ -556,7 +525,7 @@ public class Database {
 	}
 	
 	/**
-	 * Method to use the getSecutityAnswer method outside the class
+	 * Method to retrieve the security answer
 	 * @param email
 	 * @return secutity answer
 	 * 
@@ -569,7 +538,7 @@ public class Database {
 	}
 	
 	/**
-	 * Method to create a new portfolio
+	 * Method to create a new portfolio when a new user is registered
 	 * 
 	 * @param name of the portfolio
 	 * @param email of the investor
@@ -583,6 +552,10 @@ public class Database {
 			//Connect to database
 			connectToDatabase();
 			if(!portfolioNameExists(email, name)){
+				/*
+				 * If portfolio name does not exist in the list of the
+				 * portfolios which this particullar user owns
+				 */
 				//Query
 				query = "INSERT INTO portfolio (name, inv_id, balance, initial_balance) " + "VALUES (?, (SELECT id FROM investor WHERE email = ?), ?, ?)";
 				preparedStatement = connection.prepareStatement(query);
@@ -592,10 +565,6 @@ public class Database {
 				preparedStatement.setBigDecimal(4, balance);
 				
 				preparedStatement.executeUpdate();
-//				System.out.println("Portfolio has been created");
-			}
-			else{
-//				System.out.println("Portfolio name already exists");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -604,7 +573,7 @@ public class Database {
 	}
 	
 	/**
-	 * Method to use createPortolio method outside of the class
+	 * Method to create a new portfolio when a new user is registered
 	 * @param name
 	 * @param email
 	 * @param balance
@@ -618,8 +587,8 @@ public class Database {
 	
 	
 	/**
-	 * Method to insert a new portfolio into the table portfolio
-	 * @param id
+	 * Method to create a new portfolio for the already registered users
+	 * @param email
 	 * @param name
 	 * @param balance
 	 * 
@@ -652,8 +621,8 @@ public class Database {
 	}
 	
 	/**
-	 * Method to use the createNewPortfolio method outside the class
-	 * @param id
+	 * Method to create a new portfolio for the already registered users
+	 * @param email
 	 * @param name
 	 * @param balance
 	 * 
@@ -666,105 +635,56 @@ public class Database {
 	
 	/**
 	 * Method to update the balance of portfolio
-	 * @param name
-	 * @param email
-	 * @param difference in amount
+	 * @param portfolioNumber
+	 * @param amount
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 08-07-2015
 	 */
-	public static void updatePortfolioBalance(int portfolioNumber, BigDecimal amount){
+	private static void updatePortfolioBalance(int portfolioNumber, BigDecimal amount){
 		try {
 			//Connect to database
 			connectToDatabase();
 			//Query
-//			query = "UPDATE portfolio " + "SET balance = (SELECT balance FROM portfolio WHERE name = ? AND inv_id = (SELECT id FROM investor WHERE email = ?)) + ? WHERE name = ? AND inv_id = (SELECT id FROM investor WHERE email = ?)";
-			
 			query = "UPDATE portfolio " + "SET balance = (SELECT balance FROM portfolio WHERE number = ?) + ? WHERE number = ?";
 			
 			preparedStatement = connection.prepareStatement(query);
-//			preparedStatement.setString(1, name);
-//			preparedStatement.setString(2, email);
-//			preparedStatement.setDouble(3, amount);
-//			preparedStatement.setString(4, name);
-//			preparedStatement.setString(5, email);
 			
 			preparedStatement.setInt(1, portfolioNumber);
 			preparedStatement.setBigDecimal(2, amount);
 			preparedStatement.setInt(3, portfolioNumber);
 			
 			preparedStatement.executeUpdate();
-//			System.out.println("Portfolio's balance has been updated");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	/**
-	 * Method to update the name of the portfolio
-	 * @param name
-	 * @param email
-	 * @param newName
-	 * 
-	 * @author Panagiotis Vakalis
-	 * @version 08-07-2015
-	 */
-	private static void updatePortfolioName(int portfolioNumber, String email, String newName){
-		try {
-//			if(!portfolioNameExists(email, newName)){
-				connectToDatabase();
-				query = "UPDATE portfolio " + "SET name = ? WHERE number = ?";
-				preparedStatement = connection.prepareStatement(query);
-				preparedStatement.setString(1, newName);
-				preparedStatement.setInt(2, portfolioNumber);
-				
-				preparedStatement.executeUpdate();
-//				System.out.println("Portfolio's name has been updated");
-//			}
-//			else{
-////				System.out.println("Portfolio name already exists");
-//			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public static void useUpdatePortfolioName(int portfolioNumber, String email, String newName){
-		updatePortfolioName(portfolioNumber, email, newName);
+	public static void useUpdatePortfolioBalance(int portfolioNumber, BigDecimal amount){
+		updatePortfolioBalance(portfolioNumber, amount);
 	}
 	
 	/**
 	 * Method to update the invested money of a portfolio
-	 * @param name
-	 * @param email
+	 * @param portfolioNumber
 	 * @param amount
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 08-07-2015
 	 */
-	public static void updatePortfolioInvestedMoney(int porfolioNumber, double amount){
+	private static void updatePortfolioInvestedMoney(int portfolioNumber, double amount){
 		try {
 			connectToDatabase();
-//			query = "UPDATE portfolio " + "SET inv_money = (SELECT inv_money FROM portfolio WHERE name = ? AND inv_id = (SELECT id FROM investor WHERE email = ?)) + ? WHERE name = ? AND inv_id = (SELECT id FROM investor WHERE email = ?)";
-//			query = "UPDATE portfolio " + "SET inv_money = (SELECT inv_money FROM portfolio WHERE name = ? AND inv_id = (SELECT id FROM investor WHERE email = ?)) + ? WHERE name = ? AND inv_id = (SELECT id FROM investor WHERE email = ?)";
-
 			query = "UPDATE portfolio " + "SET inv_money = (SELECT inv_money FROM portfolio WHERE number = ?) + ? WHERE number = ?";
 			
 			preparedStatement = connection.prepareStatement(query);
-//			preparedStatement.setString(1, name);
-//			preparedStatement.setString(2, email);
-//			preparedStatement.setDouble(3, amount);
-//			preparedStatement.setString(4, name);
-//			preparedStatement.setString(5, email);
 			
-			preparedStatement.setInt(1, porfolioNumber);
+			preparedStatement.setInt(1, portfolioNumber);
 			preparedStatement.setDouble(2, amount);
-			preparedStatement.setInt(3, porfolioNumber);
+			preparedStatement.setInt(3, portfolioNumber);
 			
 			preparedStatement.executeUpdate();
-//			System.out.println("Portfolio's invested money has been updated");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -772,35 +692,19 @@ public class Database {
 	}
 	
 	/**
-	 * Method to update the profit / loss of a portfolio
-	 * @param name
-	 * @param email
-	 * @param profitLoss
+	 * Method to update the invested money of a portfolio
+	 * @param portfolioNumber
+	 * @param amount
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 08-07-2015
 	 */
-	public static void updatePortfolioProfitLoss(String name, String email, double profitLoss){
-		try {
-			connectToDatabase();
-			query = "UPDATE portfolio " + "SET profit_loss = (SELECT profit_loss FROM portfolio WHERE name = ? AND inv_id = (SELECT id FROM investor WHERE email = ?)) + ? WHERE name = ? AND inv_id = (SELECT id FROM investor WHERE email = ?)";
-			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1, name);
-			preparedStatement.setString(2, email);
-			preparedStatement.setDouble(3, profitLoss);
-			preparedStatement.setString(4, name);
-			preparedStatement.setString(5, email);
-			
-			preparedStatement.executeUpdate();
-//			System.out.println("Portfolio's profit/loss has been updated");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public static void useUpdatePortfolioInvestedMoney(int portfolioNumber, double amount){
+		updatePortfolioInvestedMoney(portfolioNumber, amount);
 	}
 	
 	/**
-	 * Method to get the investor portfolio
+	 * Method to get the investor portfolios
 	 * @param id
 	 * 
 	 * @author Panagiotis Vakalis
@@ -816,13 +720,9 @@ public class Database {
 			preparedStatement.setInt(1, id);
 			
 			resultSet = preparedStatement.executeQuery();
-			
-//			int count = 0;
 			while(resultSet.next()){
-//				portfoliosNumberResult[count] = resultSet.getInt("number");
 				Integer portfolioNumber = resultSet.getInt("number");
 				String portfolioName = resultSet.getString("name");
-//				Integer investorId = resultSet.getInt("inv_id");
 				BigDecimal investedMoney = resultSet.getBigDecimal("inv_money");
 				BigDecimal balance = resultSet.getBigDecimal("balance");
 				double profitLoss = resultSet.getDouble("profit_loss");
@@ -836,17 +736,8 @@ public class Database {
 		}
 	}
 	
-//	private static Investor getInvestorUsingId(Integer investorId){
-//		String investorEmail;
-//		String investorPassword;
-//		String investorFirstName;
-//		String investorLastName;
-//		String investorDateRegistered;
-//		
-//	}
-	
 	/**
-	 * Method to use the getInvestorPortfolio outside the class
+	 * Method to get the investor portfolios
 	 * @param id
 	 * @return portfolios
 	 * 
@@ -858,12 +749,8 @@ public class Database {
 		return portfoliosResult;
 	}
 	
-//	private static void getPortfolio(int[] portfolioNumbers){
-//		query = "SELECT "
-//	}
-	
 	/**
-	 * Method which retrieves the portfolio details for a give investor
+	 * Method which retrieves the portfolio details for a given investor
 	 * @param id
 	 * 
 	 * @author Panagiotis Vakalis
@@ -891,7 +778,7 @@ public class Database {
 	}
 	
 	/**
-	 * Method to use the getPortfoliosDetails outside the class
+	 * Method which retrieves the portfolio details for a given investor
 	 * @param id
 	 * 
 	 * @author Panagiotis Vakalis
@@ -901,10 +788,25 @@ public class Database {
 		getPortfoliosDetails(id);
 	}
 	
+	/**
+	 * Method to get the howManyPortfolios instance variable
+	 * outside the class
+	 * @return number of portfolios
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
+	 */
 	public static int getHowManyPortfolios(){
 		return howManyPortfolios;
 	}
 	
+	/**
+	 * Method which retrieves the portfolio balance for a given portfolio number
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
+	 */
 	private static void retrievePortfolioBalance(int portfolioNumber){
 		
 		try {
@@ -923,12 +825,27 @@ public class Database {
 		}
 	}
 	
+	/**
+	 * Method which retrieves the portfolio balance for a given portfolio number
+	 * @param portfolioNumber
+	 * @return portfolioBalance
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
+	 */
 	public static BigDecimal useRetrievePortfolioBalance(int portfolioNumber){
 		portfolioBalance = null;
 		retrievePortfolioBalance(portfolioNumber);
 		return portfolioBalance;
 	}
 	
+	/**
+	 * Method which retrieves the portfolio initial balance for a given portfolio number
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
+	 */
 	private static void retrievePortfolioInitialBalance(int portfolioNumber){
 		
 		try {
@@ -947,12 +864,28 @@ public class Database {
 		}
 	}
 	
+	/**
+	 * Method which retrieves the portfolio initial balance for a given portfolio number
+	 * @param portfolioNumber
+	 * @return portfolioNinitialBalance
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
+	 */
 	public static BigDecimal useRetrievePortfolioInitialBalance(int portfolioNumber){
 		portfolioInitialBalance = null;
 		retrievePortfolioInitialBalance(portfolioNumber);
 		return portfolioInitialBalance;
 	}
 	
+	/**
+	 * Method which retrieves the portfolios total withdraws for a given portfolio number
+	 * @param portfolioNumber
+	 * @return totalWithdraws
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
+	 */
 	private static BigDecimal retrieveTotalWithdraws(int portfolioNumber){
 		BigDecimal totalWithdraws = null;
 		
@@ -963,7 +896,6 @@ public class Database {
 			resultSet = preparedStatement.executeQuery();
 			
 			while(resultSet.next()){
-//				totalWithdraws.add(resultSet.getBigDecimal("total_amount"));
 				totalWithdraws = new BigDecimal(resultSet.getDouble("total_amount"));
 			}
 		} catch (SQLException e) {
@@ -974,10 +906,26 @@ public class Database {
 		return totalWithdraws;
 	}
 	
+	/**
+	 * Method which retrieves the portfolios total withdraws for a given portfolio number
+	 * @param portfolioNumber
+	 * @return totalWithdraws
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
+	 */
 	public static BigDecimal useRetrieveTotalWithdraws(int portfolioNumber){
 		return retrieveTotalWithdraws(portfolioNumber);
 	}
 	
+	/**
+	 * Method which retrieves the portfolios total deposits for a given portfolio number
+	 * @param portfolioNumber
+	 * @return totalDeposits
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
+	 */
 	private static BigDecimal retrieveTotalDeposits(int portfolioNumber){
 		BigDecimal totalDeposits = null;
 		
@@ -988,7 +936,6 @@ public class Database {
 			resultSet = preparedStatement.executeQuery();
 			
 			while(resultSet.next()){
-//				totalDeposits.add(resultSet.getBigDecimal("total_amount"));
 				totalDeposits = new BigDecimal(resultSet.getDouble("total_amount"));
 			}
 		} catch (SQLException e) {
@@ -999,25 +946,28 @@ public class Database {
 		return totalDeposits;
 	}
 	
+	/**
+	 * Method which retrieves the portfolios total withdraws for a given portfolio number
+	 * @param portfolioNumber
+	 * @return totalDeposits
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
+	 */
 	public static BigDecimal useRetrieveTotalDeposits(int portfolioNumber){
 		return retrieveTotalDeposits(portfolioNumber);
 	}
 	
-//	/**
-//	 * Method to get the total invested money outside the class
-//	 * @return total invested money
-//	 * 
-//	 * @author Panagiotis Vakalis
-//	 * @version 20-07-2015
-//	 */
-//	public static double getTotalInvestedMoney(){
-//		return totalInvestedMoney;
-//	}
-	
+	/**
+	 * Method which retrieves the portfolios invested money for a given portfolio number
+	 * @param portfolioNumber
+	 * @return investedMoney
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
+	 */
 	private static BigDecimal retrieveInvestedMoney(int portfolioNumber){
 		totalInvestedMoney = 0;
-		
-		
 		try {
 			query = "SELECT inv_money FROM portfolio WHERE number = ?";
 			preparedStatement = connection.prepareStatement(query);
@@ -1036,10 +986,25 @@ public class Database {
 		return portfolioInvestedMoney;
 	}
 	
+	/**
+	 * Method which retrieves the portfolios invested money for a given portfolio number
+	 * @param portfolioNumber
+	 * @return investedMoney
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
+	 */
 	public static BigDecimal useRetrieveInvestedMoney(int portfolioNumber){
 		return retrieveInvestedMoney(portfolioNumber);
 	}
 	
+	/**
+	 * Method which retrieves the portfolios balance for a given portfolio number
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
+	 */
 	private static void retrieveBalance(int portfolioNumber){
 		
 		try {
@@ -1058,8 +1023,9 @@ public class Database {
 	}
 	
 	/**
-	 * Method to get the total balance outside the class
-	 * @return total balance
+	 * Method which retrieves the portfolios invested money for a given portfolio number
+	 * @param portfolioNumber
+	 * @return balance
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 20-07-2015
@@ -1085,14 +1051,13 @@ public class Database {
 	 * @param symbol
 	 * @param name
 	 * @param industry
-	 * @param currentPrice
+	 * @param tradePrice
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 08-07-2015
 	 */
-	public static void insertStock(String symbol, String name, String industry, double trade_price){
+	private static void insertStock(String symbol, String name, String industry, double trade_price){
 		try {
-//			connectToDatabase();
 			query = "INSERT INTO stock (symbol, name, industry, trade_price) " + "VALUES (?, ?, ?, ?)";
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, symbol);
@@ -1101,7 +1066,46 @@ public class Database {
 			preparedStatement.setDouble(4, trade_price);
 			
 			preparedStatement.executeUpdate();
-//			System.out.println("Stock has been inserted");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Method to insert a stock in the database
+	 * @param symbol
+	 * @param name
+	 * @param industry
+	 * @param tradePrice
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 08-07-2015
+	 */
+	public static void useInsertStock(String symbol, String name, String industry, double trade_price){
+		insertStock(symbol, name, industry, trade_price);
+	}
+	
+	/**
+	 * Method to update the stock's price
+	 * @param symbol
+	 * @param currentPrice
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 08-07-2015
+	 */
+	private static void updateStockPrice(String symbol, double trade_price){
+		try {
+			/*
+			 * The price which is inserted is first converted to
+			 * pounds and is rounded using 4 decimals
+			 */
+			query = "UPDATE stock " + "SET trade_price = ROUND (CAST(? AS numeric) / 100, 4) WHERE symbol = ?";
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setDouble(1, trade_price);
+			preparedStatement.setString(2, symbol);
+			
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1115,48 +1119,6 @@ public class Database {
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 08-07-2015
-	 */
-	private static void updateStockPrice(String symbol, double trade_price){
-		try {
-//			connectToDatabase();
-//			query = "UPDATE stock " + "SET trade_price = ? WHERE symbol = ?";
-//			query = "UPDATE stock " + "SET trade_price = ROUND ((? / 100), 4) WHERE symbol = ?";
-			query = "UPDATE stock " + "SET trade_price = ROUND (CAST(? AS numeric) / 100, 4) WHERE symbol = ?";
-			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setDouble(1, trade_price);
-//			preparedStatement.setString(2, symbol.substring(1, symbol.length()-1));
-			preparedStatement.setString(2, symbol);
-			
-			preparedStatement.executeUpdate();
-//			System.out.println("Stock's price has been updated");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public static void deleteStock(String symbol){
-		
-		try {
-			query = "DELETE FROM stock WHERE symbol = ?";
-			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1, symbol);
-			
-			preparedStatement.executeUpdate();
-//			System.out.println(symbol + " has been deleted");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * Method to use updateStockPrice method outside the class
-	 * @param symbol
-	 * @param trade_price
-	 * 
-	 * @author Panagiotis Vakalis
-	 * @version 13-07-2015
 	 */
 	public static void useUpdateStockPrice(String symbol, double trade_price){
 		updateStockPrice(symbol, trade_price);
@@ -1184,7 +1146,6 @@ public class Database {
 			preparedStatement.setDouble(6, adjustedClosePrice);
 			
 			preparedStatement.executeUpdate();
-//			System.out.println("Stock price has been inserted");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1192,7 +1153,7 @@ public class Database {
 	}
 	
 	/**
-	 * Method to use insertStockPrice method outside of the class
+	 * Method to insert the stocks' prices into the stock_price table
 	 * @param stockSymbol
 	 * @param openPrice
 	 * @param closePrice
@@ -1205,6 +1166,14 @@ public class Database {
 		insertStockPrice(stockSymbol, openPrice, closePrice, date, adjustedClosePrice);
 	}
 	
+	/**
+	 * Method to get the last date for which price is 
+	 * stored in the database
+	 * @param stockSymbol
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 14-07-2015
+	 */
 	private static void getLastUpdatedDate(String stockSymbol){
 		
 		try {
@@ -1223,6 +1192,15 @@ public class Database {
 		}
 	}
 	
+	/**
+	 * Method to get the last date for which price is 
+	 * stored in the database
+	 * @param stockSymbol
+	 * @return last date
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 14-07-2015
+	 */
 	public static Timestamp useGetLastUpdatedDate(String stockSymbol){
 		getLastUpdatedDate(stockSymbol);
 		return lastUpdatedOn;
@@ -1258,6 +1236,13 @@ public class Database {
 		}
 	}
 	
+	/**
+	 * Method to get the name of the stock
+	 * @param stockSymbol
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 14-07-2015 
+	 */
 	private static void getStockNameUsingSymbol(String stockSymbol){
 		try {
 			connectToDatabase();
@@ -1279,6 +1264,14 @@ public class Database {
 		}
 	}
 	
+	/**
+	 * Method to get the name of the stock
+	 * @param stockSymbol
+	 * @return name of the stock
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 14-07-2015 
+	 */
 	public static String useGetStockNameUsingSymbol(String stockSymbol){
 		getStockNameUsingSymbol(stockSymbol);
 		return stockName;
@@ -1313,13 +1306,20 @@ public class Database {
 			preparedStatement.setString(2, stockSymbol);
 			
 			preparedStatement.executeUpdate();
-//			System.out.println("Watch created");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Method to insert a watch entry (watchlist)
+	 * @param email
+	 * @param stockSymbol
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 08-07-2015
+	 */
 	public static void useInsertWatch(int investorId, String stockSymbol){
 		insertWatch(investorId, stockSymbol);
 	}
@@ -1341,13 +1341,20 @@ public class Database {
 			preparedStatement.setString(2, stockSymbol);
 			
 			preparedStatement.executeUpdate();
-//			System.out.println("Watch has been deleted");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Method to delete a watch entry
+	 * @param email
+	 * @param stockSymbol
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 08-07-2015
+	 */
 	public static void useDeleteWatch(int id, String stockSymbol){
 		deleteWatch(id, stockSymbol);
 	}
@@ -1378,11 +1385,6 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	
-//	public static ArrayList<String> useRetrieveWatches(int investorId){
-//		retrieveWatches(investorId);
-//		return watchlistStockSymbols;
-//	}
 	
 	/**
 	 * Method to retrieve the informations for stocks which an investor is interested in
@@ -1424,9 +1426,9 @@ public class Database {
 	}
 	
 	/**
-	 * Method to use the retrieveStocksWhichInvestorWatches method outside the class
+	 * Method to retrieve the informations for stocks which an investor is interested in
 	 * @param investorId
-	 * @return a list of stocks which the investor watches
+	 * @return watchlist of the investor
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 26-07-2015
@@ -1446,21 +1448,11 @@ public class Database {
 	 * @author Panagiotis Vakalis
 	 * @version 08-07-2015
 	 */
-//	public static void insertLot(String email, String portfolioName, String stockSymbol, int shares){
-	public static void insertLot(int portfolioNumber, String stockSymbol, int shares){
+	private static void insertLot(int portfolioNumber, String stockSymbol, int shares){
 		try {
 			connectToDatabase();
 			query = "INSERT INTO lot (port_number, st_symbol, b_price, b_shares, amount, cur_amount) " + "VALUES (?, ?, (SELECT trade_price FROM stock WHERE symbol = ?), ?, ((SELECT trade_price FROM stock WHERE symbol = ?) * ?), ((SELECT trade_price FROM stock WHERE symbol = ?) * ?))";
 			preparedStatement = connection.prepareStatement(query);
-//			preparedStatement.setString(1, email);
-//			preparedStatement.setString(2, portfolioName);
-//			preparedStatement.setString(3, stockSymbol);
-//			preparedStatement.setString(4, stockSymbol);
-//			preparedStatement.setInt(5, shares);
-//			preparedStatement.setString(6, stockSymbol);
-//			preparedStatement.setInt(7, shares);
-//			preparedStatement.setString(8, stockSymbol);
-//			preparedStatement.setInt(9, shares);
 			
 			preparedStatement.setInt(1, portfolioNumber);
 			preparedStatement.setString(2, stockSymbol);
@@ -1472,13 +1464,33 @@ public class Database {
 			preparedStatement.setInt(8, shares);
 			
 			preparedStatement.executeUpdate();
-//			System.out.println("Lot has been recorded");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Method to insert a lot in database
+	 * @param email
+	 * @param stockSymbol
+	 * @param shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 08-07-2015
+	 */
+	public static void useInsertLot(int portfolioNumber, String stockSymbol, int shares){
+		insertLot(portfolioNumber, stockSymbol, shares);
+	}
+	
+	/**
+	 * Method to update all the lots from a portfolio
+	 * with the current prices
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 08-07-2015
+	 */
 	private static void updateLotsWithCurrentPrice(int portfolioNumber){
 		//Retrieve stock symbols which this portfolio has
 		String queryRetrieveStocks;
@@ -1493,17 +1505,6 @@ public class Database {
 			retrieveStocksStatement.setInt(1, portfolioNumber);
 			
 			stocks = retrieveStocksStatement.executeQuery();
-			
-//			while(stocks.next()){
-//				//Update the prices into lots table
-//				stock = stocks.getString("st_symbol");
-//				query = "UPDATE lot SET cur_amount = ((SELECT trade_price FROM stock WHERE symbol = ?) * (SELECT b_shares FROM lot WHERE st_symbol = ?))";
-//				preparedStatement = connection.prepareStatement(query);
-//				preparedStatement.setString(1, stock);
-//				preparedStatement.setString(2, stock);
-//				
-//				preparedStatement.executeUpdate();
-//			}
 			
 			while(stocks.next()){
 				
@@ -1526,6 +1527,26 @@ public class Database {
 		}
 	}
 	
+	/**
+	 * Method to update all the lots from a portfolio
+	 * with the current prices
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 08-07-2015
+	 */
+	public static void useUpdateLotsWithCurrentPrice(int portfolioNumber){
+		updateLotsWithCurrentPrice(portfolioNumber);
+	}
+	
+	/**
+	 * Method to get the stock's trade price
+	 * @param stockSymbol
+	 * @return trade price
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 08-07-2015
+	 */
 	private static double retrieveStockTradePrice(String stockSymbol){
 		String queryRetrieveTradePrice;
 		PreparedStatement retrieveTradePriceStatement;
@@ -1539,7 +1560,6 @@ public class Database {
 			
 			tradePrice = retrieveTradePriceStatement.executeQuery();
 			
-//			price = tradePrice.getDouble("trade_price");
 			while(tradePrice.next()){
 				price = tradePrice.getDouble("trade_price");
 			}
@@ -1551,6 +1571,15 @@ public class Database {
 		return price;
 	}
 	
+	/**
+	 * Retrieve the amount of bought shares
+	 * @param stockSymbol
+	 * @param portfolioNumber
+	 * @return amount of bought shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 08-07-2015
+	 */
 	private static int retrieveBoughtSharesForAStock(String stockSymbol, int portfolioNumber){
 		String queryRetrieveShares;
 		PreparedStatement retrieveSharesStatement;
@@ -1564,7 +1593,6 @@ public class Database {
 			retrieveSharesStatement.setInt(2, portfolioNumber);
 			
 			sharesSet = retrieveSharesStatement.executeQuery();
-//			shares = sharesSet.getInt("b_shares");
 			
 			while(sharesSet.next()){
 				shares = sharesSet.getInt("b_shares");
@@ -1575,10 +1603,6 @@ public class Database {
 		}
 		
 		return shares;
-	}
-	
-	public static void useUpdateLotsWithCurrentPrice(int portfolioNumber){
-		updateLotsWithCurrentPrice(portfolioNumber);
 	}
 	
 	/**
@@ -1608,10 +1632,6 @@ public class Database {
 				lotBoughtPrice = resultSet.getDouble("b_price");
 				lotBoughtShares = resultSet.getInt("b_shares");
 				lotAmount = resultSet.getDouble("amount");
-				//I retrieve the current amount by calculating it durng the construction
-//				lotCurrentAmount = resultSet.getDouble("cur_amount");
-//				lotCurrentProfitLoss = resultSet.getDouble("cur_profit_loss");
-//				lotDate.setTimeInMillis(resultSet.getTimestamp("date").getTime());
 				lotDate = resultSet.getTimestamp("date");
 				/*
 				 * Get the current price for this specific stock symbol
@@ -1641,7 +1661,8 @@ public class Database {
 	}
 	
 	/**
-	 * Method to use the getLotsForASpecificPortfolio method outside the class
+	 * Method to get the lots for a specific portfolio.
+	 * The current price is retrieved as well
 	 * @param portfolioNumber
 	 * @return arraylist of lots
 	 * 
@@ -1674,25 +1695,30 @@ public class Database {
 				preparedStatement.setTimestamp(3, date);
 				
 				preparedStatement.executeUpdate();
-//				System.out.println("Lot has been deleted");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
 		}
-		else{
-//			System.out.println("No such lot");
-		}
 	}
 	
+	/**
+	 * Method to delete a lot from database
+	 * @param email
+	 * @param stockSymbol
+	 * @param date
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 08-07-2015
+	 */
 	public static void useDeleteLot(int portfolioNumber, String stockSymbol, Timestamp date){
 		deleteLot(portfolioNumber, stockSymbol, date);
 	}
 	
 	/**
 	 * Method to check whether or not a lot exists
-	 * @param email
+	 * @param portfolioNumber
 	 * @param stockSymbol
 	 * @return true if it exists
 	 * @return false if it does not exist
@@ -1722,6 +1748,16 @@ public class Database {
 		return exists;
 	}
 	
+	/**
+	 * Method to update the shares of a lot
+	 * @param portfolioNumber
+	 * @param stockSymbol
+	 * @param date
+	 * @param shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 08-07-2015
+	 */
 	private static void updateSharesBoughtInLot(int portfolioNumber, String stockSymbol, Timestamp date, int shares){
 		
 		try {
@@ -1742,10 +1778,28 @@ public class Database {
 		}
 	}
 	
+	/**
+	 * Method to update the shares of a lot
+	 * @param portfolioNumber
+	 * @param stockSymbol
+	 * @param date
+	 * @param shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 08-07-2015
+	 */
 	public static void useUpdateSharesBoughtInLot(int portfolioNumber, String stockSymbol, Timestamp date, int shares){
 		updateSharesBoughtInLot(portfolioNumber, stockSymbol, date, shares);
 	}
 	
+	/**
+	 * Method to get the current price of a stock
+	 * @param stockSymbol
+	 * @return current price
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 08-07-2015
+	 */
 	private static double getCurrentPriceOfAStock(String stockSymbol){
 		String queryCurrentPrice;
 		PreparedStatement currentPriceStatement;
@@ -1770,6 +1824,16 @@ public class Database {
 		return currentPrice;
 	}
 	
+	/**
+	 * Method to get the bought price of a lot
+	 * @param stockSymbol
+	 * @param portfolioNumber
+	 * @return date
+	 * @return current price
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 08-07-2015
+	 */
 	private static double getBoughtPriceOfALot(String stockSymbol, int portfolioNumber, Timestamp date){
 		String queryBoughtPrice;
 		PreparedStatement boughtPriceStatement;
@@ -1807,22 +1871,9 @@ public class Database {
 	 * @author Panagiotis Vakalis
 	 * @version 08-07-2015
 	 */
-	public static void insertBuy(String stockSymbol, int portfolioNumber, int shares){
+	private static void insertBuy(String stockSymbol, int portfolioNumber, int shares){
 		try {
 			connectToDatabase();
-			
-//			//Get portfolio number
-//			String selectPortfolioNumber = "SELECT number FROM portfolio WHERE inv_id = (SELECT id FROM investor WHERE email = ?) AND name = ?";
-//			PreparedStatement statementPortfolioNumber = connection.prepareStatement(selectPortfolioNumber);
-//			statementPortfolioNumber.setString(1, email);
-//			statementPortfolioNumber.setString(2, portfolioName);
-//			ResultSet resultPortfolioNumber = statementPortfolioNumber.executeQuery();
-//			int portfolioNumber = 0;
-//			
-//			while(resultPortfolioNumber.next()){
-//				portfolioNumber = resultPortfolioNumber.getInt("number");
-//				System.out.println(portfolioNumber);
-//			}
 			
 			//Get most recent day
 			String selectMaxDate = "SELECT MAX(date) AS date FROM lot WHERE port_number = ? AND st_symbol = ?";
@@ -1834,7 +1885,6 @@ public class Database {
 			
 			while(resultMaxDate.next()){
 				maxDate = resultMaxDate.getTimestamp("date");
-//				System.out.println(maxDate);
 			}
 			
 			//Get bought price
@@ -1848,7 +1898,6 @@ public class Database {
 			
 			while(resultBoughtPrice.next()){
 				boughtPrice = resultBoughtPrice.getDouble("b_price");
-//				System.out.println(boughtPrice);
 			}
 			
 			//Insert a new buy
@@ -1862,7 +1911,50 @@ public class Database {
 			preparedStatement.setTimestamp(6, maxDate);
 			
 			preparedStatement.executeUpdate();
-//			System.out.println("A buy has been inserted");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Method to insert a buy
+	 * @param stockSymbol
+	 * @param email
+	 * @param portfolioName
+	 * @param shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 08-07-2015
+	 */
+	public static void useInsertABuy(String stockSymbol, int portfolioNumber, int shares){
+		insertBuy(stockSymbol, portfolioNumber, shares);
+	}
+	
+	/**
+	 * Method to insert a new sell
+	 * @param stockSymbol
+	 * @param email
+	 * @param portfolioName
+	 * @param shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 08-07-2015
+	 */
+	private static void insertSell(String stockSymbol, int portfolioNumber, int shares, double currentPrice, Timestamp date){
+		try {
+			connectToDatabase();
+			query = "INSERT INTO sell (st_symbol, port_number, sold_price, sold_shares, sold_amount, profit_loss) " + "VALUES(?, ?, ?, ?, ?, ?)";
+			preparedStatement = connection.prepareStatement(query);
+			
+			preparedStatement.setString(1, stockSymbol);
+			preparedStatement.setInt(2, portfolioNumber);
+			preparedStatement.setDouble(3, currentPrice);
+			preparedStatement.setInt(4, shares);
+			preparedStatement.setDouble(5, currentPrice * shares);
+			preparedStatement.setDouble(6, (currentPrice * shares) - (getBoughtPriceOfALot(stockSymbol, portfolioNumber, date) * shares));
+			
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1879,55 +1971,6 @@ public class Database {
 	 * @author Panagiotis Vakalis
 	 * @version 08-07-2015
 	 */
-	private static void insertSell(String stockSymbol, int portfolioNumber, int shares, double currentPrice, Timestamp date){
-		try {
-			connectToDatabase();
-			
-//			//Retrieve the bought price
-//			String selectBoughtPrice = "SELECT b_price FROM lot WHERE port_number = ? AND st_symbol = ?";
-//			PreparedStatement statementBoughtPrice = connection.prepareStatement(selectBoughtPrice);
-//			statementBoughtPrice.setInt(1, porftolioNumber);
-////			statement.setString(2, portfolioName);
-//			statementBoughtPrice.setString(2, stockSymbol);
-//			
-//			ResultSet resultBoughtPrice = statementBoughtPrice.executeQuery();
-//			
-//			double boughtPrice = 0;
-//			
-//			while(resultBoughtPrice.next()){
-//				boughtPrice = resultBoughtPrice.getDouble("b_price");
-//			}
-			
-//			query = "INSERT INTO sell (st_symbol, port_number, sold_price, sold_shares, sold_amount, profit_loss) " + "VALUES (?, ?, (SELECT trade_price FROM stock WHERE symbol = ?), ?, ((SELECT trade_price FROM stock WHERE symbol = ?) * ?), ((SELECT trade_price FROM stock WHERE symbol = ?) * ?) - (? * ?))";
-			query = "INSERT INTO sell (st_symbol, port_number, sold_price, sold_shares, sold_amount, profit_loss) " + "VALUES(?, ?, ?, ?, ?, ?)";
-			preparedStatement = connection.prepareStatement(query);
-//			preparedStatement.setString(1, stockSymbol);
-//			preparedStatement.setInt(2, portfolioNumber);
-////			preparedStatement.setString(3, portfolioName);
-//			preparedStatement.setString(3, stockSymbol);
-//			preparedStatement.setInt(4, shares);
-//			preparedStatement.setString(5, stockSymbol);
-//			preparedStatement.setInt(6, shares);
-//			preparedStatement.setString(7, stockSymbol);
-//			preparedStatement.setInt(8, shares);
-//			preparedStatement.setDouble(9, getBoughtPriceOfALot(stockSymbol, portfolioNumber, date));
-//			preparedStatement.setInt(10, shares);
-			
-			preparedStatement.setString(1, stockSymbol);
-			preparedStatement.setInt(2, portfolioNumber);
-			preparedStatement.setDouble(3, currentPrice);
-			preparedStatement.setInt(4, shares);
-			preparedStatement.setDouble(5, currentPrice * shares);
-			preparedStatement.setDouble(6, (currentPrice * shares) - (getBoughtPriceOfALot(stockSymbol, portfolioNumber, date) * shares));
-			
-			preparedStatement.executeUpdate();
-//			System.out.println("Sell has been inserted");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
 	public static void useInsertSell(String stockSymbol, int portfolioNumber, int shares, double currentPrice, Timestamp date){
 		insertSell(stockSymbol, portfolioNumber, shares, currentPrice, date);
 	}
@@ -1951,10 +1994,6 @@ public class Database {
 			
 			while(resultSet.next()){
 				buysStockSymbol = resultSet.getString("st_symbol");
-//				lotDate.setTimeInMillis(resultSet.getTimestamp("date").getTime());
-//				buysDate.setTimeInMillis(resultSet.getTimestamp("date").getTime());
-//				Timestamp timestamp = new Timestamp(resultSet.getTimestamp("date").getTime());
-//				buysDate = new Date(timestamp.getTime());
 				buysDate = resultSet.getTimestamp("date");
 				buysPrice = resultSet.getDouble("bought_price");
 				buysShares = resultSet.getInt("bought_shares");
@@ -1971,7 +2010,7 @@ public class Database {
 	}
 	
 	/**
-	 * Method to use the retrieveBuys method outside the class
+	 * Method to retrieve the buys
 	 * @param portfolioNumber
 	 * @return buys list
 	 * 
@@ -1995,18 +2034,13 @@ public class Database {
 	private static void retrieveSells(int portfolioNumber){
 		try {
 			connectToDatabase();
-//			query = "SELECT * FROM sell WHERE port_number = (SELECT number FROM portfolio WHERE inv_id = (SELECT id FROM investor WHERE email = ?) AND name = ?)";
 			query = "SELECT st_symbol, date, sold_price, sold_shares, sold_amount, profit_loss FROM sell WHERE port_number = ?";
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, portfolioNumber);
 			resultSet = preparedStatement.executeQuery();
 			
 			while(resultSet.next()){
-//				System.out.println("Stock symbol: " + resultSet.getString("st_symbol") + " Sold price: " + resultSet.getDouble("sold_price") + " Sold shares: " + resultSet.getInt("sold_shares") + " Amount: " + resultSet.getDouble("sold_amount") + " Profit/Loss : " + resultSet.getDouble("profit_loss") + " Date: " + resultSet.getTimestamp("date"));
 				sellsStockSymbol = resultSet.getString("st_symbol");
-//				sellsDate.setTimeInMillis(resultSet.getTimestamp("date").getTime());
-//				Timestamp timestamp = new Timestamp(resultSet.getTimestamp("date").getTime());
-//				sellsDate = new Date(timestamp.getTime());
 				sellsDate = resultSet.getTimestamp("date");
 				sellsPrice = resultSet.getDouble("sold_price");
 				sellsShares = resultSet.getInt("sold_shares");
@@ -2024,7 +2058,7 @@ public class Database {
 	}
 	
 	/**
-	 * Method to use the retrieveSells method outside the class
+	 * Method to retrieve the sells
 	 * @param portfolioNumber
 	 * @return sellsList
 	 * 
@@ -2035,33 +2069,6 @@ public class Database {
 		sellsList = new ArrayList<>();
 		retrieveSells(portfolioNumber);
 		return sellsList;
-	}
-	
-	/**
-	 * Method to retrieve portfolio
-	 * @param email
-	 * @param portfolioName
-	 * 
-	 * @author Panagiotis Vakalis
-	 * @version 08-07-2015
-	 */
-	public static void retrievePortfolio(String email, String portfolioName){
-		try {
-			connectToDatabase();
-			query = "SELECT name, inv_money, balance, profit_loss FROM portfolio WHERE inv_id = (SELECT id FROM investor WHERE email = ?) AND name = ?";
-			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1, email);
-			preparedStatement.setString(2, portfolioName);
-			
-			resultSet = preparedStatement.executeQuery();
-			
-			while(resultSet.next()){
-//				System.out.println("Portfolio name: " + resultSet.getString("name") + " Invested money: " + resultSet.getDouble("inv_money") + " Balance: " + resultSet.getDouble("balance") + " Profit/Loss: " + resultSet.getDouble("profit_loss"));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	/**
@@ -2093,13 +2100,10 @@ public class Database {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
 	}
 	
 	/**
-	 * Method to use the getHistoricalPrices method outside the class
+	 * Method which retrieves the historical prices for a stock
 	 * @param stockSymbol
 	 * @return stock prices
 	 * 
@@ -2111,10 +2115,25 @@ public class Database {
 		return historicalPrices;
 	}
 	
+	/**
+	 * Method which retrieves the dates fot the historical prices for a stock
+	 * @param stockSymbol
+	 * @return dates
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 29-07-2015
+	 */
 	public static ArrayList<Timestamp> getDatesForHistoricalPrices(String stockSymbol){
 		return dates;
 	}
 	
+	/**
+	 * Method to get all the stock symbols
+	 * @return stock symbols
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 29-07-2015
+	 */
 	private static ArrayList<String> getStockSymbols(){
 		stockSymbols = new ArrayList<String>();
 		try {
@@ -2135,50 +2154,25 @@ public class Database {
 		return stockSymbols;
 	}
 	
+	/**
+	 * Method to get all the stock symbols
+	 * @return stock symbols
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 29-07-2015
+	 */
 	public static ArrayList<String> useGetStockSymbols(){
 		return getStockSymbols();
 	}
 	
-	private static void insertIntoPortfolioBalance(int portfolioNumber, BigDecimal totalBalance){
-		
-		try {
-			query = "INSERT INTO portfolio_balance (port_number, total_balance) " + "VALUES (?, ?)";
-			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setInt(1, portfolioNumber);
-			preparedStatement.setBigDecimal(2, totalBalance);
-			
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public static void useInsertIntoPortfolioBalance(int portfolioNumber, BigDecimal totalBalance){
-		insertIntoPortfolioBalance(portfolioNumber, totalBalance);
-	}
-	
-	private static ArrayList<Integer> getPortfolioNumbers(){
-		portfolioNumbers = new ArrayList<>();
-		try {
-			query = "SELECT number FROM portfolio";
-			preparedStatement = connection.prepareStatement(query);
-			resultSet = preparedStatement.executeQuery();
-			
-			while(resultSet.next()){
-				portfolioNumbers.add(resultSet.getInt("number"));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return portfolioNumbers;
-	}
-	
-	public static ArrayList<Integer> useGetPortfolioNumbers(){
-		return getPortfolioNumbers();
-	}
-	
+	/**
+	 * Method to get balance for a portfolio
+	 * @param portfolio number
+	 * @return balance
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 29-07-2015
+	 */
 	private static BigDecimal getBalance(int portfolioNumber){
 		BigDecimal balance = null;
 		
@@ -2200,10 +2194,26 @@ public class Database {
 		return balance;
 	}
 	
+	/**
+	 * Method to get balance for a portfolio
+	 * @param portfolio number
+	 * @return balance
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 29-07-2015
+	 */
 	public static BigDecimal useGetBalance(int portfolioNumber){
 		return getBalance(portfolioNumber);
 	}
 	
+	/**
+	 * Method to get the invested money from a portfolio
+	 * @param portfolioNumber
+	 * @return invested money
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 29-07-2015
+	 */
 	private static BigDecimal getInvestedMoney(int portfolioNumber){
 		BigDecimal investedMoney = null;
 		
@@ -2225,116 +2235,26 @@ public class Database {
 		return investedMoney.setScale(2, BigDecimal.ROUND_DOWN);
 	}
 	
+	/**
+	 * Method to get the invested money from a portfolio
+	 * @param portfolioNumber
+	 * @return invested money
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 29-07-2015
+	 */
 	public static BigDecimal useGetInvestedMoney(int portfolioNumber){
 		return getInvestedMoney(portfolioNumber);
 	}
 	
-	private static Timestamp getTheFirstDateFromPortfolioBalance(int portfolioNumber){
-		Timestamp firstDate = null;
-		String firstDateQuery;
-		PreparedStatement firstDateStatement;
-		ResultSet firstDateResult;
-		
-		try {
-			firstDateQuery = "SELECT MIN(date) AS start FROM portfolio_balance WHERE port_number = ?";
-			firstDateStatement = connection.prepareStatement(firstDateQuery);
-			firstDateStatement.setInt(1, portfolioNumber);
-			firstDateResult = firstDateStatement.executeQuery();
-			
-			while(firstDateResult.next()){
-				firstDate = firstDateResult.getTimestamp("start");
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return firstDate;
-	}
-	
-	public static Timestamp useGetTheFirstDateFromPortfolioBalance(int portfolioNumber){
-		return getTheFirstDateFromPortfolioBalance(portfolioNumber);
-	}
-	
-	private static Timestamp getTheLastDateFromPortfolioBalance(int portfolioNumber){
-		Timestamp lastDate = null;
-		String lastDateQuery;
-		PreparedStatement lastDateStatement;
-		ResultSet lastDateResult;
-		
-		try {
-			lastDateQuery = "SELECT MAX(date) AS end FROM portfolio_balance WHERE port_number = ?";
-			lastDateStatement = connection.prepareStatement(lastDateQuery);
-			lastDateStatement.setInt(1, portfolioNumber);
-			lastDateResult = lastDateStatement.executeQuery();
-			
-			while(lastDateResult.next()){
-				lastDate = lastDateResult.getTimestamp("end");
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return lastDate;
-	}
-	
-	public static Timestamp useGetTheLastDateFromPortfolioBalance(int portfolioNumber){
-		return getTheLastDateFromPortfolioBalance(portfolioNumber);
-	}
-	
-//	private static BigDecimal getTheTotalBalanceOnTheFirstDate(int portfolioNumber){
-//		BigDecimal totalBalanceOnTheFirstDate = null;
-//		
-//		
-//		try {
-//			query = "SELECT total_balance FROM portfolio_balance WHERE port_number = ? AND date = ?";
-//			preparedStatement = connection.prepareStatement(query);
-//			preparedStatement.setInt(1, portfolioNumber);
-//			preparedStatement.setTimestamp(2, getTheFirstDateFromPortfolioBalance(portfolioNumber));
-//			
-//			resultSet = preparedStatement.executeQuery();
-//			
-//			while(resultSet.next()){
-//				totalBalanceOnTheFirstDate = new BigDecimal(resultSet.getDouble("total_balance"));
-//			}
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		return totalBalanceOnTheFirstDate;
-//	}
-//	
-//	public static BigDecimal useGetTheTotalBalanceOnTheFirstDate(int portfolioNumber){
-//		return getTheTotalBalanceOnTheFirstDate(portfolioNumber);
-//	}
-	
-//	private static BigDecimal getTheTotalBalanceOnTheLastDate(int portfolioNumber){
-//		BigDecimal totalBalanceOnTheLastDate = null;
-//		
-//		
-//		try {
-//			query = "SELECT total_balance FROM portfolio_balance WHERE port_number = ? AND date = ?";
-//			preparedStatement = connection.prepareStatement(query);
-//			preparedStatement.setInt(1, portfolioNumber);
-//			preparedStatement.setTimestamp(2, getTheLastDateFromPortfolioBalance(portfolioNumber));
-//			
-//			resultSet = preparedStatement.executeQuery();
-//			
-//			while(resultSet.next()){
-//				totalBalanceOnTheLastDate = new BigDecimal(resultSet.getDouble("total_balance"));
-//			}
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		return totalBalanceOnTheLastDate;
-//	}
-//	
-//	public static BigDecimal useGetTheTotalBalanceOnTheLastDate(int portfolioNumber){
-//		return getTheTotalBalanceOnTheLastDate(portfolioNumber);
-//	}
-	
+	/**
+	 * Method to insert a deposit for a portfolio
+	 * @param portfolioNumber
+	 * @param amount
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 29-07-2015
+	 */
 	private static void insertDeposit(int portfolioNumber, BigDecimal amount){
 		
 		try {
@@ -2350,10 +2270,26 @@ public class Database {
 		}
 	}
 	
+	/**
+	 * Method to insert a deposit for a portfolio
+	 * @param portfolioNumber
+	 * @param amount
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 29-07-2015
+	 */
 	public static void useInsertDeposit(int portfolioNumber, BigDecimal amount){
 		insertDeposit(portfolioNumber, amount);
 	}
 	
+	/**
+	 * Method to insert a withdraw for a portfolio
+	 * @param portfolioNumber
+	 * @param amount
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 29-07-2015
+	 */
 	private static void insertWithdraw(int portfolioNumber, BigDecimal amount){
 		
 		try {
@@ -2369,6 +2305,14 @@ public class Database {
 		}
 	}
 	
+	/**
+	 * Method to insert a withdraw for a portfolio
+	 * @param portfolioNumber
+	 * @param amount
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 29-07-2015
+	 */
 	public static void useInsertWithdraw(int portfolioNumber, BigDecimal amount){
 		insertWithdraw(portfolioNumber, amount);
 	}

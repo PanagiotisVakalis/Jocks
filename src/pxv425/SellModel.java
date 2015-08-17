@@ -268,10 +268,10 @@ public class SellModel extends Model {
 //				Database.insertSell(lot.getStockSymbol(), portfolio.getNumber(), sharesCount, lot.getCurrentPrice());
 				Database.useInsertSell(lot.getStockSymbol(), portfolio.getNumber(), shares, lot.getCurrentPrice(), lot.getDate());
 //				Database.updatePortfolioInvestedMoney(portfolio.getNumber(), stock.getPrice() * sharesCount);
-				Database.updatePortfolioInvestedMoney(portfolio.getNumber(), (lot.getBoughtPrice() * shares) * (-1));
+				Database.useUpdatePortfolioInvestedMoney(portfolio.getNumber(), (lot.getBoughtPrice() * shares) * (-1));
 //				Database.updatePortfolioBalance(portfolio.getNumber(), (stock.getPrice() * sharesCount) * (-1));
 //				Database.updatePortfolioBalance(portfolio.getNumber(), lot.getCurrentPrice() * sharesCount);
-				Database.updatePortfolioBalance(portfolio.getNumber(), BigDecimal.valueOf(lot.getCurrentPrice() * shares));
+				Database.useUpdatePortfolioBalance(portfolio.getNumber(), BigDecimal.valueOf(lot.getCurrentPrice() * shares));
 				return "You have sold " + shares + " of " + stockName() + " stock.";
 			}
 			else{
