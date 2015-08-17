@@ -1,6 +1,5 @@
 package pxv425;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -25,6 +24,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 public class PortfolioView extends View implements ActionListener, ItemListener, Observer {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private PortfolioModel portfolioModel;
 	private static Portfolio portfolioSelection;
 	private JPanel portfoliosPanel;
@@ -38,29 +41,17 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 	private JPanel currentInformationPanel;
 	private JPanel portfolioInformationPanel;
 	private JLabel initialBalance;
-	private JPanel initialBalancePanel;
 	private JTextArea initialBalanceArea;
-	private JPanel initialBalanceAreaPanel;
 	private JLabel totalWithdraws;
-	private JPanel totalWithdrawsPanel;
 	private JTextArea totalWithdrawsArea;
-	private JPanel totalWithdrawsAreaPanel;
 	private JLabel totalDeposits;
-	private JPanel totalDepositsPanel;
 	private JTextArea totalDepositsArea;
-	private JPanel totalDepositsAreaPanel;
 	private JLabel balanceNow;
-	private JPanel balanceNowPanel;
 	private JTextArea balanceNowArea;
-	private JPanel balanceNowAreaPanel;
 	private JLabel investedMoney;
-	private JPanel investedMoneyPanel;
 	private JTextArea investedMoneyArea;
-	private JPanel investedMoneyAreaPanel;
 	private JLabel profitLossLots;
-	private JPanel profitLossLotsPanel;
 	private JTextArea profitLossLotsArea;
-	private JPanel profitLossLotsAreaPanel;
 	private JPanel totalReturnPanel;
 	private JLabel totalReturn;
 	private JTextArea totalReturnArea;
@@ -71,7 +62,6 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 	private JPanel continueButtonPanel;
 	private String command;
 	private DefaultTableCellRenderer rightAlign;
-	private DefaultTableCellRenderer centerAlign;
 	private JPanel totalBalancePanel;
 	private JLabel totalBalance;
 	private JTextArea totalBalanceArea;
@@ -94,10 +84,22 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		Database.useUpdateLotsWithCurrentPrice(PortfolioView.getPortfolioSelection().getNumber());
 	}
 	
+	/**
+	 * Method to get the portfolio selection outside the class
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 18-07-2015
+	 */
 	public static Portfolio getPortfolioSelection(){
 		return portfolioSelection;
 	}
 
+	/**
+	 * Method which builds the frame
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 18-07-2015
+	 */
 	private void frameSetup() {
 		setLayout(new GridLayout(6, 1));
 		setPreferredSize(new Dimension(900, 800));
@@ -156,33 +158,21 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		
 		//Initial balance
 		initialBalance = new JLabel("Initial balance", JLabel.LEFT);
-//		initialBalancePanel = new JPanel();
-//		initialBalancePanel.add(initialBalance, JPanel.LEFT_ALIGNMENT);
-		initialBalanceArea = new JTextArea(currencyFormat(portfolioModel.getInitialBalance(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
+		initialBalanceArea = new JTextArea(currencyFormat(portfolioModel.useGetInitialBalance(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
 		initialBalanceArea.setEditable(false);
 		initialBalanceArea.setBackground(getWindowColor());
-//		initialBalanceAreaPanel = new JPanel();
-//		initialBalanceAreaPanel.add(initialBalanceArea, JPanel.RIGHT_ALIGNMENT);
 		
 		//Total withdraws
 		totalWithdraws = new JLabel("Total withdraws", JLabel.LEFT);
-//		totalWithdrawsPanel = new JPanel();
-//		totalWithdrawsPanel.add(totalWithdraws, JPanel.LEFT_ALIGNMENT);
-		totalWithdrawsArea = new JTextArea(currencyFormat(portfolioModel.getTotalWithdraws(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
+		totalWithdrawsArea = new JTextArea(currencyFormat(portfolioModel.useGetTotalWithdraws(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
 		totalWithdrawsArea.setEditable(false);
 		totalWithdrawsArea.setBackground(getWindowColor());
-//		totalWithdrawsAreaPanel = new JPanel();
-//		totalWithdrawsAreaPanel.add(totalWithdrawsArea, JPanel.RIGHT_ALIGNMENT);
 		
 		//Total deposits
 		totalDeposits = new JLabel("Total deposits", JLabel.LEFT);
-//		totalDepositsPanel = new JPanel();
-//		totalDepositsPanel.add(totalDeposits, JPanel.LEFT_ALIGNMENT);
-		totalDepositsArea = new JTextArea(currencyFormat(portfolioModel.getTotalDeposits(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
+		totalDepositsArea = new JTextArea(currencyFormat(portfolioModel.useGetTotalDeposits(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
 		totalDepositsArea.setEditable(false);
 		totalDepositsArea.setBackground(getWindowColor());
-//		totalDepositsAreaPanel = new JPanel();
-//		totalDepositsAreaPanel.add(totalDepositsArea, JPanel.RIGHT_ALIGNMENT);
 		
 		//Historical information panel
 		historicalInformationPanel = new JPanel(new GridLayout(3, 3));
@@ -198,33 +188,21 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		
 		//Balance now
 		balanceNow = new JLabel("Balance now", JLabel.LEFT);
-//		balanceNowPanel = new JPanel();
-//		balanceNowPanel.add(balanceNow, JPanel.LEFT_ALIGNMENT);
-		balanceNowArea = new JTextArea(currencyFormat(portfolioModel.getBalanceNow(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
+		balanceNowArea = new JTextArea(currencyFormat(portfolioModel.useGetBalanceNow(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
 		balanceNowArea.setEditable(false);
 		balanceNowArea.setBackground(getWindowColor());
-//		balanceNowAreaPanel = new JPanel();
-//		balanceNowAreaPanel.add(balanceNowArea, JPanel.RIGHT_ALIGNMENT);
 		
 		//Invested money
 		investedMoney = new JLabel("Invested money", JLabel.LEFT);
-//		investedMoneyPanel = new JPanel();
-//		investedMoneyPanel.add(investedMoney, JPanel.LEFT_ALIGNMENT);
-		investedMoneyArea = new JTextArea(currencyFormat(portfolioModel.getPortfolioInvestedMoney(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
+		investedMoneyArea = new JTextArea(currencyFormat(portfolioModel.useGetPortfolioInvestedMoney(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber())));
 		investedMoneyArea.setEditable(false);
 		investedMoneyArea.setBackground(getWindowColor());
-//		investedMoneyAreaPanel = new JPanel();
-//		investedMoneyAreaPanel.add(investedMoneyArea, JPanel.RIGHT_ALIGNMENT);
 		
 		//Lots profit loss
 		profitLossLots = new JLabel("Lots' profit/loss", JLabel.LEFT);
-//		profitLossLotsPanel = new JPanel();
-//		profitLossLotsPanel.add(profitLossLots, JPanel.LEFT_ALIGNMENT);
 		profitLossLotsArea = new JTextArea(currencyFormat(new BigDecimal(portfolioModel.useGetAllLotsProfitLoss(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()).getNumber()))));
 		profitLossLotsArea.setEditable(false);
 		profitLossLotsArea.setBackground(getWindowColor());
-//		profitLossLotsAreaPanel = new JPanel();
-//		profitLossLotsAreaPanel.add(profitLossLotsArea, RIGHT_ALIGNMENT);
 		
 		//Current information panel
 		currentInformationPanel = new JPanel(new GridLayout(3, 3));
@@ -276,8 +254,6 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		
 		portfolioInformationPanel.add(historicalInformationPanel, JPanel.LEFT_ALIGNMENT);
 		portfolioInformationPanel.add(currentInformationPanel, JPanel.RIGHT_ALIGNMENT);
-//		portfolioInformationPanel.add(totalBalancePanel, CENTER_ALIGNMENT);
-//		portfolioInformationPanel.add(totalReturnPanel, CENTER_ALIGNMENT);
 		
 		// Withdraw, deposit options
 		deposit = new JButton("Deposit");
@@ -322,7 +298,6 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		if(o instanceof PortfolioModel){
 			initialBalanceArea.setText(portfolioModel.useUpdatePortfolioInitialBalanceArea(portfolios.getSelectedIndex()));
 			investedMoneyArea.setText(portfolioModel.useUpdatePortfolioInvestedMoney(portfolios.getSelectedIndex()));
-//			profitLossArea.setText("£" + portfolioModel.useUpdatePortfolioProfitLoss(portfolios.getSelectedIndex()));
 			if(portfolioModel.useUpdatePortfolioProfitLoss(portfolios.getSelectedIndex()) != null){
 				profitLossLotsArea.setText(portfolioModel.useUpdatePortfolioProfitLoss(portfolios.getSelectedIndex()));
 			}
@@ -360,12 +335,18 @@ public class PortfolioView extends View implements ActionListener, ItemListener,
 		if(command.equals("deposit")){
 			String amount = JOptionPane.showInputDialog(this, "Enter the amount of £ which you want to deposit");
 			if(amount != null){
+				/*
+				 * If the amount of money s not null
+				 */
 				JOptionPane.showMessageDialog(this, portfolioModel.useDeposit(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()), new BigDecimal(amount)));
 			}
 		}
 		if(command.equals("withdraw")){
 			String amount = JOptionPane.showInputDialog(this, "Enter the amount of £ which you want to withdraw");
 			if(amount != null){
+				/*
+				 * If the amount of money is not null
+				 */
 				JOptionPane.showMessageDialog(this, portfolioModel.useWithdraw(portfolioModel.useGetPortfolio(portfolios.getSelectedIndex()), new BigDecimal(amount)));
 			}
 		}

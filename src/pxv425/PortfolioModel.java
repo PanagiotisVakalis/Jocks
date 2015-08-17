@@ -27,20 +27,7 @@ public class PortfolioModel extends Model {
 	private BigDecimal investedMoney;
 	private double lotsProfitLoss;
 	private BigDecimal totalBalance;
-	
-//	/*
-//	 * The following variables will be used when
-//	 * the portfolio is changed.
-//	 */
-//	private BigDecimal initialBalanceFromAnotherPortfolio;
-//	private BigDecimal balanceNowFromAnotherPortfolio;
-//	private BigDecimal investedMoneyFromAnotherPortfolio;
-//	private BigDecimal lotsProfitLossFromAnotherPortfolio;
-//	private BigDecimal totalWithdrawsFromAnotherPortfolio;
-//	private BigDecimal totalDepositsFromAnotherPortfolio;
-	
-	
-	
+
 	/*
 	 * I have used big decimal
 	 * because double can reach the limit
@@ -57,15 +44,18 @@ public class PortfolioModel extends Model {
 	public PortfolioModel(Client client) {
 		super(client);
 		this.investor = super.getClient().getInvestor();
-		
-//		portfolios = super.getClient().getInvestor().getPortfolios();
+		/*
+		 * Initialize the portfolios,
+		 * the array of portfolios
+		 * and get the portfolios names
+		 */
 		portfolios = Database.useGetInvestorPortfolioNumber(super.getClient().getInvestor().getId());
 		portfoliosArray = new Portfolio[portfolios.size()];
 		portfolioNames = new String[portfolios.size()];
 	}
 
 	/**
-	 * Methot to get the portfolios
+	 * Method to get the portfolios
 	 * @return array of portfolios
 	 * 
 	 * @author Panagiotis Vakalis
@@ -113,8 +103,6 @@ public class PortfolioModel extends Model {
 	 * @version 18-07-2015
 	 */
 	private BigDecimal getPortfolioBalance(int index){
-//		return portfoliosArray[index].getBalance();
-//		return new BigDecimal(portfoliosArray[index].getBalance());
 		return portfoliosArray[index].getBalance();
 	}
 	
@@ -138,22 +126,13 @@ public class PortfolioModel extends Model {
 	 * @author Panagiotis Vakalis
 	 * @version 18-07-2015
 	 */
-	public BigDecimal getPortfolioInvestedMoney(int portfolioNumber){
-//		return portfoliosArray[index].getInvestedMoney();
+	private BigDecimal getPortfolioInvestedMoney(int portfolioNumber){
 		return Database.useGetInvestedMoney(portfolioNumber);
 	}
 	
-	/**
-//	 * Method to use the getPortfolioInvestedMoney method outside the class
-//	 * @param index of the array
-//	 * @return portfolio invested money
-//	 * 
-//	 * @author Panagiotis Vakalis
-//	 * @version 18-07-2015
-//	 */
-//	public String useGetPortfolioInvestedMoney(int index){
-//		return String.valueOf(getPortfolioInvestedMoney(index));
-//	}
+	public BigDecimal useGetPortfolioInvestedMoney(int portfolioNumber){
+		return getPortfolioInvestedMoney(portfolioNumber);
+	}
 	
 	/**
 	 * Method to get the profit / loss
@@ -263,13 +242,20 @@ public class PortfolioModel extends Model {
 	 */
 	private String deposit(Portfolio portfolio, BigDecimal amount){
 		Database.useUpdatePortfolioBalance(portfolio.getNumber(), amount);
-//		Database.useInsertDeposit(portfolio.getNumber(), amount);
 		//Update the database and the text area
 		updateDeposit(portfolio.getNumber(), amount);
 		updatePortfolioBalance(portfolio.getNumber());
 		return "You have deposited " + String.valueOf(amount) + " into your portfolio.";
 	}
 	
+	/**
+	 * Method to update the deposit table
+	 * @param portfolioNumber
+	 * @param amount
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private void updateDeposit(int portfolioNumber, BigDecimal amount){
 		Database.useInsertDeposit(portfolioNumber, amount);
 		totalDeposits = getTotalDeposits(portfolioNumber);
@@ -298,7 +284,6 @@ public class PortfolioModel extends Model {
 	 */
 	private String withdraw(Portfolio portfolio, BigDecimal amount){
 		//The amount is multiplied by -1 in order to decrease the amount
-//		Database.updatePortfolioBalance(portfolio.getNumber(), (-1) * amount);
 		/*
 		 * Using the getBalance() it was not updated instantly,
 		 * so I used the portfolioBalance variable
@@ -308,7 +293,6 @@ public class PortfolioModel extends Model {
 		updatePortfolioBalance(portfolio.getNumber());
 		if(portfolioBalance.compareTo(amount) >= 0){
 			Database.useUpdatePortfolioBalance(portfolio.getNumber(), amount.multiply(new BigDecimal(-1)));
-//			Database.useInsertWithdraw(portfolio.getNumber(), amount);
 			//Method to update the database and the text area
 			updateWithdraw(portfolio.getNumber(), amount);
 			updatePortfolioBalance(portfolio.getNumber());
@@ -319,6 +303,14 @@ public class PortfolioModel extends Model {
 		}
 	}
 	
+	/**
+	 * Method to update the withdraw table
+	 * @param portfolioNumber
+	 * @param amount
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private void updateWithdraw(int portfolioNumber, BigDecimal amount){
 		Database.useInsertWithdraw(portfolioNumber, amount);
 		totalWithdraws = getTotalWithdraws(portfolioNumber);
@@ -337,78 +329,201 @@ public class PortfolioModel extends Model {
 		return withdraw(portfolio, amount);
 	}
 	
+	/**
+	 * Method to update the portfolio balance
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private void updatePortfolioBalance(int portfolioNumber){
-//		portfolioBalance = Database.useRetrievePortfolioBalance(portfolioNumber);
-//		portfolioBalance = BigDecimal.valueOf(Database.useRetrievePortfolioBalance(portfolioNumber));
 		portfolioBalance = Database.useRetrievePortfolioBalance(portfolioNumber);
 		update(portfolioBalance);
 	}
 	
+	/**
+	 * Method to update the portfolio balance
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	public void useUpdatePortfolioBalance(int index){
 		updatePortfolioBalance(index);
 	}
 	
+	/**
+	 * Method to update the portfolio balance area in view
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private String updatePortfolioBalanceArea(int index){
-//		updatePortfolioBalanceArea(index);
 		return View.currencyFormat(Database.useRetrievePortfolioBalance(portfolios.get(index).getNumber()));
 	}
 	
+	/**
+	 * Method to update the portfolio balance area in view
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	public String useUpdatePortfolioBalanceArea(int index){
 		return updatePortfolioBalanceArea(index);
 	}
 	
+	/**
+	 * Method to calculate the total balance of a portfolio
+	 * @param index of the portfolios array
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private BigDecimal calculateTotalBalance(int index){
 		return getPortfolio(index).getBalance().add(getPortfolio(index).getInvestedMoney());
 	}
 	
+	/**
+	 * Method to get the total balance of a portfolio
+	 * @param index of the portfolios array
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	public BigDecimal getTotalBalance(int index){
 		return calculateTotalBalance(index);
 	}
 	
+	/**
+	 * Method to update the total withdraws area in view
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private String updateTotalWithdrawsArea(int index){
 		return View.currencyFormat(totalWithdraws);
 	}
 	
+	/**
+	 * Method to update the total withdraws area in view
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	public String useUpdateTotalWithdrawsArea(int index){
 		return updateTotalWithdrawsArea(index);
 	}
 	
+	/**
+	 * Method to update the total deposits area in view
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private String updateTotalDepositsArea(int index){
 		return View.currencyFormat(totalDeposits);
 	}
 	
+	/**
+	 * Method to update the total deposits area in view
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	public String useUpdateTotalDepositsArea(int index){
 		return updateTotalDepositsArea(index);
 	}
 	
+	/**
+	 * Method to update the portfolio initial balance area in view
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private String updatePortfolioInitialBalanceArea(int index){
 		return View.currencyFormat(getInitialBalance(portfolios.get(index).getNumber()));
 	}
 	
+	/**
+	 * Method to update the portfolio initial balance area in view
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	public String useUpdatePortfolioInitialBalanceArea(int index){
 		return updatePortfolioInitialBalanceArea(index);
 	}
 	
+	/**
+	 * Method to update the portfolio invested money area in view
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private String updatePortfolioInvestedMoney(int index){
 		return View.currencyFormat(getPortfolioInvestedMoney(portfolios.get(index).getNumber()));
 	}
 	
+	/**
+	 * Method to update the portfolio invested money area in view
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	public String useUpdatePortfolioInvestedMoney(int index){
 		return updatePortfolioInvestedMoney(index);
 	}
 	
+	/**
+	 * Method to update the portfolio profit loss area in view
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private String updatePortfolioProfitLoss(int index){
 		return View.currencyFormat(new BigDecimal(Math.round(getAllLotsProfitLoss(portfolios.get(index).getNumber()))));
 	}
 	
+	/**
+	 * Method to update the portfolio profit loss area in view
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	public String useUpdatePortfolioProfitLoss(int index){
 		return updatePortfolioProfitLoss(index);
 	}
 	
+	/**
+	 * Method to update the portfolio total return area in view
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private String updatePortfolioTotalReturn(int index){
 		return retrieveTotalReturn(portfolios.get(index).getNumber());
 	}
 	
+	/**
+	 * Method to update the portfolio total return area in view
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	public String useUpdatePortfolioTotalReturn(int index){
 		return updatePortfolioTotalReturn(index);
 	}
@@ -425,88 +540,169 @@ public class PortfolioModel extends Model {
 		notifyObservers(arg);
 	}
 	
-//	private void changePortfolioName(Portfolio portfolio, String newName){
-//		Database.useUpdatePortfolioName(portfolio.getNumber(), investor.getEmail(), newName);
-//	}
-//	
-//	public String useChangePortfolioName(Portfolio portfolio, String newName){
-//		if(!Database.usePortfolioNameExists(investor.getEmail(), newName)){
-//			changePortfolioName(portfolio, newName);
-//			return "You have changed the portfolio name";
-//		}
-//		else{
-//			return "This name already exists";
-//		}
-//	}
-	
+	/**
+	 * Method to get all the profit or loss of all the lots
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private double getAllLotsProfitLoss(int portfolioNumber){
 		double profitLossSum = 0;
 		//Retrieve the lots
 		allLots = Database.useGetLotsForASpecificPortfolio(portfolioNumber);
 		
 		for(Lot lot: allLots){
+			/*
+			 * For each lot add the current
+			 * profit of loss
+			 */
 			profitLossSum += lot.getCurrentProfitLoss();
 		}
 		
 		return profitLossSum;
 	}
 	
+	/**
+	 * Method to get all the profit or loss of all the lots
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	public double useGetAllLotsProfitLoss(int portfolioNumber){
 		return getAllLotsProfitLoss(portfolioNumber);
 	}
 	
+	/**
+	 * Method to calculate the total balance
+	 * @param portfolio
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private BigDecimal totalBalance(Portfolio portfolio){
-//		return portfolio.getBalance() + portfolio.getInvestedMoney() + portfolio.getProfitLoss();
+		/*
+		 * Total balance = balanceNow + investedMoney + lotsProfitLoss
+		 */
 		return portfolio.getBalance().add(portfolio.getInvestedMoney()).add(new BigDecimal(getAllLotsProfitLoss(portfolio.getNumber())));
 	}
 	
+	/**
+	 * Method to get the total balance
+	 * @param portfolio
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	public BigDecimal getTotalBalance(Portfolio portfolio){
 		return totalBalance(portfolio);
 	}
 	
-//	private String getTotalReturn(Portfolio portfolio){
-//		BigDecimal balanceOnStart = null;
-//		BigDecimal balanceOnEnd = null;
-//		
-//		balanceOnStart = Database.useGetTheTotalBalanceOnTheFirstDate(portfolio.getNumber());
-//		balanceOnEnd = Database.useGetTheTotalBalanceOnTheLastDate(portfolio.getNumber());
-//		
-//		return "The total return for this portfolio is " + (balanceOnEnd.subtract(balanceOnStart)).toString();
-//	}
-	
-//	public String useGetTotalReturn(Portfolio portfolio){
-//		return getTotalReturn(portfolio);
-//	}
-	
-	public BigDecimal getInitialBalance(int portfolioNumber){
+	/**
+	 * Method to get the initial balance from the database
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
+	private BigDecimal getInitialBalance(int portfolioNumber){
 		return Database.useRetrievePortfolioInitialBalance(portfolioNumber);
 	}
 	
-	public BigDecimal getBalanceNow(int portfolioNumber){
+	/**
+	 * Method to get the initial balance from the database
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
+	public BigDecimal useGetInitialBalance(int portfolioNumber){
+		return getInitialBalance(portfolioNumber);
+	}
+	
+	/**
+	 * Method to get the balance now from the database
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
+	private BigDecimal getBalanceNow(int portfolioNumber){
 		return Database.useRetrievePortfolioBalance(portfolioNumber);
 	}
 	
-	public BigDecimal getTotalWithdraws(int portfolioNumber){
+	/**
+	 * Method to get the balance now from the database
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
+	public BigDecimal useGetBalanceNow(int portfolioNumber){
+		return getBalanceNow(portfolioNumber);
+	}
+	
+	/**
+	 * Method to get the total withdraws from the database
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
+	private BigDecimal getTotalWithdraws(int portfolioNumber){
 		return Database.useRetrieveTotalWithdraws(portfolioNumber);
 	}
 	
-	public BigDecimal getTotalDeposits(int portfolioNumber){
+	/**
+	 * Method to get the total withdraws from the database
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
+	public BigDecimal useGetTotalWithdraws(int portfolioNumber){
+		return getTotalWithdraws(portfolioNumber);
+	}
+	
+	/**
+	 * Method to get the total deposits from the database
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
+	private BigDecimal getTotalDeposits(int portfolioNumber){
 		return Database.useRetrieveTotalDeposits(portfolioNumber);
 	}
 	
+	/**
+	 * Method to get the total deposits from the database
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
+	public BigDecimal useGetTotalDeposits(int portfolioNumber){
+		return getTotalDeposits(portfolioNumber);
+	}
+	
+	/**
+	 * Method to calculate the total return of a portfolio
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private BigDecimal calculateTotalReturn(int portfolioNumber){
 		
 		/*
 		 * The total return can be calculated using the following formula:
 		 * totalReturn = balanceNow - initialBalance + sum(withdraws) - sum(deposits) + investedMoney
 		 */
-//		balanceNow = Database.useRetrievePortfolioBalance(portfolio.getNumber());
 		balanceNow = getBalanceNow(portfolioNumber);
-//		initialBalance = Database.useRetrievePortfolioInitialBalance(portfolio.getNumber());
 		initialBalance = getInitialBalance(portfolioNumber);
-//		totalWithdraws = Database.useRetrieveTotalWithdraws(portfolio.getNumber());
 		totalWithdraws = getTotalWithdraws(portfolioNumber);
-//		totalDeposits = Database.useRetrieveTotalDeposits(portfolio.getNumber());
 		totalDeposits = getTotalDeposits(portfolioNumber);
 		investedMoney = getPortfolioInvestedMoney(portfolioNumber);
 		
@@ -514,10 +710,14 @@ public class PortfolioModel extends Model {
 		return totalReturn;
 	}
 	
-	public String retrieveTotalReturn(int portfolioNumber){
-//		calculateTotalReturn(portfolioNumber);
-		
-//		return "Your balance now is: " + balanceNow + ", your initial balance was: " + initialBalance + ", your total withdraws are: " + totalWithdraws + ", your total deposits are: " + totalDeposits +". Your total return is: " + totalReturn; 
+	/**
+	 * Method to get the total return of a portfolio
+	 * @param portfolioNumber
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
+	public String retrieveTotalReturn(int portfolioNumber){ 
 		return View.currencyFormat(calculateTotalReturn(portfolioNumber));
 	}
 	
@@ -566,7 +766,7 @@ public class PortfolioModel extends Model {
 	}
 
 	/**
-	 * Method to use the lotsDetails() outside the class
+	 * Method to get all the lots details
 	 * 
 	 * @return lots details
 	 * 
@@ -577,6 +777,15 @@ public class PortfolioModel extends Model {
 		return lotsDetails();
 	}
 	
+	/**
+	 * Method which is used in order to update the view when
+	 * an other portfolio is selected
+	 * 
+	 * @return index in portfolio array
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
 	private void portfolioChanged(int index){
 		initialBalance = getInitialBalance(portfolios.get(index).getNumber());
 		balanceNow = getBalanceNow(portfolios.get(index).getNumber());
@@ -599,6 +808,15 @@ public class PortfolioModel extends Model {
 		update(totalBalance);
 	}
 	
+	/**
+	 * Method which is used in order to update the view when
+	 * an other portfolio is selected
+	 * 
+	 * @return index in portfolio array
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
 	public void usePortfolioChanged(int index){
 		portfolioChanged(index);
 	}
