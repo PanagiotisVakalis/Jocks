@@ -1613,9 +1613,9 @@ public class Database {
 	 */
 	private static void retrieveStocksWhichInvestorWatches(int investorId){
 		try {
-			connectToDatabase();
-			retrieveWatches(investorId);
 			
+			retrieveWatches(investorId);
+			connectToDatabase();
 			for(int i = 0; i < watchlistStockSymbols.size(); i++){
 				query = "SELECT * FROM stock WHERE symbol = ?";
 				
