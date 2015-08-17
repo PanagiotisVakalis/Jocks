@@ -1,18 +1,15 @@
 package pxv425;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import javax.xml.crypto.Data;
-
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
+
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.time.TimeSeries;
+
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -25,7 +22,6 @@ import org.jfree.data.xy.XYSeriesCollection;
 public class MainModel extends Model {
 
 	private ArrayList<Stock> stocks;
-	private int count = 0;
 	private String symbol;
 	private String name;
 	private double price;
@@ -41,7 +37,6 @@ public class MainModel extends Model {
 	private BuyView buyView;
 	private IntroModel introModel;
 	private MainModel mainModel;
-	private JFreeChart chartPanel;
 	private PortfolioModel portfolioModel;
 	private ArrayList<Lot> allLots;
 	private ArrayList<Stock> watches;
@@ -49,18 +44,12 @@ public class MainModel extends Model {
 	private BigDecimal totalInvestedMoney;
 	private BigDecimal availableBalance;
 	
-	/*
-	 * The following variables will be used only
-	 * from the methods in buy process.
-	 * These variable have been copied from the
-	 * BuyModel.java
-	 */
-//	private BigDecimal newInvestedMoney;
-//	private BigDecimal newBalance;
-	
 	/**
 	 * Constructor of the class
 	 * @param client
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
 	 */
 	public MainModel(Client client, Portfolio portfolio) {
 		super(client);
@@ -68,12 +57,24 @@ public class MainModel extends Model {
 		this.investor = super.getClient().getInvestor();
 	}
 	
-	
+	/**
+	 * Method to get the investor outside the class
+	 * @return investor
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
+	 */
 	public Investor getInvestor() {
 		return investor;
 	}
 
-
+	/**
+	 * Method to set the investor outside the class
+	 * @param investor
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
+	 */
 	public void setInvestor(Investor investor) {
 		this.investor = investor;
 	}
@@ -92,24 +93,23 @@ public class MainModel extends Model {
 
 	/**
 	 * Method to get all the stocks of the database
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
 	 */
 	private void getAllStocks(){
 		stocks = Database.useGetAllStocks();
-//		for(Stock stock: stocks){
-//			System.out.println(stock.getSymbol());
-//		}
 	}
 	
 	/**
-	 * Method to use getAllStocks() outside the class
+	 * Method to get all the stocks of the database
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
 	 */
 	public void useGetAllStocks(){
 		getAllStocks();
 	}
-	
-//	private Stock nextStock(){
-//		return stocks.get(++count);
-//	}
 	
 	/**
 	 * Method to get the stock details
@@ -120,35 +120,12 @@ public class MainModel extends Model {
 	 */
 	private String[][] stocksDetails(){
 		stocksDetails = new String[stocks.size()][3];
-//		if(count < stocks.size()){
-//			symbol = stocks.get(count).getSymbol();
-//			name = stocks.get(count).getName();
-//			price = stocks.get(count).getPrice();
-			
-			//change stock
-//			count++;
-//			stockDetails[0] = symbol;
-//			stockDetails[1] = name;
-//			stockDetails[2] = String.valueOf(price);
-			
 			for (int i = 0; i < stocks.size(); i++) {
-//				stocksDetails[i][0] = stocks.get(i).getSymbol();
-//				stocksDetails[i][1] = stocks.get(i).getName();
-//				stocksDetails[i][2] = String.valueOf(stocks.get(i).getPrice());
-//				for (int j = 0; j < 3; j++) {
 					stocksDetails[i][0] = stocks.get(i).getSymbol();
 					stocksDetails[i][1] = stocks.get(i).getName();
-//					stocksDetails[i][2] = View.currencyFormat(new BigDecimal(stocks.get(i).getPrice()));
 					stocksDetails[i][2] = "£" + String.valueOf(stocks.get(i).getPrice());
-//				}
+
 			}
-			
-//			for (int i = 0; i < stocksDetails.length; i++) {
-//				for (int j = 0; j < 3; j++) {
-//					System.out.println(stocksDetails[i][j]);
-//				}
-//			}
-//		}
 			return stocksDetails;
 	}
 	
@@ -237,7 +214,6 @@ public class MainModel extends Model {
 	 * @version 20-07-2015	
 	 */
 	private String totalBalance(){
-//		return String.valueOf(Database.getTotalBalance(portfolio.getNumber()));
 		return String.valueOf(View.currencyFormat(Database.getTotalBalance(portfolio.getNumber())));
 	}
 	
@@ -260,32 +236,67 @@ public class MainModel extends Model {
 	 * @version 20-07-2015	
 	 */
 	private String investedMoney(){
-//		return String.valueOf(Database.useRetrieveInvestedMoney(portfolio.getNumber()));
 		return String.valueOf(View.currencyFormat(Database.useRetrieveInvestedMoney(portfolio.getNumber())));
 	}
 	
+	/**
+	 * Method to update the total invested money
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
+	 */
 	private void updateTotalInvestedMoney(){
 		totalInvestedMoney = Database.useRetrieveInvestedMoney(portfolio.getNumber());
 		update(totalInvestedMoney);
 	}
 	
+	/**
+	 * Method to update the total invested money
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
+	 */
 	public void useUpdateTotalInvestedMoney(){
 		updateTotalInvestedMoney();
 	}
 	
+	/**
+	 * Method to update the total invested money area on view
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
+	 */
 	public String getUpdatedTotalInvestedMoney(){
 		return View.currencyFormat(totalInvestedMoney);
 	}
 	
+	/**
+	 * Method to update the available balance
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
+	 */
 	private void updateAvailableBalance(){
 		availableBalance = Database.getTotalBalance(portfolio.getNumber());
 		update(availableBalance);
 	}
 	
+	/**
+	 * Method to update the available balance
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
+	 */
 	public void useUpdateAvailableBalance(){
 		updateAvailableBalance();
 	}
 	
+	/**
+	 * Method to update the available balance area on view
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 20-07-2015
+	 */
 	public String getUpdatedAvailableBalance(){
 		return View.currencyFormat(availableBalance);
 	}
@@ -368,81 +379,6 @@ public class MainModel extends Model {
 	}
 	
 	/**
-	 * Method to change to lots view
-	 * @param lotsView
-	 * @param portfolio
-	 * 
-	 * @author Panagiotis Vakalis
-	 * @version 23-07-2015	
-	 */
-	private void changeToLotsView(LotsView lotsView, Portfolio portfolio){
-		lotsModel = new LotsModel(super.getClient(), portfolio);
-		super.getClient().useChangePanel(lotsView);
-	}
-	
-	/**
-	 * Method to use the changeToLotsView outside the class
-	 * @param lotsView
-	 * @param portfolio
-	 * 
-	 * @author Panagiotis Vakalis
-	 * @version 23-07-2015
-	 */
-	public void useChangeToLotsView(LotsView lotsView, Portfolio portfolio){
-		changeToLotsView(lotsView, portfolio);
-	}
-	
-	/**
-	 * Method to change to trades view
-	 * @param tradesView
-	 * @param portfolio
-	 * 
-	 * @author Panagiotis Vakalis
-	 * @version 26-07-2015	
-	 */
-	private void changeToTradesView(TradesView tradesView, Portfolio portfolio){
-		tradesModel = new TradesModel(super.getClient(), portfolio);
-		super.getClient().useChangePanel(tradesView);
-	}
-	
-	/**
-	 * Method to use the changeToTradesView outside the class
-	 * @param tradesView
-	 * @param portfolio
-	 * 
-	 * @author Panagiotis Vakalis
-	 * @version 26-07-2015
-	 */
-	public void useChangeToTradesView(TradesView tradesView, Portfolio portfolio){
-		changeToTradesView(tradesView, portfolio);
-	}
-	
-	/**
-	 * Method to change to watchlist view
-	 * @param watchlistView
-	 * @param investor
-	 * 
-	 * @author Panagiotis Vakalis
-	 * @version 26-07-2015	
-	 */
-	private void changeToWatchilistView(WatchlistView watchlistView, Investor investor){
-		watchlistModel = new WatchlistModel(super.getClient(), investor);
-		super.getClient().useChangePanel(watchlistView);
-	}
-	
-	/**
-	 * Method to use the changeToWatchlistView outside the class
-	 * @param watchlistView
-	 * @param investor
-	 * 
-	 * @author Panagiotis Vakalis
-	 * @version 26-07-2015
-	 */
-	public void useChangeToWatchilistView(WatchlistView watchlistView, Investor investor){
-		changeToWatchilistView(watchlistView, investor);
-	}
-	
-	/**
 	 * Method to select a stock from the list of stocks
 	 * @param index
 	 * @return stock
@@ -467,66 +403,44 @@ public class MainModel extends Model {
 	}
 	
 	/**
-	 * Method to change to buy view
-	 * @param buyView
-	 * @param portfolio
-	 * @param stock
+	 * Method to change to portfolio view
+	 * @param portfolioView
 	 * 
 	 * @author Panagiotis Vakalis
-	 * @version 27-07-2015
+	 * @version 26-07-2015	
 	 */
-	private void changeToBuyView(BuyView buyView, Portfolio portfolio, Stock stock){
-		buyModel = new BuyModel(super.getClient(), portfolio, stock);
-		super.getClient().useChangePanel(buyView);
-	}
-	
-	/**
-	 * Method to use the changeToBuyView method outside the class
-	 * @param buyView
-	 * @param portfolio
-	 * @param stock
-	 * 
-	 * @author Panagiotis Vakalis
-	 * @version 27-07-2015
-	 */
-	public void useChangeToBuyView(BuyView buyView, Portfolio portfolio, Stock stock){
-		changeToBuyView(buyView, portfolio, stock);
-	}
-	
 	private void changeToPortfolioView(PortfolioView portfolioView){
 		portfolioModel = new PortfolioModel(super.getClient());
 		super.getClient().useChangePanel(portfolioView);
 	}
 	
+	/**
+	 * Method to change to portfolio view
+	 * @param portfolioView
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 26-07-2015	
+	 */
 	public void useChangeToPortfolioView(PortfolioView portfolioView){
 		changeToPortfolioView(portfolioView);
 	}
 	
-//	private void changeToIntroView(IntroView introView){
-//		introModel = new IntroModel(super.getClient());
-//		super.getClient().useChangePanel(introView);
-//	}
-//	
-//	public void useChangeToIntroView(IntroView introView){
-//		changeToIntroView(introView);
-//	}
-	
 	/**
-	 * Method to delete the frame and create a new Client
+	 * Method for logout
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 28-07-2015
 	 */
 	private void logout(){
-//		super.getClient().useRemoveFrame();
-//		this.setClient(new Client());
-//		System.exit(0);
+		/*
+		 * Delete the frame and create a new client
+		 */
 		this.getClient().dispose();
 		super.setClient(new Client());
 	}
 	
 	/**
-	 * Method to use the logout()
+	 * Method for logout
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 28-07-2015
@@ -548,16 +462,31 @@ public class MainModel extends Model {
 		Database.useCreateNewPortfolio(investor.getEmail(), name, balance);
 	}
 	
+	/**
+	 * Method which if the portfolio name exists
+	 * @param name
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private boolean nameExists(String name){
 		return Database.usePortfolioNameExists(investor.getEmail(), name);
 	}
 	
+	/**
+	 * Method which if the portfolio name exists
+	 * @param name
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	public boolean useNameExists(String name){
 		return nameExists(name);
 	}
 	
 	/**
-	 * Method to use the createPortfolio method outside the class
+	 * Method which creates a new portfolio by inserting
+	 * a new entry into the database
 	 * @param name
 	 * @param balance
 	 * 
@@ -604,7 +533,7 @@ public class MainModel extends Model {
 	}
 	
 	/**
-	 * Method to use the drawChart method outside the class
+	 * Method which draws a line chart for the historical prices
 	 * @param index
 	 * @return line chart of historical prices
 	 * 
@@ -640,9 +569,8 @@ public class MainModel extends Model {
 	}
 	
 	/**
-	 * Method to use the requestHelp method outside the class
+	 * Method to send an email to the developer
 	 * @param message
-	 * @return a string
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 29-07-2015
@@ -688,6 +616,10 @@ public class MainModel extends Model {
 		return averagePrices;
 	}
 	
+	public ArrayList<Double> useCalculateAveragePrices(ArrayList<Double> prices, int days){
+		return calculateAveragePrices(prices, days);
+	}
+	
 	/**
 	 * Method to draw the cross of the simple moving average of stock prices
 	 * using two different time periods
@@ -703,10 +635,8 @@ public class MainModel extends Model {
 		ArrayList<Double> averagePricesForShort = new ArrayList<>();
 		ArrayList<Double> averagePricesForLong = new ArrayList<>();
 		ArrayList<Double> prices = new ArrayList<>();
-		ArrayList<Timestamp> dates = new ArrayList<>();
 		
 		prices = Database.useGetHistoricalPrices(stocks.get(index).getSymbol());
-		dates = Database.getDatesForHistoricalPrices(stocks.get(index).getSymbol());
 		
 		averagePricesForShort = calculateAveragePrices(prices, daysShort);
 		averagePricesForLong = calculateAveragePrices(prices, daysLong);
@@ -744,11 +674,12 @@ public class MainModel extends Model {
 	}
 	
 	/**
-	 * Method to use the drawCrossSMA method outside the class
+	 * Method to draw the cross of the simple moving average of stock prices
+	 * using two different time periods
 	 * @param index
 	 * @param daysShort
 	 * @param daysLong
-	 * @return chart containing the two SMA
+	 * @return chart of the two SMA
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 30-07-2015
@@ -757,6 +688,15 @@ public class MainModel extends Model {
 		return drawCrossSMA(index, daysShort, daysLong);
 	}
 	
+	/**
+	 * Method to add a stock to watchlist
+	 * @param stock symbol
+	 * @return You have already added this stock into your watchlist, if the stock symbol already exists
+	 * @return "You have inserted " + stockSymbol + " into your watchlist", if the stock symbol does not already exist
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
+	 */
 	private String addToWatchlist(String stockSymbol){
 		boolean found = false;;
 		watches = Database.useRetrieveStocksWhichInvestorWatches(investor.getId());
@@ -766,7 +706,6 @@ public class MainModel extends Model {
 				break;
 			}
 		}
-//		Database.useInsertWatch(investor.getId(), stockSymbol);
 		if(found == true){
 			return "You have already added this stock into your watchlist";
 		}
@@ -776,10 +715,26 @@ public class MainModel extends Model {
 		}
 	}
 	
+	/**
+	 * Method to add a stock to watchlist
+	 * @param stock symbol
+	 * @return You have already added this stock into your watchlist, if the stock symbol already exists
+	 * @return "You have inserted " + stockSymbol + " into your watchlist", if the stock symbol does not already exist
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
+	 */
 	public String useAddToWatchlist(Stock stock){
 		return addToWatchlist(stock.getSymbol());
 	}
 	
+	/**
+	 * Method to calculate the profit or loss of all the lots
+	 * @param portfolio
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
+	 */
 	private void getAllLotsProfitLoss(Portfolio portfolio){
 		profitLossSum = 0;
 		//Retrieve the lots
@@ -788,169 +743,221 @@ public class MainModel extends Model {
 		for(Lot lot: allLots){
 			profitLossSum += lot.getCurrentProfitLoss();
 		}
-		
-//		update(profitLossSum);
 	}
 	
+	/**
+	 * Method to update the profit or loss of all the lots
+	 * @param portfolio
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
+	 */
 	private void updateProfitLossSum(Portfolio portfolio){
 		getAllLotsProfitLoss(portfolio);
 		update(profitLossSum);
 	}
 	
+	/**
+	 * Method to update the profit or loss of all the lots
+	 * @param portfolio
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
+	 */
 	public void useUpdateProfitLossSum(Portfolio portfolio){
 		updateProfitLossSum(portfolio);
 	}
 	
+	/**
+	 * Method to update the profit or loss of all the lots area in view
+	 * @param portfolio
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
+	 */
 	public String getUpdatedProfitLossSum(Portfolio portfolio){
 		return View.currencyFormat(new BigDecimal(profitLossSum));
 	}
 	
+	/**
+	 * Method to calculate the profit or loss of all the lots
+	 * @param portfolio
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
+	 */
 	public double useGetAllLotsProfitLoss(Portfolio portfolio){
 		getAllLotsProfitLoss(portfolio);
 		return Math.round(profitLossSum);
 	}
 	
-	/*
-	 * The following methods correspond to the
-	 * buy process. They have been copied from
-	 * the BuyModel.java
+	/**
+	 * Method to initialize the buy model
+	 * @param stock
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
 	 */
-//	private void updateInvestedMoney(double price, BigInteger shares){
-////		newInvestedMoney = portfolio.getInvestedMoney() - (price * shares);
-//		newInvestedMoney = portfolio.getInvestedMoney().add(new BigDecimal(price).multiply(new BigDecimal(shares)));
-//		update(newInvestedMoney);
-//	}
-//	
-//	public void useUpdateInvestedMoney(double price, BigInteger shares){
-//		updateInvestedMoney(price, shares);
-//	}
-//	
-//	private String updateInvestedMoneyArea(){
-////		return String.valueOf((portfolio.getInvestedMoney()).add(new BigDecimal(price * shares)));
-//		return String.valueOf(newInvestedMoney);
-//	}
-//	
-//	public String useUpdateInvesteMoneyArea(){
-//		return updateInvestedMoneyArea();
-//	}
-//	
-//	private String updateBalanceArea(){
-//		return String.valueOf(newBalance);
-//	}
-//	
-//	public String useUpdateBalanceArea(){
-//		return updateBalanceArea();
-//	}
-//	
-//	/**
-//	 * Method which is used when a stock is bought.
-//	 * It updates the database and returns a message
-//	 * @return "You have bought " + sharesCount + " of " + stock.getName() + " stock.", if sharesCount > 0
-//	 * @return "You have not selected the amount of shares", otherwise
-//	 * 
-//	 * @author Panagiotis Vakalis
-//	 * @version 27-07-2015
-//	 */
-//	/*
-//	 * In this method the stock has been added
-//	 */
-//	private String buyStock(int shares, Stock stock){
-//		if(shares > 0){
-////			if(balance.compareTo(new BigDecimal((stock.getPrice() * shares)).compareTo(new BigDecimal(0))){
-////			if(balance.compareTo(new BigDecimal(stock.getPrice() * shares)) == new BigDecimal(1))
-//			int compare = portfolio.getBalance().compareTo(new BigDecimal(stock.getPrice() * shares));
-//			if(compare == 0 || compare == 1){
-//				Database.insertLot(portfolio.getNumber(), stock.getSymbol(), shares);
-//				Database.insertBuy(stock.getSymbol(), portfolio.getNumber(), shares);
-//				Database.updatePortfolioInvestedMoney(portfolio.getNumber(), stock.getPrice() * shares);
-////				Database.updatePortfolioBalance(portfolio.getNumber(), (stock.getPrice() * sharesCount) * (-1));
-//				Database.updatePortfolioBalance(portfolio.getNumber(), BigDecimal.valueOf((stock.getPrice() * shares) * (-1)));
-//				return "You have bought " + shares + " of " + stock.getName() + " stock.";
-//			}
-//			else{
-//				return "You do not have enough balance";
-//			}
-//		}
-//		else{
-//			return "You have not selected the amount of shares";
-//		}
-//	}
-//	
-//	/**
-//	 * Method to use the buyStock() outside the class
-//	 * @return "You have bought " + sharesCount + " of " + stock.getName() + " stock.", if sharesCount > 0
-//	 * @return "You have not selected the amount of shares", otherwise
-//	 * 
-//	 * @author Panagiotis Vakalis
-//	 * @version 27-07-2015
-//	 */
-//	public String useBuyStock(int shares, Stock stock){
-//		return buyStock(shares, stock);
-//	}
-	
 	private void initializeBuyModel(Stock stock){
 		buyModel = new BuyModel(this.getClient(), portfolio, stock);
 	}
 	
+	/**
+	 * Method to initialize the buy model
+	 * @param stock
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
+	 */
 	public void useInitializeBuyModel(Stock stock){
 		initializeBuyModel(stock);
 	}
 	
+	/**
+	 * Method to get the buy model outside the class
+	 * @return stock
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
+	 */
 	public BuyModel getBuyModel(){
 		return buyModel;
 	}
 	
+	/**
+	 * Method to initialize the buy view
+	 * @param stock
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
+	 */
 	private void initializeBuyView(Stock stock){
 		initializeBuyModel(stock);
 		buyView = new BuyView(buyModel);
 	}
 	
+	/**
+	 * Method to initialize the buy view
+	 * @param stock
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
+	 */
 	public void useInitializeBuyView(Stock stock){
 		initializeBuyView(stock);
 	}
 	
+	/**
+	 * Method to get the buy view outside the class
+	 * @return stock
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
+	 */
 	public BuyView getBuyView(){
 		return buyView;
 	}
 	
+	/**
+	 * Method to initialize the lots model
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
+	 */
 	private void initializeLotsModel(){
 		lotsModel = new LotsModel(this.getClient(), portfolio);
 	}
 	
+	/**
+	 * Method to initialize the lots view
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
+	 */
 	private void initializeLotsView(){
 		initializeLotsModel();
 		lotsView = new LotsView(lotsModel);
 	}
 	
+	/**
+	 * Method to initialize the lots view
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
+	 */
 	public void useInitializeLotsView(){
 		initializeLotsView();
 	}
 	
+	/**
+	 * Method to get the lots model outside the class
+	 * @return lotsModel
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
+	 */
 	public LotsModel getLotsModel(){
 		return lotsModel;
 	}
 	
+	/**
+	 * Method to get the lots view outside the class
+	 * @return lotsView
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
+	 */
 	public LotsView getLotsView(){
 		return lotsView;
 	}
 	
+	/**
+	 * Method to initialize the watchlist model
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
+	 */
 	private void initializeWatchlistModel(){
 		watchlistModel = new WatchlistModel(getClient(), getClient().getInvestor());
 	}
 	
+	/**
+	 * Method to initialize the watchlist view
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
+	 */
 	private void initializeWatchlistView(){
 		initializeWatchlistModel();
 		watchlistView = new WatchlistView(watchlistModel);
 	}
 	
+	/**
+	 * Method to initialize the watchlist view
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
+	 */
 	public void useInitializeWatchlistView(){
 		initializeWatchlistView();
 	}
 	
+	/**
+	 * Method to initialize the watchlist model
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
+	 */
 	public WatchlistModel getWatchlistModel(){
 		return watchlistModel;
 	}
 	
+	/**
+	 * Method to get the watchlist view outside the class
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 30-07-2015
+	 */
 	public WatchlistView getWatchlistView(){
 		return watchlistView;
 	}
