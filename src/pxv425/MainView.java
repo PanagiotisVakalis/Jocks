@@ -373,7 +373,13 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 							 */
 //							mainModel.getBuyModel().useBuyStock(mainModel.getBuyView().getShares());
 //							JOptionPane.showMessageDialog(this, lotsModel.getSellModel().useSellStock(lotsModel.getSellView().getShares()));
-							JOptionPane.showMessageDialog(mainModel.getLotsView(), mainModel.getLotsModel().getSellModel().useSellStock(mainModel.getLotsModel().getSellView().getShares()));
+							if(!mainModel.useIsValidDayAndTime()){
+								JOptionPane.showMessageDialog(this, "You cannot sell now", "Closed stock market", JOptionPane.WARNING_MESSAGE);
+							}
+							else{
+								JOptionPane.showMessageDialog(mainModel.getLotsView(), mainModel.getLotsModel().getSellModel().useSellStock(mainModel.getLotsModel().getSellView().getShares()));
+							}
+							
 						}
 						if(answerInSell == 1){
 							

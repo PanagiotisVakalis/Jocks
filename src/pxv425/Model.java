@@ -48,7 +48,7 @@ public abstract class Model extends Observable {
 //		return LocalDateTime.now();
 //	}
 	
-	private static boolean isValidDayAndTime(){
+	private boolean isValidDayAndTime(){
 		Calendar calendar = Calendar.getInstance();
 		int today = calendar.get(Calendar.DAY_OF_WEEK);
 		SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
@@ -56,7 +56,7 @@ public abstract class Model extends Observable {
 			return false;
 		}
 		else{
-			if(time.format(calendar.getTime()).compareTo("16:30:00") == 1 || time.format(calendar.getTime()).compareTo("10:00:00") == -1){
+			if(time.format(calendar.getTime()).compareTo("16:29:59") == 1 || time.format(calendar.getTime()).compareTo("09:59:59") == -1){
 				return false;
 			}
 			else{
@@ -65,7 +65,7 @@ public abstract class Model extends Observable {
 		}
 	}
 	
-	public static boolean useIsValidDayAndTime(){
+	public boolean useIsValidDayAndTime(){
 		return isValidDayAndTime();
 	}
 }

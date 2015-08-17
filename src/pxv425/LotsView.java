@@ -132,12 +132,13 @@ public class LotsView extends View implements Observer, ActionListener{
 					 * If user has pressed confirm
 					 */
 //					mainModel.getBuyModel().useBuyStock(mainModel.getBuyView().getShares());
-					if(!lotsModel.useIsValidDayAndTime()){
-						JOptionPane.showMessageDialog(this, "You cannot saell now.", "Closed stock market", JOptionPane.WARNING_MESSAGE);
-					}
-					else{
+//					if(lotsModel.useIsValidDayAndTime()){
+//						System.out.println("in if");
+//						JOptionPane.showMessageDialog(this, "You cannot sell now.", "Closed stock market", JOptionPane.WARNING_MESSAGE);
+//					}
+//					else{
 						JOptionPane.showMessageDialog(this, lotsModel.getSellModel().useSellStock(lotsModel.getSellView().getShares()));
-					}
+//					}
 				}
 				if(answer == 1){
 					

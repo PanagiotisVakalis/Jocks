@@ -608,9 +608,10 @@ public class Database {
 	 */
 	private static void createPortfolio(String name, String email, BigDecimal balance){
 		try {
-			//Connect to database
-			connectToDatabase();
+			
 			if(!portfolioNameExists(email, name)){
+				//Connect to database
+				connectToDatabase();
 				/*
 				 * If portfolio name does not exist in the list of the
 				 * portfolios which this particullar user owns
@@ -1927,9 +1928,14 @@ public class Database {
 			e.printStackTrace();
 		}  finally{
 			try {
-				currentPriceResult.close();
-				preparedStatementForCurrentPrice.close();
-				currentPriceConnection.close();
+//				currentPriceResult.close();
+//				preparedStatementForCurrentPrice.close();
+//				currentPriceConnection.close();
+				if(currentPriceResult != null && preparedStatementForCurrentPrice != null && currentPriceConnection != null){
+					currentPriceResult.close();
+					preparedStatementForCurrentPrice.close();
+					currentPriceConnection.close();
+				}
 				disconnectFromDatabase();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
