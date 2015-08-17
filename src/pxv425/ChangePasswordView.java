@@ -1,6 +1,5 @@
 package pxv425;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -22,11 +21,9 @@ import javax.swing.JTextField;
 public class ChangePasswordView extends View implements ActionListener, Observer, FocusListener{
 	private static final long serialVersionUID = 1L;
 	private ChangePasswordModel changePasswordModel;
-	private JLabel emailLabel;
 	private JTextField emailInput;
 	private JButton submitButton;
 	private JPanel emailPanel;
-	private JPanel securityQuestionAnswerPanel;
 	private JTextArea securityQuestion;
 	private JPasswordField securityAnswer;
 	private JPanel buttonsPannel;
@@ -60,6 +57,12 @@ public class ChangePasswordView extends View implements ActionListener, Observer
 		frameSetup();
 	}
 	
+	/**
+	 * Method which builds the frame
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 17-07-2015
+	 */
 	private void frameSetup(){
 		setLayout(new GridLayout(7, 1));
 		
@@ -140,8 +143,6 @@ public class ChangePasswordView extends View implements ActionListener, Observer
 		add(emailPanel);
 		add(submitButtonPanel);
 		add(securityQuestionPanel);
-//		add(securityAnswerLabel);
-//		add(securityAnswer);
 		add(securityAnswerPanel);
 		add(newPasswordPanel);
 		add(buttonsPannel);
@@ -157,14 +158,6 @@ public class ChangePasswordView extends View implements ActionListener, Observer
 	private String getEmail(){
 		//Convert email to lowercase
 		String emailLower = emailInput.getText().toLowerCase();
-//		String emailLower;
-//		if(emailInput.getText().isEmpty()){
-//			emailLower = "empty";
-//		}
-//		else{
-//			emailLower = emailInput.getText().toLowerCase();
-//		}
-//		return String.valueOf(emailLower);
 		return emailLower;
 	}
 	
@@ -204,14 +197,14 @@ public class ChangePasswordView extends View implements ActionListener, Observer
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		// TODO Auto-generated method stub
-		
+		/*
+		 * No body
+		 */
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o instanceof ChangePasswordModel){
-//			securityQuestion.setText(resetPasswordModel.useRetrieveSecurityQuestion(getEmail()));
 			securityQuestion.setText(changePasswordModel.getSecurityQuestion());
 		}
 
@@ -222,15 +215,19 @@ public class ChangePasswordView extends View implements ActionListener, Observer
 		command = e.getActionCommand();
 		
 		if(command.equals("submit")){
-//			resetPasswordModel.useSubmitEmail(getEmail());
-//			resetPasswordModel.getSecurityQuestion();
 			if(getEmail().length() != 0 && !getEmail().equals("email")){
+				/*
+				 * If user has entered an email
+				 */
 				if(changePasswordModel.useValidEmail(getEmail())){
-//					changePasswordModel.useSubmitEmail(getEmail());
-//					changePasswordModel.getSecurityQuestion();
+					/*
+					 * If the email is valid
+					 */
 					if(changePasswordModel.useEmailIsUsed(getEmail())){
+						/*
+						 * If email exists
+						 */
 						changePasswordModel.useSubmitEmail(getEmail());
-//						changePasswordModel.getSecurityQuestion();
 					}
 					else{
 						JOptionPane.showMessageDialog(this, "This email is not used", "No such email", JOptionPane.INFORMATION_MESSAGE);
@@ -248,17 +245,14 @@ public class ChangePasswordView extends View implements ActionListener, Observer
 			changePasswordModel.useChangeToLoginView(new LoginView(new LoginModel(changePasswordModel.getClient())));
 		}
 		if(command.equals("change")){
-//			JOptionPane.showMessageDialog(null, changePasswordModel.useChangePassword(getEmail(), getSecurityAnswer(), getNewPassword()));
-//			int answer = JOptionPane.showConfirmDialog(null, changePasswordModel.useChangePassword(getEmail(), getSecurityAnswer(), getNewPassword()));
-//			int answer = JOptionPane.showConfirmDialog(this, changePasswordModel.useChangePassword(getEmail(), getSecurityAnswer(), getNewPassword()), "Change password", );
 			String[] option = {"OK", "BACK"};
 			int answer = JOptionPane.showOptionDialog(this, changePasswordModel.useChangePassword(getEmail(), getSecurityAnswer(), getNewPassword(), getReEnterNewPassword()), "Change password", JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION, null, option, option[0]);
 			if(answer == JOptionPane.OK_OPTION){
+				/*
+				 * If user has pressed ok
+				 */
 				changePasswordModel.useChangeToLoginView(new LoginView(new LoginModel(changePasswordModel.getClient())));
 			}
-//			if(answer == JOptionPane.CANCEL_OPTION){
-//				JOptionPane.getRootFrame();
-//			}
 		}
 
 	}

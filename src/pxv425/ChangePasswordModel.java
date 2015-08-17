@@ -58,18 +58,6 @@ public class ChangePasswordModel extends Model {
 		changeToLoginView(loginView);
 	}
 	
-//	/**
-//	 * Method to retrieve the secutity question from the database
-//	 * @param email
-//	 * @return security question
-//	 * 
-//	 * @author Panagiotis Vakalis
-//	 * @version 17-07-2015
-//	 */
-//	private String retrieveSecurityQuestion(String email){
-//		return Database.useGetSecurityQuestion(email);
-//	}
-	
 	/**
 	 * Method to use the retrieveSecurityQuestion outside the class
 	 * @param email
@@ -128,10 +116,6 @@ public class ChangePasswordModel extends Model {
 		return Database.useGetSecurityAnswer(email);
 	}
 	
-//	public void useRetrieveSecurityAnswer(String email){
-//		securityAnswer = retrieveSecurityAnswer(email);
-//	}
-	
 	/**
 	 * Method which checks if the stored security answer matches
 	 * the security answer which the investor has entered
@@ -164,15 +148,17 @@ public class ChangePasswordModel extends Model {
 		//If email is not empty
 		if(!email.isEmpty()){
 			if(!securityAnswer.isEmpty()){
+				/*
+				 * If security answer is not empty
+				 */
 				if(checkSecurityAnswer(securityAnswer, email)){
-//					if(checkPasswordCharacters(newPassword)){
-//						Database.useResetInvestorPassword(email, newPassword);
-//						return "Your password has been changed";
-//					}
-//					else{
-//						return "Password should meet the requirements";
-//					}
+					/*
+					 * If security answer matches the input
+					 */
 					if(newPassword.equals(reEnterNewPassword)){
+						/*
+						 * If two passwords are equal
+						 */
 						if(checkPasswordCharacters(newPassword)){
 							Database.useChangeInvestorPassword(email, newPassword);
 							return "Your password has been changed, press ok to continue to login screen.";
@@ -198,6 +184,15 @@ public class ChangePasswordModel extends Model {
 		}
 	}
 	
+	/**
+	 * Method which checks if password meets the requirements
+	 * @param password
+	 * @return true if password meets the requirements
+	 * @return false if password does not meet the requirments
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 17-07-2015
+	 */
 	private boolean checkPasswordCharacters(String password){
 		boolean passwordCorrect = false;
 		if(password.length() >= 8 && password.length() <= 16){
@@ -213,7 +208,7 @@ public class ChangePasswordModel extends Model {
 	}
 	
 	/**
-	 * Method to use the changePassword method outside the class
+	 * Method to change the password
 	 * @param email
 	 * @param securityAnswer
 	 * @param newPassword
@@ -239,6 +234,7 @@ public class ChangePasswordModel extends Model {
 		setChanged();
 		notifyObservers();
 	}
+	
 	/**
 	 * Method to check if the email which is provided
 	 * matches the email pattern
@@ -255,14 +251,42 @@ public class ChangePasswordModel extends Model {
 		return emailMatcher.matches();
 	}
 	
+	/**
+	 * Method to check if the email which is provided
+	 * matches the email pattern
+	 * @param email
+	 * @return true, if it matches
+	 * @return false, if it does not match
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 14-07-2015
+	 */
 	public boolean useValidEmail(String email){
 		return validEmail(email);
 	}
 	
+	/**
+	 * Method to check if the email is used
+	 * @param email
+	 * @return true, if it is used
+	 * @return false, if it is not used
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 14-07-2015
+	 */
 	private boolean emailIsUsed(String email){
 		return Database.useCheckEmail(email);
 	}
 	
+	/**
+	 * Method to check if the email is used
+	 * @param email
+	 * @return true, if it is used
+	 * @return false, if it is not used
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 14-07-2015
+	 */
 	public boolean useEmailIsUsed(String email){
 		return emailIsUsed(email);
 	}
