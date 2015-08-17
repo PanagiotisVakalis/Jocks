@@ -12,11 +12,10 @@ import java.util.Observer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
- * This class contains the InroView which will be the first
+ * This class contains the IntroView which will be the first
  * Panel which will be shown
  * 
  * @author Panagiotis Vakalis
@@ -103,13 +102,13 @@ public class IntroView extends View implements Observer, ActionListener{
 		}
 		if(command.equals("register")){
 			introModel.useChangeToRegisterView(new RegisterView(new RegisterModel(introModel.getClient())));
-//			JOptionPane.showMessageDialog(this, new RegisterView(new RegisterModel(introModel.getClient())));
 		}
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
+		/*
+		 * Nothing
+		 */
 	}
 }
