@@ -323,7 +323,13 @@ public class MainView extends View implements ListSelectionListener, ActionListe
 					 * If user has pressed confirm
 					 */
 //					mainModel.getBuyModel().useBuyStock(mainModel.getBuyView().getShares());
-					JOptionPane.showMessageDialog(this, mainModel.getBuyModel().useBuyStock(mainModel.getBuyView().getShares()));
+					if(!mainModel.useIsValidDayAndTime()){
+						JOptionPane.showMessageDialog(this, "You cannot buy now", "Closed stock market", JOptionPane.WARNING_MESSAGE);
+					}
+					else{
+						JOptionPane.showMessageDialog(this, mainModel.getBuyModel().useBuyStock(mainModel.getBuyView().getShares()));
+					}
+					
 				}
 				if(answer == 1){
 					

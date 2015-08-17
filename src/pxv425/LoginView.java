@@ -161,6 +161,9 @@ public class LoginView extends View implements Observer, ActionListener {
 					if((loginModel.useLoginUser(getEmail(), getPassword())).equals("ok")){
 //						changeOptionPaneBackground();
 						JOptionPane.showMessageDialog(this, "Hello " + loginModel.getClient().getInvestor().getFirstName(), "Welcome", JOptionPane.PLAIN_MESSAGE);
+						if(!loginModel.useIsValidDayAndTime()){
+							JOptionPane.showMessageDialog(this, "The stock market is currently closed", "Closed stock market", JOptionPane.WARNING_MESSAGE);
+						}
 						loginModel.useChangeToPortfolioView(new PortfolioView(new PortfolioModel(loginModel.getClient())));
 					}
 					else{
