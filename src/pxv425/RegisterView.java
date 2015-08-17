@@ -1,8 +1,6 @@
 package pxv425;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,19 +18,13 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import org.jdesktop.swingx.JXLabel;
-
 public class RegisterView extends View implements ActionListener, Observer, FocusListener {
 
 	private static final long serialVersionUID = 1L;
 	private RegisterModel registerModel;
-	
-	//Instance variables for frame
 	private JLabel title;
-	private JLabel emailLabel;
 	private JTextField emailInput;
 	private JLabel passwordLabel;
-	private JXLabel passwordRequirements;
 	private JPasswordField passwordInput;
 	private JLabel reEnterPasswordLabel;
 	private JPasswordField reEnterPasswordInput;
@@ -44,22 +36,14 @@ public class RegisterView extends View implements ActionListener, Observer, Focu
 	private JTextField securityQuestionInput;
 	private JLabel securityAnswerLabel;
 	private JPasswordField securityAnswerInput;
-	private JPanel inputs;
 	private JPanel buttons;
 	private String command;
 	private JPanel emailPanel;
 	private JLabel emailCorrect;
 	private ImageIcon emailCorrectIcon;
 	private JPanel passwordPanel;
-	private JPanel passwordPanelLabel;
-	private JLabel passwordInformation;
-	private ImageIcon passwordInformationIcon;
 	private JPanel namePanel;
 	private JPanel securityQuestionPanel;
-	private JLabel securityQuestionInformation;
-	private ImageIcon securityQuestionInformationIcon;
-	
-	
 	
 	/**
 	 * Constructor of the class
@@ -77,6 +61,12 @@ public class RegisterView extends View implements ActionListener, Observer, Focu
 		frameSetup();
 	}
 	
+	/**
+	 * Method which builds the frame
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 14-07-2015
+	 */
 	private void frameSetup(){
 		
 		setLayout(new GridLayout(6, 1));
@@ -92,7 +82,6 @@ public class RegisterView extends View implements ActionListener, Observer, Focu
 		emailPanel.setBackground(getWindowColor());
 		emailInput = new JTextField("Email", 15);
 		emailInput.addFocusListener(this);
-//		emailCorrectIcon = new ImageIcon(".//images//greenTickIcon.png");
 		emailCorrectIcon = new ImageIcon();
 		emailCorrect = new JLabel(emailCorrectIcon);
 		
@@ -248,7 +237,9 @@ public class RegisterView extends View implements ActionListener, Observer, Focu
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
+		/*
+		 * No body
+		 */
 		
 	}
 
@@ -265,14 +256,10 @@ public class RegisterView extends View implements ActionListener, Observer, Focu
 		}
 		if(command.equals("register")){
 			String register = registerModel.useRegisterUser(getEmail(), getPassword(), getPassword2(), getFirstName(), getLastName(), getSecurityQuestion(), getSecurityAnswer());
-//			JOptionPane.showMessageDialog(null, registerModel.useRegisterUser(getEmail(), getPassword(), getPassword2(), getFirstName(), getLastName(), getSecurityQuestion(), getSecurityAnswer()));
 			JOptionPane.showMessageDialog(this, register);
-//			registerModel.useChangeToIntroView(new IntroView(new IntroModel(registerModel.getClient())));
-//			registerModel.useClearFields(this);
-//			registerModel.useChangeToLoginView(new LoginView(new LoginModel(registerModel.getClient())));
+			
 			if(register.equals("Register succesfull")){
 				String initialBalance = null;
-//				registerModel.useCreateFirstPortfolio(new BigDecimal(initialBalance));
 				do{
 					initialBalance = JOptionPane.showInputDialog(this, "Enter the initial balance for your portfolio in £.", "Create a portfolio", JOptionPane.PLAIN_MESSAGE);
 					if(initialBalance != null){
@@ -295,7 +282,8 @@ public class RegisterView extends View implements ActionListener, Observer, Focu
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		// TODO Auto-generated method stub
-		
+		/*
+		 * No body
+		 */
 	}
 }

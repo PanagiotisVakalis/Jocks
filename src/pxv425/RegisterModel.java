@@ -1,11 +1,8 @@
 package pxv425;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.swing.JOptionPane;
 
 /**
  * Class which contains the methods for the register process
@@ -18,7 +15,6 @@ public class RegisterModel extends Model {
 	
 	private LoginModel loginModel;
 	private IntroModel introModel;
-//	private MainModel mainModel;
 	private Pattern emailPattern;
 	private Matcher emailMatcher;
 	private String firstName;
@@ -50,7 +46,6 @@ public class RegisterModel extends Model {
 	 */
 	private void changeToIntroView(IntroView introView){
 		introModel = new IntroModel(super.getClient());
-//		super.getClient().useChangePanel(new IntroView(introModel));
 		super.getClient().useChangePanel(introView);
 
 	}
@@ -117,14 +112,11 @@ public class RegisterModel extends Model {
 			if(validEmail(email)){
 				if(!Database.useCheckEmail(email)){
 					//If email is not used
-//					if(password.equals(password2)){
 					if(checkPasswordCharacters(password)){
-//						if(checkPasswordCharacters(password)){
 						if(password.equals(password2)){
 							this.firstName = firstName;
 							this.lastName = lastName;
 							this.email = email;
-//							Database.useRegisterInvestor(email, password, firstName, lastName, securityQuestion, securityAnswer);
 							Database.useRegisterInvestor(email, Password.USE_ENCRYPT_PASSWORD(password), firstName, lastName, securityQuestion, securityAnswer);
 							/*
 							 * Due to the fact that a portfolio is created
@@ -133,16 +125,13 @@ public class RegisterModel extends Model {
 							 * order to create a new portfolio having some default
 							 * values which they can be changed after.
 							 */
-//							useCreateFirstPortfolio(firstName + " " + lastName, email, 0.0);
 							return "Register succesfull";
 						}
 						else{
-//							return "Password should meet the requirements";
 							return "Password does not match";
 						}
 					}
 					else{
-//						return "Password does not match";
 						return "Password should meet the requirements";
 					}
 				}
