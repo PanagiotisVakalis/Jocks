@@ -28,7 +28,7 @@ public class UpdateHistoricalPrices implements Runnable {
 		this.stockSymbol = stockSymbol;
 	}
 
-	private void getStockPrices() {
+	private synchronized void getStockPrices() {
 
 		Calendar start = null;
 		Calendar end = null;

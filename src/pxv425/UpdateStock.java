@@ -36,7 +36,7 @@ public class UpdateStock implements Runnable {
 	 * @author Panagiotis Vakalis
 	 * @version 13-07-2015
 	 */
-	private void updateStockPrices() {
+	private synchronized void updateStockPrices() {
 		try {
 			/*
 			 * Call the buildYahooUri using the symbol which has been retrieved
