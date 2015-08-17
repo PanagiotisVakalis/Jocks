@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -137,20 +138,24 @@ public class DatabaseManagement{
 	 * @version 13-07-2015
 	 */
 	private static void updateStockPrices(){
+		Connection connectionSelectSymbols = null;
+		String selectSymbolsQuery;
+		PreparedStatement selectSymbolsStatement = null;
+		ResultSet symbolsResultSet = null;
 		try {
 			//Use the connection of the database
-			connection = Database.getConnection();
+			connectionSelectSymbols = DriverManager.getConnection(Database.getDatabaseurl(), Database.getUsername(), Database.getPassword());
 			//Write query to get the symbols
-			query = "SELECT symbol FROM stock";
+			selectSymbolsQuery = "SELECT symbol FROM stock";
 			//Create the statement
-			statement = connection.createStatement();
+			selectSymbolsStatement = connectionSelectSymbols.prepareStatement(selectSymbolsQuery);
 			//Execute query
-			resultSet = statement.executeQuery(query);
+			symbolsResultSet = statement.executeQuery(query);
 			
 			
-			while(resultSet.next()){
+			while(symbolsResultSet.next()){
 				//Get the result
-				symbolResult = resultSet.getString("symbol");
+				symbolResult = symbolsResultSet.getString("symbol");
 				/*
 				 * Call the buildYahooUri using the symbol
 				 * which has been retrieved from the database
@@ -177,67 +182,20 @@ public class DatabaseManagement{
 						Database.useUpdateStockPrice(nextLine[0].toString(), Double.parseDouble(nextLine[3]));
 					}
 				}
-				
-				
-//				while((csvLine = csvReader.readLine()) != null){
-////					System.out.println(csvLine);
-//					
-////					csvScanner = new Scanner(csvLine);
-////					//Enter the delimiter
-////					csvScanner.useDelimiter(",");
-////					while(csvScanner.hasNext()){
-////						Database.insertStock(csvScanner.next(), csvScanner.next(), csvScanner.next(), csvScanner.nextDouble());
-////					}
-//					
-//					//Pattern in order to detect commas inside data
-//					Pattern p = Pattern.compile("\"[- ' & a-zA-Z0-9. , / (.?) .]+[,][ a-zA-Z0-9. , / (.?) .]+\"");
-//					Matcher matcher = p.matcher(csvLine);
-//					if(matcher.find()){
-////						System.out.println("Found");
-//						String replacement = matcher.group().replaceAll(",", "a");
-//						csvLine = csvLine.replaceAll(matcher.group(), replacement);
-//					}
-//					
-//					System.out.println(csvLine);
-//					
-//					csvScanner = new Scanner(csvLine);
-//					csvScanner.useDelimiter(",");
-//					count++;
-//					while(csvScanner.hasNext()){
-////						String symbol = csvScanner.next();
-////						String name = csvScanner.next();
-////						String date = csvScanner.next();
-////						String price = csvScanner.next();
-////						String unknown = csvScanner.next();
-////						String pE = csvScanner.next();
-////						System.out.println("Symbol " + symbol + " name " + name + " date " + date + " price " + price + " unknown " + unknown + " p/e " + pE);
-////						Database.useUpdateStockPrice(symbol, Double.parseDouble(unknown));
-////						System.out.println(csvScanner.next());
-////						String symbol = csvScanner.next();
-////						csvScanner.next();
-////						csvScanner.next();
-//////						csvScanner.next();
-////						String price = csvScanner.next();
-////						csvScanner.next();
-////						csvScanner.next();
-////						System.out.println(symbol + " : " + price);
-////						System.out.println(csvScanner.next());
-//						String symbol = csvScanner.next();
-//						csvScanner.next();
-//						csvScanner.next();
-//						String price = csvScanner.next();
-//						csvScanner.next();
-//						csvScanner.next();
-//						if(!price.equals("N/A")){
-//							Database.useUpdateStockPrice(symbol, Double.parseDouble(price));
-//						}
-//					}
-//					System.out.println(count);
-//				}
 			}
 		} catch (SQLException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				symbolsResultSet.close();
+				selectSymbolsStatement.close();
+				connectionSelectSymbols.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		
 	}
@@ -259,51 +217,30 @@ public class DatabaseManagement{
 	 * @version 14-07-2015
 	 */
 	private static void getStockPrices(){
-		String query2;
-		ResultSet resultSet2;
+		Connection connectionSymbol = null;
+		PreparedStatement preparedStatmentSymbol = null;
+		String querySymbol;
+		ResultSet resultSetSymbol = null;
 		Calendar start = null;
 		Calendar end = null;
 		try {
 			
-			connection = Database.getConnection();
+			connectionSymbol = DriverManager.getConnection(Database.getDatabaseurl(), Database.getUsername(), Database.getPassword());
 			//Query to get the symbol from the stock table
-			query = "SELECT symbol FROM stock";
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery(query);
+			querySymbol = "SELECT symbol FROM stock";
+			preparedStatmentSymbol = connectionSymbol.prepareStatement(querySymbol);
+			resultSetSymbol = preparedStatmentSymbol.executeQuery();
 			
-			while(resultSet.next()){
-				symbolResult = resultSet.getString("symbol");
-				
-//				//Query to get the date which is stored into the stock_price table for each stock symbol
-//				query2 = "SELECT date FROM stock_price WHERE stock_symbol = ?";
-//				preparedStatement = connection.prepareStatement(query2);
-//				preparedStatement.setString(1, symbolResult);
-//				resultSet2 = preparedStatement.executeQuery();
-//				
-//				while(resultSet2.next()){
-//					dateResult = resultSet2.getDate("date");
-//					if(dateResult == null){
-//						start = Calendar.getInstance();
-//						start.set(2005, 7, 14);
-//						end = Calendar.getInstance();
-//					}
-//					else{
-//						start = (Calendar) dateResult;
-//						end = Calendar.getInstance();
-//					}
-//				}
+			while(resultSetSymbol.next()){
+				symbolResult = resultSetSymbol.getString("symbol");
 				
 				start = Calendar.getInstance();
-//				start.set(2004, 7, 31);
-//				start.setTime(Database.useGetLastUpdatedDate(symbolResult));
 				/*
 				 * Get the last updated date and add 86400000 milliseconds
 				 * (which are equal to 24 hours) to set the start from the 
 				 * next day
 				 */
 				start.setTimeInMillis(Database.useGetLastUpdatedDate(symbolResult).getTime());
-//				System.out.println(start.getTime().toString());
-//				System.out.println(start.getTime().toString());
 				end = Calendar.getInstance();
 				
 				url = buildYahooUrlForPrices(symbolResult, start , end);
@@ -320,9 +257,8 @@ public class DatabaseManagement{
 				CSVReader reader = new CSVReader(new InputStreamReader(urlConnection.getInputStream()));
 				String[] nextLine;
 				nextLine = reader.readNext();
-//				System.out.println(nextLine[0] + nextLine[1] + nextLine[2] + nextLine[3] + nextLine[4] + nextLine[5] + nextLine[6]);
 				while((nextLine = reader.readNext()) != null){
-//					System.out.println(symbolResult.toString() + nextLine[1].toString() + nextLine[4].toString() + nextLine[0].toString());
+
 					/*
 					 * index 0 returns the date
 					 * index 1 returns the open price
@@ -338,6 +274,15 @@ public class DatabaseManagement{
 		} catch (SQLException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				resultSetSymbol.close();
+				preparedStatmentSymbol.close();
+				connectionSymbol.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	

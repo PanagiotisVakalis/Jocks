@@ -48,12 +48,10 @@ public abstract class Model extends Observable {
 //		return LocalDateTime.now();
 //	}
 	
-	private boolean isValidDayAndTime(){
+	private static boolean isValidDayAndTime(){
 		Calendar calendar = Calendar.getInstance();
 		int today = calendar.get(Calendar.DAY_OF_WEEK);
-		System.out.println(today);
 		SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
-		System.out.println(time.format(calendar.getTime()));
 		if(today == Calendar.SATURDAY || today == Calendar.SUNDAY){
 			return false;
 		}
@@ -67,7 +65,7 @@ public abstract class Model extends Observable {
 		}
 	}
 	
-	public boolean useIsValidDayAndTime(){
+	public static boolean useIsValidDayAndTime(){
 		return isValidDayAndTime();
 	}
 }

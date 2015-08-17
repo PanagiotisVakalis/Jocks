@@ -7,36 +7,41 @@ public class DatabaseMain {
 
 	public static void main(String[] args) {
 		
-		try {
-			Database.useConnectToDatabase();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		ArrayList<String> symbols = Database.useGetStockSymbols();
-		ArrayList<Thread> threadsStockPrice = new ArrayList<Thread>();
-		ArrayList<Thread> threadsHistoricalPrices = new ArrayList<Thread>();
-//		Thread portfolioBalanceInsertion = new Thread(new UpdatePortfolioBalance());
-//		portfolioBalanceInsertion.start();
 //		try {
-//			portfolioBalanceInsertion.sleep(3600000);
-//		} catch (InterruptedException e) {
+//			Database.useConnectToDatabase();
+//		} catch (SQLException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
+		ArrayList<String> symbols = Database.useGetStockSymbols();
+		ArrayList<UpdateStock> stockPrice = new ArrayList<>();
+		ArrayList<UpdateHistoricalPrices> historicalPrices = new ArrayList<>();
+
 
 		for(int i = 0; i < symbols.size(); i++){
-//			Thread updateStockThread = new Thread(new UpdateStock(symbols.get(i)));
-			threadsStockPrice.add(new Thread(new UpdateStock(symbols.get(i))));
-			threadsHistoricalPrices.add(new Thread(new UpdateHistoricalPrices(symbols.get(i))));
+//			threadsStockPrice.add(new Thread(new UpdateStock(symbols.get(i))));
+//			threadsHistoricalPrices.add(new Thread(new UpdateHistoricalPrices(symbols.get(i))));
+			stockPrice.add(new UpdateStock(symbols.get(i)));
+			historicalPrices.add(new UpdateHistoricalPrices(symbols.get(i)));
 		}
 		
-		for(Thread t : threadsStockPrice){
-			t.start();
+		while(true){
+			if(Model.useIsValidDayAndTime()){
+				int i;
+				for(i = 0; i < stockPrice.size() && i < historicalPrices.size(); i++){
+					stockPrice.get(i).useUpdateStockPrices();
+					historicalPrices.get(i).useGetStockPrices();
+				}
+				i = 0;
+			}
 		}
-		for(Thread t : threadsHistoricalPrices){
-			t.start();
-		}
+		
+//		for(Thread t : threadsStockPrice){
+//			t.start();
+//		}
+//		for(Thread t : threadsHistoricalPrices){
+////			t.start();
+//		}
 		
 		
 	}

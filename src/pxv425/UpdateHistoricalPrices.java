@@ -12,7 +12,7 @@ import java.util.Calendar;
 
 import com.opencsv.CSVReader;
 
-public class UpdateHistoricalPrices implements Runnable {
+public class UpdateHistoricalPrices {
 
 	private String stockSymbol;
 	private String url;
@@ -28,7 +28,7 @@ public class UpdateHistoricalPrices implements Runnable {
 		this.stockSymbol = stockSymbol;
 	}
 
-	private synchronized void getStockPrices() {
+	private void getStockPrices() {
 
 		Calendar start = null;
 		Calendar end = null;
@@ -80,25 +80,15 @@ public class UpdateHistoricalPrices implements Runnable {
 						Double.parseDouble(nextLine[6]));
 			}
 
+			System.out.println(stockSymbol + " historical prices has been updated");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	@Override
-	public void run() {
-//		getStockPrices();
-		while(true){
-			getStockPrices();
-			try {
-			Thread.sleep(86400000);
-			System.out.println("Historical prices thread is sleeping");
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		}
+	public void useGetStockPrices(){
+		getStockPrices();
 	}
 
 }

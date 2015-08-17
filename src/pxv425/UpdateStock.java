@@ -13,7 +13,7 @@ import java.util.Calendar;
 
 import com.opencsv.CSVReader;
 
-public class UpdateStock implements Runnable {
+public class UpdateStock {
 
 	private String stockSymbol;
 	private String url;
@@ -36,7 +36,7 @@ public class UpdateStock implements Runnable {
 	 * @author Panagiotis Vakalis
 	 * @version 13-07-2015
 	 */
-	private synchronized void updateStockPrices() {
+	private void updateStockPrices() {
 		try {
 			/*
 			 * Call the buildYahooUri using the symbol which has been retrieved
@@ -67,12 +67,16 @@ public class UpdateStock implements Runnable {
 							Double.parseDouble(nextLine[3]));
 				}
 			}
-
+			System.out.println(stockSymbol + " current price has been updated");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+	}
+	
+	public void useUpdateStockPrices(){
+		updateStockPrices();
 	}
 	
 	/**
@@ -91,15 +95,6 @@ public class UpdateStock implements Runnable {
 		yahooUri.append("snd1l1yr");
 		
 		return yahooUri.toString();
-	}
-
-	@Override
-	public void run() {
-		while(true){
-			updateStockPrices();
-//			getStockPrices();
-		}
-
 	}
 
 }

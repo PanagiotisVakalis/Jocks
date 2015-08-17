@@ -117,6 +117,18 @@ public class Database {
 	private static BigDecimal portfolioInitialBalance;
 	private static BigDecimal portfolioInvestedMoney;
 	
+	public static String getDatabaseurl() {
+		return DATABASEURL;
+	}
+
+	public static String getUsername() {
+		return USERNAME;
+	}
+
+	public static String getPassword() {
+		return PASSWORD;
+	}
+
 	/**
 	 * Method to use the connection instance variable
 	 * outside of the class
@@ -156,6 +168,16 @@ public class Database {
 		connectToDatabase();
 	}
 	
+	private static void disconnectFromDatabase() throws SQLException{
+		resultSet.close();
+		preparedStatement.close();
+		connection.close();
+	}
+	
+	public static void useDisconnectFromDatabase() throws SQLException{
+		disconnectFromDatabase();
+	}
+	
 	/**
 	 * Method to use the connectedToDatabase private field
 	 * outside the class
@@ -184,6 +206,7 @@ public class Database {
 	 */
 	private static void registerInvestor(String email, String password, String firstName, String lastName, String securityQuestion, String securityAnswer){
 		try {
+			connectToDatabase();
 				//Create sql query which will be used in order to insert a new entry in the table
 				query = "INSERT INTO investor (email, password, f_name, l_name, sec_question, sec_answer)" + " VALUES (?, ?, ?, ?, ?, ?)";
 				//Execute the prepared statement
@@ -204,8 +227,7 @@ public class Database {
 		}
 		finally{
 			try {
-				preparedStatement.close();
-				connection.close();
+				disconnectFromDatabase();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -297,6 +319,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -354,6 +383,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return found;
 	}
@@ -404,6 +440,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return false;
 	}
@@ -431,6 +474,7 @@ public class Database {
 	 */
 	private static void changeInvestorPassword(String email, String newPassword){
 			try {
+				connectToDatabase();
 					query = "UPDATE investor " + "SET password = ? WHERE email = ?";
 					preparedStatement = connection.prepareStatement(query);
 					preparedStatement.setString(1, Password.USE_ENCRYPT_PASSWORD(newPassword));
@@ -440,6 +484,13 @@ public class Database {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}finally{
+				try {
+					disconnectFromDatabase();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 	}
 	
@@ -452,13 +503,7 @@ public class Database {
 	 * @version 08-07-2015
 	 */
 	public static void useChangeInvestorPassword(String email, String newPassword){
-		try {
-			connectToDatabase();
-			changeInvestorPassword(email, newPassword);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		changeInvestorPassword(email, newPassword);
 	}
 	
 	/**
@@ -483,6 +528,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -521,6 +573,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -569,6 +628,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -616,6 +682,13 @@ public class Database {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}finally{
+				try {
+					disconnectFromDatabase();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -658,6 +731,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -688,6 +768,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -733,6 +820,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -774,6 +868,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -810,6 +911,7 @@ public class Database {
 	private static void retrievePortfolioBalance(int portfolioNumber){
 		
 		try {
+			connectToDatabase();
 			query = "SELECT balance FROM portfolio WHERE number = ?";
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, portfolioNumber);
@@ -822,6 +924,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -849,6 +958,7 @@ public class Database {
 	private static void retrievePortfolioInitialBalance(int portfolioNumber){
 		
 		try {
+			connectToDatabase();
 			query = "SELECT initial_balance FROM portfolio WHERE number = ?";
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, portfolioNumber);
@@ -861,6 +971,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -890,6 +1007,7 @@ public class Database {
 		BigDecimal totalWithdraws = null;
 		
 		try {
+			connectToDatabase();
 			query = "SELECT SUM(amount) AS total_amount FROM withdraw WHERE port_number = ?";
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, portfolioNumber);
@@ -901,6 +1019,14 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return totalWithdraws;
@@ -930,6 +1056,7 @@ public class Database {
 		BigDecimal totalDeposits = null;
 		
 		try {
+			connectToDatabase();
 			query = "SELECT SUM(amount) AS total_amount FROM deposit WHERE port_number = ?";
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, portfolioNumber);
@@ -941,6 +1068,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return totalDeposits;
@@ -969,6 +1103,7 @@ public class Database {
 	private static BigDecimal retrieveInvestedMoney(int portfolioNumber){
 		totalInvestedMoney = 0;
 		try {
+			connectToDatabase();
 			query = "SELECT inv_money FROM portfolio WHERE number = ?";
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, portfolioNumber);
@@ -981,6 +1116,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return portfolioInvestedMoney;
@@ -1008,6 +1150,7 @@ public class Database {
 	private static void retrieveBalance(int portfolioNumber){
 		
 		try {
+			connectToDatabase();
 			query = "SELECT balance FROM portfolio WHERE number = ?";
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, portfolioNumber);
@@ -1019,6 +1162,14 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -1058,6 +1209,7 @@ public class Database {
 	 */
 	private static void insertStock(String symbol, String name, String industry, double trade_price){
 		try {
+			connectToDatabase();
 			query = "INSERT INTO stock (symbol, name, industry, trade_price) " + "VALUES (?, ?, ?, ?)";
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, symbol);
@@ -1069,6 +1221,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -1096,6 +1255,7 @@ public class Database {
 	 */
 	private static void updateStockPrice(String symbol, double trade_price){
 		try {
+			connectToDatabase();
 			/*
 			 * The price which is inserted is first converted to
 			 * pounds and is rounded using 4 decimals
@@ -1109,6 +1269,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -1136,6 +1303,7 @@ public class Database {
 	 */
 	private static void insertStockPrice(String stockSymbol, double openPrice, double closePrice, String date, double adjustedClosePrice){
 		try {
+			connectToDatabase();
 			query = "INSERT INTO stock_price (stock_symbol, open_price, close_price, profit_loss, date, adjusted_close_price) " + "VALUES(?, ?, ?, ?, ?, ?)";
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, stockSymbol);
@@ -1149,6 +1317,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -1177,6 +1352,7 @@ public class Database {
 	private static void getLastUpdatedDate(String stockSymbol){
 		
 		try {
+			connectToDatabase();
 			query = "SELECT MAX(date) AS last_updated FROM stock_price WHERE stock_symbol = ?";
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, stockSymbol);
@@ -1189,6 +1365,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -1233,6 +1416,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -1261,6 +1451,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -1309,6 +1506,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -1344,6 +1548,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -1383,6 +1594,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -1422,6 +1640,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -1467,6 +1692,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -1494,20 +1726,22 @@ public class Database {
 	private static void updateLotsWithCurrentPrice(int portfolioNumber){
 		//Retrieve stock symbols which this portfolio has
 		String queryRetrieveStocks;
-		PreparedStatement retrieveStocksStatement;
-		ResultSet stocks;
+		Connection stocksConnection = null;
+		PreparedStatement retrieveStocksStatement = null;
+		ResultSet stocks = null;
 		String stock;
 		
 		
 		try {
+			stocksConnection = DriverManager.getConnection(DATABASEURL, USERNAME, PASSWORD);
 			queryRetrieveStocks = "SELECT st_symbol FROM lot WHERE port_number = ?";
-			retrieveStocksStatement = connection.prepareStatement(queryRetrieveStocks);
+			retrieveStocksStatement = stocksConnection.prepareStatement(queryRetrieveStocks);
 			retrieveStocksStatement.setInt(1, portfolioNumber);
 			
 			stocks = retrieveStocksStatement.executeQuery();
 			
 			while(stocks.next()){
-				
+				connectToDatabase();
 				//Update prices into lots table
 				stock = stocks.getString("st_symbol");
 				query = "UPDATE lot SET cur_amount = ? * ? WHERE st_symbol = ? AND port_number = ?";
@@ -1524,6 +1758,16 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				stocks.close();
+				retrieveStocksStatement.close();
+				stocksConnection.close();
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -1549,13 +1793,15 @@ public class Database {
 	 */
 	private static double retrieveStockTradePrice(String stockSymbol){
 		String queryRetrieveTradePrice;
-		PreparedStatement retrieveTradePriceStatement;
-		ResultSet tradePrice;
+		Connection tradePriceConnection = null;
+		PreparedStatement retrieveTradePriceStatement = null;
+		ResultSet tradePrice = null;
 		double price = 0;
 		
 		try {
+			tradePriceConnection = DriverManager.getConnection(DATABASEURL, USERNAME, PASSWORD);
 			queryRetrieveTradePrice = "SELECT trade_price FROM stock WHERE symbol = ?";
-			retrieveTradePriceStatement = connection.prepareStatement(queryRetrieveTradePrice);
+			retrieveTradePriceStatement = tradePriceConnection.prepareStatement(queryRetrieveTradePrice);
 			retrieveTradePriceStatement.setString(1, stockSymbol);
 			
 			tradePrice = retrieveTradePriceStatement.executeQuery();
@@ -1566,6 +1812,15 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				tradePrice.close();
+				retrieveTradePriceStatement.close();
+				tradePriceConnection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return price;
@@ -1582,13 +1837,15 @@ public class Database {
 	 */
 	private static int retrieveBoughtSharesForAStock(String stockSymbol, int portfolioNumber){
 		String queryRetrieveShares;
-		PreparedStatement retrieveSharesStatement;
-		ResultSet sharesSet;
+		Connection sharesConnection = null;
+		PreparedStatement retrieveSharesStatement = null;
+		ResultSet sharesSet = null;
 		int shares = 0;
 		
 		try {
+			sharesConnection = DriverManager.getConnection(DATABASEURL, USERNAME, PASSWORD);
 			queryRetrieveShares = "SELECT b_shares FROM lot WHERE st_symbol = ? AND port_number = ?";
-			retrieveSharesStatement = connection.prepareStatement(queryRetrieveShares);
+			retrieveSharesStatement = sharesConnection.prepareStatement(queryRetrieveShares);
 			retrieveSharesStatement.setString(1, stockSymbol);
 			retrieveSharesStatement.setInt(2, portfolioNumber);
 			
@@ -1600,6 +1857,15 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				sharesSet.close();
+				retrieveSharesStatement.close();
+				sharesConnection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return shares;
@@ -1617,10 +1883,12 @@ public class Database {
 		
 		//local variables which will be used in order to get the current price for each stock
 		String queryFindCurrentPrice;
-		PreparedStatement preparedStatementForCurrentPrice;
-		ResultSet currentPriceResult ;
+		Connection currentPriceConnection = null;
+		PreparedStatement preparedStatementForCurrentPrice = null;
+		ResultSet currentPriceResult = null ;
 		
 		try {
+			connectToDatabase();
 			query = "SELECT * FROM lot WHERE port_number = ? ORDER BY st_symbol";
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, portfolioNumber);
@@ -1636,8 +1904,9 @@ public class Database {
 				/*
 				 * Get the current price for this specific stock symbol
 				 */
+				currentPriceConnection = DriverManager.getConnection(DATABASEURL, USERNAME, PASSWORD);
 				queryFindCurrentPrice = "SELECT trade_price FROM stock WHERE symbol = ?";
-				preparedStatementForCurrentPrice = connection.prepareStatement(queryFindCurrentPrice);
+				preparedStatementForCurrentPrice = currentPriceConnection.prepareStatement(queryFindCurrentPrice);
 				preparedStatementForCurrentPrice.setString(1, lotStockSymbol);
 				
 				currentPriceResult = preparedStatementForCurrentPrice.executeQuery();
@@ -1656,6 +1925,16 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}  finally{
+			try {
+				currentPriceResult.close();
+				preparedStatementForCurrentPrice.close();
+				currentPriceConnection.close();
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 	}
@@ -1688,6 +1967,7 @@ public class Database {
 		if(lotExists(portfolioNumber, stockSymbol)){
 			
 			try {
+				connectToDatabase();
 				query = "DELETE FROM lot WHERE port_number = ? AND st_symbol = ? AND date = ?";
 				preparedStatement = connection.prepareStatement(query);
 				preparedStatement.setInt(1, portfolioNumber);
@@ -1698,6 +1978,13 @@ public class Database {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}  finally{
+				try {
+					disconnectFromDatabase();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			
 		}
@@ -1744,6 +2031,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}  finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return exists;
 	}
@@ -1761,6 +2055,7 @@ public class Database {
 	private static void updateSharesBoughtInLot(int portfolioNumber, String stockSymbol, Timestamp date, int shares){
 		
 		try {
+			connectToDatabase();
 			//Update the lot using the current price in current amount
 			query = "UPDATE lot SET b_shares = ?, amount = ?, cur_amount = ? " + "WHERE port_number = ? AND st_symbol = ? AND date = ?";
 			preparedStatement = connection.prepareStatement(query);
@@ -1775,6 +2070,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}  finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -1802,15 +2104,17 @@ public class Database {
 	 */
 	private static double getCurrentPriceOfAStock(String stockSymbol){
 		String queryCurrentPrice;
-		PreparedStatement currentPriceStatement;
-		ResultSet currentPriceResultSet;
+		Connection currentPriceConnection = null;
+		PreparedStatement currentPriceStatement = null;
+		ResultSet currentPriceResultSet = null;
 		double currentPrice = 0;
 		
 		//Get the current price for this specific stock
 		
 		try {
+			currentPriceConnection = DriverManager.getConnection(DATABASEURL, USERNAME, PASSWORD);
 			queryCurrentPrice = "SELECT trade_price FROM stock WHERE symbol = ?";
-			currentPriceStatement = connection.prepareStatement(queryCurrentPrice);
+			currentPriceStatement = currentPriceConnection.prepareStatement(queryCurrentPrice);
 			currentPriceStatement.setString(1, stockSymbol);
 			currentPriceResultSet = currentPriceStatement.executeQuery();
 			
@@ -1820,6 +2124,15 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}  finally{
+			try {
+				currentPriceResultSet.close();
+				currentPriceStatement.close();
+				currentPriceConnection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return currentPrice;
 	}
@@ -1836,13 +2149,15 @@ public class Database {
 	 */
 	private static double getBoughtPriceOfALot(String stockSymbol, int portfolioNumber, Timestamp date){
 		String queryBoughtPrice;
-		PreparedStatement boughtPriceStatement;
-		ResultSet boughtPriceSet;
+		Connection boughtPriceConnection = null;
+		PreparedStatement boughtPriceStatement = null;
+		ResultSet boughtPriceSet = null;
 		double boughtPrice = 0;
 		
 		try {
+			boughtPriceConnection = DriverManager.getConnection(DATABASEURL, USERNAME, PASSWORD);
 			queryBoughtPrice = "SELECT b_price FROM lot WHERE port_number = ? AND st_symbol = ? AND date = ?";
-			boughtPriceStatement = connection.prepareStatement(queryBoughtPrice);
+			boughtPriceStatement = boughtPriceConnection.prepareStatement(queryBoughtPrice);
 			boughtPriceStatement.setInt(1, portfolioNumber);
 			boughtPriceStatement.setString(2, stockSymbol);
 			boughtPriceStatement.setTimestamp(3, date);
@@ -1857,6 +2172,15 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}  finally{
+			try {
+				boughtPriceSet.close();
+				boughtPriceStatement.close();
+				boughtPriceConnection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return boughtPrice;
 	}
@@ -1872,15 +2196,21 @@ public class Database {
 	 * @version 08-07-2015
 	 */
 	private static void insertBuy(String stockSymbol, int portfolioNumber, int shares){
+		Connection maxDateConnection = null;
+		PreparedStatement statementMaxDate = null;
+		ResultSet resultMaxDate = null;
+		Connection boughtPriceConnection = null;
+		PreparedStatement statementBoughtPrice = null;
+		ResultSet resultBoughtPrice = null;
 		try {
-			connectToDatabase();
 			
 			//Get most recent day
 			String selectMaxDate = "SELECT MAX(date) AS date FROM lot WHERE port_number = ? AND st_symbol = ?";
-			PreparedStatement statementMaxDate = connection.prepareStatement(selectMaxDate);
+			maxDateConnection = DriverManager.getConnection(DATABASEURL, USERNAME, PASSWORD);
+			statementMaxDate = maxDateConnection.prepareStatement(selectMaxDate);
 			statementMaxDate.setInt(1, portfolioNumber);
 			statementMaxDate.setString(2, stockSymbol);
-			ResultSet resultMaxDate = statementMaxDate.executeQuery();
+			resultMaxDate = statementMaxDate.executeQuery();
 			Timestamp maxDate = null;
 			
 			while(resultMaxDate.next()){
@@ -1888,12 +2218,13 @@ public class Database {
 			}
 			
 			//Get bought price
+			boughtPriceConnection = DriverManager.getConnection(DATABASEURL, USERNAME, PASSWORD);
 			String selectBoughtPrice = "SELECT b_price FROM lot WHERE port_number = ? AND st_symbol = ? AND date = ?";
-			PreparedStatement statementBoughtPrice = connection.prepareStatement(selectBoughtPrice);
+			statementBoughtPrice = boughtPriceConnection.prepareStatement(selectBoughtPrice);
 			statementBoughtPrice.setInt(1, portfolioNumber);
 			statementBoughtPrice.setString(2, stockSymbol);
 			statementBoughtPrice.setTimestamp(3, maxDate);
-			ResultSet resultBoughtPrice = statementBoughtPrice.executeQuery();
+			resultBoughtPrice = statementBoughtPrice.executeQuery();
 			double boughtPrice = 0;
 			
 			while(resultBoughtPrice.next()){
@@ -1901,6 +2232,7 @@ public class Database {
 			}
 			
 			//Insert a new buy
+			connectToDatabase();
 			query = "INSERT INTO buy (st_symbol, port_number, bought_price, bought_shares, bought_amount, date) " + "VALUES (?, ?, ?, ?, ?, ?)";
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, stockSymbol);
@@ -1914,6 +2246,19 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				resultBoughtPrice.close();
+				statementBoughtPrice.close();
+				boughtPriceConnection.close();
+				resultMaxDate.close();
+				statementMaxDate.close();
+				maxDateConnection.close();
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -1958,6 +2303,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -2006,6 +2358,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -2054,6 +2413,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -2083,6 +2449,7 @@ public class Database {
 		historicalPrices = new ArrayList<>();
 		
 		try {
+			connectToDatabase();
 			query = "SELECT close_price, date FROM stock_price WHERE stock_symbol = ?";
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, stockSymbol);
@@ -2094,11 +2461,16 @@ public class Database {
 				dates.add(resultSet.getTimestamp("date"));
 			}
 			
-			
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -2137,7 +2509,7 @@ public class Database {
 	private static ArrayList<String> getStockSymbols(){
 		stockSymbols = new ArrayList<String>();
 		try {
-			connection = Database.getConnection();
+			connectToDatabase();
 			query = "SELECT symbol FROM stock";
 			preparedStatement = connection.prepareStatement(query);
 			
@@ -2149,6 +2521,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return stockSymbols;
@@ -2178,6 +2557,7 @@ public class Database {
 		
 		
 		try {
+			connectToDatabase();
 			query = "SELECT balance FROM portfolio WHERE number = ?";
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, portfolioNumber);
@@ -2190,6 +2570,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return balance;
 	}
@@ -2219,6 +2606,7 @@ public class Database {
 		
 		
 		try {
+			connectToDatabase();
 			query = "SELECT inv_money FROM portfolio WHERE number = ?";
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, portfolioNumber);
@@ -2231,6 +2619,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return investedMoney.setScale(2, BigDecimal.ROUND_DOWN);
 	}
@@ -2258,6 +2653,7 @@ public class Database {
 	private static void insertDeposit(int portfolioNumber, BigDecimal amount){
 		
 		try {
+			connectToDatabase();
 			query = "INSERT INTO deposit(port_number, amount) " + "VALUES (?, ?)";
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, portfolioNumber);
@@ -2267,6 +2663,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -2293,6 +2696,7 @@ public class Database {
 	private static void insertWithdraw(int portfolioNumber, BigDecimal amount){
 		
 		try {
+			connectToDatabase();
 			query = "INSERT INTO withdraw(port_number, amount) " + "VALUES (?, ?)";
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, portfolioNumber);
@@ -2302,6 +2706,13 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				disconnectFromDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
