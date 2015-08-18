@@ -46,13 +46,12 @@ public class Lot {
 		this.amount = amount;
 		this.currentPrice = currentPrice;
 		this.currentAmount = currentAmount;
-//		this.currentProfitLoss = currentProfitLoss;
 		this.currentProfitLoss = currentAmount - amount;
 		this.date = date;
 	}
 
 	/**
-	 * Method to uset the current price outside the class
+	 * Method to use the current price outside the class
 	 * @return current price
 	 * 
 	 * @author Panagiotis Vakalis
