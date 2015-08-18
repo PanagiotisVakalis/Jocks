@@ -30,13 +30,20 @@ public class WatchlistModel extends Model {
 		this.investor = investor;
 	}
 	
+	/**
+	 * Method to get the investor out of the class
+	 * @return investor
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 26-07-2015
+	 */
 	public Investor getInvestor(){
 		return investor;
 		
 	}
 
 	/**
-	 * Method to retrieve the watchlis using the investor id
+	 * Method to retrieve the watchlist using the investor id
 	 * @param investorId
 	 * 
 	 * @author Panagiotis Vakalis
@@ -46,11 +53,23 @@ public class WatchlistModel extends Model {
 		watches = Database.useRetrieveStocksWhichInvestorWatches(investor.getId());
 	}
 	
+	/**
+	 * Method to get the updated watchlist from the database
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 26-07-2015
+	 */
 	private void getUpdatedWatchlist(){
 		watches = Database.useRetrieveStocksWhichInvestorWatches(investor.getId());
 		update(watches);
 	}
 	
+	/**
+	 * Method to get the updated watchlist from the database
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 26-07-2015
+	 */
 	public void useGetUpdatedWatchlist(){
 		getUpdatedWatchlist();
 	}
@@ -128,11 +147,31 @@ public class WatchlistModel extends Model {
 		changeToMainView(mainView, portfolio);
 	}
 	
+	/**
+	 * Method to change to buy view
+	 * 
+	 * @param buy view
+	 * @param portfolio
+	 * @param stock
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 26-07-2015
+	 */
 	private void changeToBuyView(BuyView buyView, Portfolio portfolio, Stock stock){
 		buyModel = new BuyModel(super.getClient(), portfolio, stock);
 		super.getClient().useChangePanel(buyView);
 	}
 	
+	/**
+	 * Method to change to buy view
+	 * 
+	 * @param buy view
+	 * @param portfolio
+	 * @param stock
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 26-07-2015
+	 */
 	public void useChangeToBuyView(BuyView buyView, Portfolio portfolio, Stock stock){
 		changeToBuyView(buyView, portfolio, stock);
 	}
@@ -161,11 +200,25 @@ public class WatchlistModel extends Model {
 		return selectStock(index);
 	}
 	
+	/**
+	 * Method to delete a stock from the watchlist table
+	 * @param stock symbol
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 26-07-2015
+	 */
 	private String deleteAWatch(String stockSymbol){
 		Database.useDeleteWatch(investor.getId(), stockSymbol);
 		return "You have deleted the " + stockSymbol + " from your watchlist";
 	}
 	
+	/**
+	 * Method to delete a stock from the watchlist table
+	 * @param stock symbol
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 26-07-2015
+	 */
 	public String useDeleteAWatch(String stockSymbol){
 		return deleteAWatch(stockSymbol);
 	}
