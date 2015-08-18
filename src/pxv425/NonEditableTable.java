@@ -3,7 +3,7 @@ package pxv425;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * Class to make the table which has been used non editable
+ * Class to make the table which has been used in Views non editable
  * 
  * @author Panagiotis Vakalis
  * @version 20-07-2015	 
@@ -27,6 +27,9 @@ public class NonEditableTable extends DefaultTableModel {
 	
 	@Override
 	public boolean isCellEditable(int row, int column){
+		/*
+		 * Method to make the table non editable
+		 */
 		return false;
 	}
 
