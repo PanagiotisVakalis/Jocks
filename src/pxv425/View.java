@@ -40,7 +40,7 @@ public abstract class View extends JPanel {
 		 * Enter the colors for the windows, areas and popup windows
 		 */
 		popUpWindowColor = new Color(124, 196, 151);
-		areaColor = popUpWindowColor;
+		areaColor = new Color(215, 215, 215);
 		windowColor = new Color(200, 232, 211);
 	}
 
