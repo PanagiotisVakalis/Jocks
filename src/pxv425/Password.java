@@ -24,7 +24,9 @@ public class Password {
 	
 	static{
 		/*
-		 * Initialize the two static maps
+		 * Initialize the two static maps which contain
+		 * the map from character to integer as well as
+		 * the map from integer to character
 		 */
 		CHARACTER_TO_INTEGER.put('a', 0);
 		CHARACTER_TO_INTEGER.put('b', 1);
@@ -223,7 +225,7 @@ public class Password {
 			 * the map. If this number is greater than 71 which is the upper limit of the map
 			 * then use the ~ symbol and the number which has been assigned followed by the 
 			 * ~ symbol in order to define that this is a number and not a sequence of integers.
-			 * During the decryption the code will understand that this is the exanct number form the addition.
+			 * During the decryption the code will understand that this is the exact number from the addition.
 			 */
 			if(added.get(i) <= 71){
 				passwordEncrypted.append(INTEGER_TO_CHARACTER.get(added.get(i)).toString());
@@ -236,7 +238,7 @@ public class Password {
 	}
 	
 	/**
-	 * Method to use the encrypt password method outside the class
+	 * Method to encypt password
 	 * @param password
 	 * @return encrypted password
 	 * 
@@ -275,10 +277,8 @@ public class Password {
 	private static final String DECRYPT_PASSWORD(String encryptedPassword){
 		//Initialize in case of the previous times the user entered a wrong password
 		passwordDecrypted = new StringBuilder();
-		//If nullPonter exception is shown un comment the inithialization
 		indexesBackwards = new ArrayList<>();
 		integers = new ArrayList<>();
-//		int length = decryptedPassword.length();
 		
 		//Get the length of the encrypted password
 		indexBack = encryptedPassword.length();
@@ -307,29 +307,24 @@ public class Password {
 		}
 		
 		for (int i = 0; i < encryptedPassword.length(); i++) {
-//			integers.add(CHARACTER_TO_INTEGER.get(decryptedPassword.charAt(i)));
 			if(encryptedPassword.charAt(i) != '~'){
 				/*
 				 * if the character at the specific index is not ~,
-				 * add the correspondint integer into the integer arraylist
+				 * add the corresponding integer into the integer arraylist
 				 */
 				integers.add(CHARACTER_TO_INTEGER.get(encryptedPassword.charAt(i)));
-//				indexesBackwards.add(indexBack--);
 			}
 			else{
-				
 				/*
-				 * else parse the password until finds the other ~.
+				 * else parse the password until the index will find the other ~.
 				 * While the character is not the ~ symbol add the characters
 				 * which are numbers into the numberMoreThan71 variable.
 				 * Also change the index of the array by increment the 
 				 * value of the i variable.
 				 */
-//				int index = i;
 				do{
 					numberMoreThan71.append(encryptedPassword.charAt(i));
 					i++;
-//					indexesBackwards.add(indexBack--);
 				}while(encryptedPassword.charAt(i) != '~');
 				/*
 				 * add the number without the ~ and continue the for loop
@@ -339,19 +334,11 @@ public class Password {
 			}
 		}
 		
-//		for(Integer a : integers){
-//			System.out.println(a);
-//		}
-		
 		/*
-		 * Call the methdo which sumbtract the indexes from the integers
+		 * Call the method which sumtract the indexes from the integers
 		 * and assign the result into the subtracted variable
 		 */
 		subtracted = subtractIndexesFromIntegers();
-		
-//		for(Integer a : subtracted){
-//			System.out.println(a);
-//		}
 		
 		for (int i = 0; i < subtracted.size(); i++) {
 			/*
