@@ -44,6 +44,9 @@ public class DatabaseMain {
 				}
 				i = 0;
 			}
+			else{
+				System.out.println("Stock market is closed.");
+			}
 		}
 
 	}

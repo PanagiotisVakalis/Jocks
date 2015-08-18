@@ -230,13 +230,12 @@ public class Database {
 			// Execute SQL statement
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Investor has not inserted on the database");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -330,14 +329,12 @@ public class Database {
 				}
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Investor has not retrieved from the database");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			
 			}
 		}
 	}
@@ -393,14 +390,12 @@ public class Database {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Email has not been checked");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 		return found;
@@ -452,14 +447,12 @@ public class Database {
 				}
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Portfolio name has not been checked");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 		return false;
@@ -500,14 +493,12 @@ public class Database {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Password has not been changed");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -547,14 +538,12 @@ public class Database {
 				securityQuestionResult = resultSet.getString("sec_question");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Security question has not been retrieved");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -594,14 +583,12 @@ public class Database {
 				securityAnswerResult = resultSet.getString("sec_answer");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Security answer has not been retrieved");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -656,14 +643,12 @@ public class Database {
 				preparedStatement.executeUpdate();
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Portfolio has not been created");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -714,14 +699,12 @@ public class Database {
 
 				preparedStatement.executeUpdate();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Portfolio has not been created");
 			} finally {
 				try {
 					disconnectFromDatabase();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					
 				}
 			}
 		}
@@ -768,14 +751,12 @@ public class Database {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Portfolio's balance has not been updated");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -809,14 +790,12 @@ public class Database {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Portfolio's invested money has not been updated");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -865,14 +844,12 @@ public class Database {
 				portfoliosResult.add(portfolio);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Portfolio has not been retrieved");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -915,14 +892,12 @@ public class Database {
 				totalProfitLoss = resultSet.getDouble(4);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Portfolio's has not been retrieved");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -973,14 +948,12 @@ public class Database {
 				portfolioBalance = resultSet.getBigDecimal("balance");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Portfolio's balance has not been retrieved");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -1024,14 +997,12 @@ public class Database {
 						.getBigDecimal("initial_balance");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Portfolio's initial balance has not been retrieved");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -1078,14 +1049,12 @@ public class Database {
 						resultSet.getDouble("total_amount"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Portfolio's total withdraws has not been retrieved");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 
@@ -1131,14 +1100,12 @@ public class Database {
 						resultSet.getDouble("total_amount"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Portfolio's total deposits has not been retrieved");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 
@@ -1183,14 +1150,12 @@ public class Database {
 				portfolioInvestedMoney = resultSet.getBigDecimal("inv_money");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Portfolio's invested money has not been retrieved");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 
@@ -1233,14 +1198,12 @@ public class Database {
 				totalBalance = resultSet.getBigDecimal("balance");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Portfolio's balance has not been retrieved");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -1297,14 +1260,12 @@ public class Database {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Stock has not been inserted");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -1349,14 +1310,12 @@ public class Database {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Stock's price has not been updated");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -1401,14 +1360,12 @@ public class Database {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Stock's price has not been inserted");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -1453,14 +1410,12 @@ public class Database {
 				lastUpdatedOn = resultSet.getTimestamp("last_updated");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Last date from update has not been retrieved");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -1505,14 +1460,12 @@ public class Database {
 				stocksList.add(stock);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Stocks have not been retrieved");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -1541,14 +1494,12 @@ public class Database {
 				stockName = resultSet.getString("name");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Stock's name has not been retrieved");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -1600,14 +1551,12 @@ public class Database {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Watch has not been inserted");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -1644,14 +1593,12 @@ public class Database {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Watch has not been deleted");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -1692,14 +1639,12 @@ public class Database {
 				watchlistStockSymbols.add(resultSet.getString("st_symbol"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Watchlist has not been retrieved");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -1741,14 +1686,12 @@ public class Database {
 				}
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Watchlist has not been retrieved");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -1799,14 +1742,12 @@ public class Database {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Lot has not been inserted");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
 			}
 		}
 	}
@@ -1869,8 +1810,7 @@ public class Database {
 				query = new String();
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Lot has not been updated with the current price");
 		} finally {
 			try {
 				stocks.close();
@@ -1878,8 +1818,7 @@ public class Database {
 				stocksConnection.close();
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -1926,16 +1865,14 @@ public class Database {
 				price = tradePrice.getDouble("trade_price");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Stock's trade price has not been retrieved");
 		} finally {
 			try {
 				tradePrice.close();
 				retrieveTradePriceStatement.close();
 				tradePriceConnection.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 
@@ -1975,16 +1912,14 @@ public class Database {
 				shares = sharesSet.getInt("b_shares");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Bought shares have ot been retrived");
 		} finally {
 			try {
 				sharesSet.close();
 				retrieveSharesStatement.close();
 				sharesConnection.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 
@@ -2050,13 +1985,9 @@ public class Database {
 
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Lots have not been retrieved");
 		} finally {
 			try {
-				// currentPriceResult.close();
-				// preparedStatementForCurrentPrice.close();
-				// currentPriceConnection.close();
 				if (currentPriceResult != null
 						&& preparedStatementForCurrentPrice != null
 						&& currentPriceConnection != null) {
@@ -2066,8 +1997,7 @@ public class Database {
 				}
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 
@@ -2114,14 +2044,12 @@ public class Database {
 
 				preparedStatement.executeUpdate();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Lot has not been deleted");
 			} finally {
 				try {
 					disconnectFromDatabase();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					
 				}
 			}
 
@@ -2170,14 +2098,12 @@ public class Database {
 				}
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Lots have not been retrieved");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 		return exists;
@@ -2217,14 +2143,12 @@ public class Database {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Shares have not been updated");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -2276,16 +2200,14 @@ public class Database {
 				currentPrice = currentPriceResultSet.getDouble("trade_price");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Current price has not been retrieved");
 		} finally {
 			try {
 				currentPriceResultSet.close();
 				currentPriceStatement.close();
 				currentPriceConnection.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 		return currentPrice;
@@ -2327,16 +2249,14 @@ public class Database {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Bought price has not been retrieved");
 		} finally {
 			try {
 				boughtPriceSet.close();
 				boughtPriceStatement.close();
 				boughtPriceConnection.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 		return boughtPrice;
@@ -2408,8 +2328,7 @@ public class Database {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Buy has not been inserted");
 		} finally {
 			try {
 				resultBoughtPrice.close();
@@ -2420,8 +2339,7 @@ public class Database {
 				maxDateConnection.close();
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -2474,14 +2392,12 @@ public class Database {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Sell has not been inserted");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -2533,14 +2449,12 @@ public class Database {
 				buysList.add(buy);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Buys have not been retrieved");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -2591,14 +2505,12 @@ public class Database {
 				sellsList.add(sell);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Sells have not been retrieved");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -2644,14 +2556,12 @@ public class Database {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Historical prices have not been retrieved");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -2705,14 +2615,12 @@ public class Database {
 				stockSymbols.add(resultSet.getString("symbol"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Stock symbols have not been retrieved");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 
@@ -2756,14 +2664,12 @@ public class Database {
 				balance = new BigDecimal(resultSet.getDouble("balance"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Balance has not been retrieved");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 		return balance;
@@ -2807,14 +2713,12 @@ public class Database {
 				investedMoney = new BigDecimal(resultSet.getDouble("inv_money"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Invested money have not been retrieved");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 		return investedMoney.setScale(2, BigDecimal.ROUND_DOWN);
@@ -2854,14 +2758,12 @@ public class Database {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Deposit has not been inserted");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -2900,14 +2802,12 @@ public class Database {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Withdraw has not been inserted");
 		} finally {
 			try {
 				disconnectFromDatabase();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 	}

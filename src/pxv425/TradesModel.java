@@ -215,7 +215,6 @@ public class TradesModel extends Model {
 		 * which will be used in the view table
 		 */
 		for (int i = 0; i < buys.size(); i++) {
-			System.out.println(String.valueOf(buys.get(i).getDate().getTime()));
 			buysDetails[i][0] = buys.get(i).getStockSymbol();
 			buysDetails[i][1] = View.currencyFormat(new BigDecimal(buys.get(i)
 					.getBoughtPrice()));

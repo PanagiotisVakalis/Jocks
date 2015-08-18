@@ -108,7 +108,7 @@ public class IntroView extends View implements Observer, ActionListener {
 	@Override
 	public void update(Observable o, Object arg) {
 		/*
-		 * Nothing
+		 * No body
 		 */
 	}
 }

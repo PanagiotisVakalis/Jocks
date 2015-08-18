@@ -102,8 +102,8 @@ public class UpdateHistoricalPrices {
 			System.out.println(stockSymbol
 					+ " historical prices has been updated");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("No new entry for the " + stockSymbol
+					+ " stock.");
 		}
 	}
 

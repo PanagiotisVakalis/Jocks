@@ -73,8 +73,7 @@ public class DatabaseManagement {
 				}
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("No file");
 		}
 		System.out.println("Done");
 	}
@@ -107,8 +106,7 @@ public class DatabaseManagement {
 				System.out.println(stockSymbol + " converted");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Price has not been converted");
 		}
 	}
 
@@ -185,8 +183,7 @@ public class DatabaseManagement {
 				}
 			}
 		} catch (SQLException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(symbolResult + " has not been updated");
 		} finally {
 			try {
 				symbolsResultSet.close();
@@ -279,16 +276,16 @@ public class DatabaseManagement {
 				}
 			}
 		} catch (SQLException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(symbolResult + " has not been updated");
 		} finally {
 			try {
 				resultSetSymbol.close();
 				preparedStatmentSymbol.close();
 				connectionSymbol.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				/*
+				 * No body
+				 */
 			}
 		}
 	}

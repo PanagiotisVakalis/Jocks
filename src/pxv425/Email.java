@@ -114,7 +114,7 @@ public class Email {
 			message.setText("Investor's email: " + investorEmail + "\n" + body);
 			Transport.send(message);
 		} catch (MessagingException e) {
-			e.printStackTrace();
+			System.out.println("Message has not been sent to " + investorFirstName + " " + investorLastName);
 		}
 	}
 

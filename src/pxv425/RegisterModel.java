@@ -161,6 +161,16 @@ public class RegisterModel extends Model {
 		}
 	}
 
+	/**
+	 * Method to check if password is valid
+	 * 
+	 * @param password
+	 * @return true, if password meets the requirements
+	 * @return false, otherwise
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 14-07-2015
+	 */
 	private boolean checkPasswordCharacters(String password) {
 		boolean passwordCorrect = false;
 		if (password.length() >= 8 && password.length() <= 16) {
@@ -274,11 +284,27 @@ public class RegisterModel extends Model {
 		return createFirstPortfolio(firstName + " " + lastName, email, balance);
 	}
 
+	/**
+	 * Method to change to login view
+	 * 
+	 * @param name
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 14-07-2015
+	 */
 	private void changeToLoginView(LoginView loginView) {
 		loginModel = new LoginModel(super.getClient());
 		super.getClient().useChangePanel(loginView);
 	}
 
+	/**
+	 * Method to change to login view
+	 * 
+	 * @param name
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 14-07-2015
+	 */
 	public void useChangeToLoginView(LoginView loginView) {
 		changeToLoginView(loginView);
 	}
