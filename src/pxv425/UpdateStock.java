@@ -7,12 +7,17 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import com.opencsv.CSVReader;
-
+/**
+ * Class which contains the method for updating the stock prices
+ * of a stock using the current price which yahoo finance provides
+ * 
+ * @author Panagiotis Vakalis
+ * @version 07-08-2015
+ *
+ */
 public class UpdateStock {
 
 	private String stockSymbol;
@@ -26,6 +31,13 @@ public class UpdateStock {
 	private ResultSet resultSet;
 	private StringBuilder yahooUri;
 
+	/**
+	 * Constructor of the class
+	 * @param stock symbol
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 07-08-2015
+	 */
 	public UpdateStock(String stockSymbol) {
 		this.stockSymbol = stockSymbol;
 	}
@@ -48,8 +60,6 @@ public class UpdateStock {
 			downloadCsv = new URL(url);
 
 			urlConnection = (HttpURLConnection) downloadCsv.openConnection();
-			// csvReader = new BufferedReader(new
-			// InputStreamReader(urlConnection.getInputStream()));
 
 			/*
 			 * This part is from http://opencsv.sourceforge.net opencsv is a
@@ -60,8 +70,6 @@ public class UpdateStock {
 					urlConnection.getInputStream()));
 			String[] nextLine;
 			while ((nextLine = reader.readNext()) != null) {
-//				System.out.println(nextLine[0].toString() + " "
-//						+ nextLine[3].toString());
 				if (!nextLine[3].equals("N/A")) {
 					Database.useUpdateStockPrice(nextLine[0].toString(),
 							Double.parseDouble(nextLine[3]));
@@ -75,6 +83,12 @@ public class UpdateStock {
 
 	}
 	
+	/**
+	 * Method to update the stock prices
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 13-07-2015
+	 */
 	public void useUpdateStockPrices(){
 		updateStockPrices();
 	}
