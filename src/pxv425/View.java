@@ -24,7 +24,6 @@ public abstract class View extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private Model model;
 	private Color windowColor;
-	private Color buttonColor;
 	private Color areaColor;
 	private Color popUpWindowColor;
 	
@@ -37,39 +36,76 @@ public abstract class View extends JPanel{
 	 */
 	public View(Model model){
 		this.model = model;
+		/*
+		 * Enter the colors for the windows,
+		 * areas and popup windows
+		 */
 		windowColor = new Color(9, 123, 189);
-		buttonColor = new Color(9, 137, 210);
 		areaColor = new Color(81, 178, 235);
 		popUpWindowColor = new Color(62, 124, 159);
-//		optionPaneBackground();
 	}
 	
+	/**
+	 * Method which converts the money into currency
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 13-07-2015
+	 */
 	public static String currencyFormat(BigDecimal bG){
 		return NumberFormat.getCurrencyInstance().format(bG);
 	}
 	
+	/**
+	 * Method to set the background for the optionPanes
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 13-07-2015
+	 */
 	private void optionPaneBackground(){
 		UIManager UIManager = new UIManager();
 		UIManager.put("OptionPane.background", popUpWindowColor);
 		UIManager.put("Panel.background", popUpWindowColor);
 	}
 	
+	/**
+	 * Method to set the background for the optionPanes
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 13-07-2015
+	 */
 	public void changeOptionPaneBackground(){
 		optionPaneBackground();
 	}
 	
+	/**
+	 * Method to get the windows color outside the class
+	 * @return windowColor
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 13-07-2015
+	 */
 	public Color getWindowColor(){
 		return windowColor;
 	}
 	
-	public Color getButtonColor(){
-		return buttonColor;
-	}
-	
+	/**
+	 * Method to get the area color outside the class
+	 * @return area color
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 13-07-2015
+	 */
 	public Color getAreaColor(){
 		return areaColor;
 	}
 	
+	/**
+	 * Method to get the popup windows color outside the class
+	 * @return pop up window color
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 13-07-2015
+	 */
 	public Color getPopUpWindowColor(){
 		return popUpWindowColor;
 	}
