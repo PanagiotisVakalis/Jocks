@@ -1,12 +1,10 @@
 package pxv425;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,16 +12,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+/*
+ * http://opencsv.sourceforge.net
+ * opencsv is a library which is imported inside the project
+ * and has been developed by Glen Smith
+ */
 import com.opencsv.CSVReader;
 
 /**
@@ -40,7 +36,6 @@ public class DatabaseManagement{
 	private static Scanner csvScanner;
 	private static StringBuilder yahooUri;
 	private static String query;
-	private static ResultSet resultSet;
 	private static PreparedStatement preparedStatement;
 	private static Connection connection;
 	private static String symbolResult;
@@ -48,7 +43,6 @@ public class DatabaseManagement{
 	private static URL downloadCsv;
 	private static HttpURLConnection urlConnection;
 	private static String url;
-	private static Date dateResult;
 	
 
 	/**
@@ -167,7 +161,6 @@ public class DatabaseManagement{
 				downloadCsv = new URL(url);
 
 				urlConnection = (HttpURLConnection)downloadCsv.openConnection();
-//				csvReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 				
 				/*
 				 * This part is from http://opencsv.sourceforge.net
