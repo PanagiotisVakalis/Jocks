@@ -55,7 +55,6 @@ public class Database {
 	private static String securityQuestionResult;
 	//Variable where the security answer will be stored
 	private static String securityAnswerResult;
-//	private static int[] portfoliosNumberResult;
 	private static ArrayList<Portfolio> portfoliosResult = new ArrayList<>();
 	private static String stockSymbol;
 	private static String stockName;
