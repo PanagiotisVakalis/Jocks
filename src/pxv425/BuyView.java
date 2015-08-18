@@ -156,6 +156,7 @@ public class BuyView extends View implements ActionListener, Observer {
 	/**
 	 * Method to get the shares
 	 * @return number of shares
+	 * @return 0, if the shares is not a number or if the textfield is equal to ""
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 27-07-2015

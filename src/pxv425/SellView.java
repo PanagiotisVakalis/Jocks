@@ -166,6 +166,7 @@ public class SellView extends View implements ActionListener, Observer {
 	/**
 	 * Method to get the shares outside of the class
 	 * @return number of shares
+	 * @return 0, if the shares is not a number or if the textfield is equal to ""
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 28-07-2015
