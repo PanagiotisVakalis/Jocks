@@ -14,103 +14,6 @@ import java.util.Calendar;
 public class LotsModel extends Model {
 
 	private Portfolio portfolio;
-	
-	public Portfolio getPortfolio() {
-		return portfolio;
-	}
-
-	public void setPortfolio(Portfolio portfolio) {
-		this.portfolio = portfolio;
-	}
-
-	public ArrayList<Lot> getLots() {
-		return lots;
-	}
-
-	public void setLots(ArrayList<Lot> lots) {
-		this.lots = lots;
-	}
-
-	public String getStockSymbol() {
-		return stockSymbol;
-	}
-
-	public void setStockSymbol(String stockSymbol) {
-		this.stockSymbol = stockSymbol;
-	}
-
-	public double getBoughtPrice() {
-		return boughtPrice;
-	}
-
-	public void setBoughtPrice(double boughtPrice) {
-		this.boughtPrice = boughtPrice;
-	}
-
-	public int getBoughtShares() {
-		return boughtShares;
-	}
-
-	public void setBoughtShares(int boughtShares) {
-		this.boughtShares = boughtShares;
-	}
-
-	public double getAmount() {
-		return amount;
-	}
-
-	public void setAmount(double amount) {
-		this.amount = amount;
-	}
-
-	public double getCurrentPrice() {
-		return currentPrice;
-	}
-
-	public void setCurrentPrice(double currentPrice) {
-		this.currentPrice = currentPrice;
-	}
-
-	public double getCurrentAmount() {
-		return currentAmount;
-	}
-
-	public void setCurrentAmount(double currentAmount) {
-		this.currentAmount = currentAmount;
-	}
-
-	public double getCurrentProfitLoss() {
-		return currentProfitLoss;
-	}
-
-	public void setCurrentProfitLoss(double currentProfitLoss) {
-		this.currentProfitLoss = currentProfitLoss;
-	}
-
-	public Calendar getDate() {
-		return date;
-	}
-
-	public void setDate(Calendar date) {
-		this.date = date;
-	}
-
-	public String[][] getLotsDetails() {
-		return lotsDetails;
-	}
-
-	public void setLotsDetails(String[][] lotsDetails) {
-		this.lotsDetails = lotsDetails;
-	}
-
-	public MainModel getMainModel() {
-		return mainModel;
-	}
-
-	public void setMainModel(MainModel mainModel) {
-		this.mainModel = mainModel;
-	}
-
 	private ArrayList<Lot> lots;
 	private String stockSymbol;
 	private double boughtPrice;
@@ -124,6 +27,275 @@ public class LotsModel extends Model {
 	private MainModel mainModel;
 	private SellModel sellModel;
 	private SellView sellView;
+	
+	/**
+	 * Method to get the portfolio outside of the class
+	 * @return portfolio
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public Portfolio getPortfolio() {
+		return portfolio;
+	}
+
+	/**
+	 * Method to set the portfolio outside of the class
+	 * @param portfolio
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public void setPortfolio(Portfolio portfolio) {
+		this.portfolio = portfolio;
+	}
+
+	/**
+	 * Method to get the lots outside of the class
+	 * @return lots
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public ArrayList<Lot> getLots() {
+		return lots;
+	}
+
+	/**
+	 * Method to set the lots outside of the class
+	 * @param lots
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public void setLots(ArrayList<Lot> lots) {
+		this.lots = lots;
+	}
+
+	/**
+	 * Method to get the stock symbol outside of the class
+	 * @return stock symbol
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public String getStockSymbol() {
+		return stockSymbol;
+	}
+
+	/**
+	 * Method to set the stock symbol outside of the class
+	 * @param stock symbol
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public void setStockSymbol(String stockSymbol) {
+		this.stockSymbol = stockSymbol;
+	}
+
+	/**
+	 * Method to get the bought price outside of the class
+	 * @return bought price
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public double getBoughtPrice() {
+		return boughtPrice;
+	}
+
+	/**
+	 * Method to set the bought price outside of the class
+	 * @param bought price
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public void setBoughtPrice(double boughtPrice) {
+		this.boughtPrice = boughtPrice;
+	}
+
+	/**
+	 * Method to get the shares outside of the class
+	 * @return shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public int getBoughtShares() {
+		return boughtShares;
+	}
+
+	/**
+	 * Method to set the shares outside of the class
+	 * @param shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public void setBoughtShares(int boughtShares) {
+		this.boughtShares = boughtShares;
+	}
+
+	/**
+	 * Method to get the amount outside of the class
+	 * @return amount
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public double getAmount() {
+		return amount;
+	}
+
+	/**
+	 * Method to set the amount outside of the class
+	 * @param amount
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	/**
+	 * Method to get the current price outside of the class
+	 * @return current price
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public double getCurrentPrice() {
+		return currentPrice;
+	}
+
+	/**
+	 * Method to set the current price outside of the class
+	 * @param current price
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public void setCurrentPrice(double currentPrice) {
+		this.currentPrice = currentPrice;
+	}
+
+	/**
+	 * Method to get the current amount outside of the class
+	 * @return current amount
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public double getCurrentAmount() {
+		return currentAmount;
+	}
+
+	/**
+	 * Method to set the current amount outside of the class
+	 * @param current amount
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public void setCurrentAmount(double currentAmount) {
+		this.currentAmount = currentAmount;
+	}
+
+	/**
+	 * Method to get the current profit or loss outside of the class
+	 * @return current profit or loss
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public double getCurrentProfitLoss() {
+		return currentProfitLoss;
+	}
+
+	/**
+	 * Method to set the current profit or loss outside of the class
+	 * @param current profit or loss
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public void setCurrentProfitLoss(double currentProfitLoss) {
+		this.currentProfitLoss = currentProfitLoss;
+	}
+
+	/**
+	 * Method to get the date outside of the class
+	 * @return date
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public Calendar getDate() {
+		return date;
+	}
+
+	/**
+	 * Method to set the date outside of the class
+	 * @param date
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public void setDate(Calendar date) {
+		this.date = date;
+	}
+
+	/**
+	 * Method to get the lots details outside of the class
+	 * @return lots details
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public String[][] getLotsDetails() {
+		/*
+		 * This method is used for the table in lots view
+		 */
+		return lotsDetails;
+	}
+
+	/**
+	 * Method to set the lots details outside of the class
+	 * @param lots details
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public void setLotsDetails(String[][] lotsDetails) {
+		this.lotsDetails = lotsDetails;
+	}
+
+	/**
+	 * Method to get the main model outside of the class
+	 * @return main model
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public MainModel getMainModel() {
+		return mainModel;
+	}
+
+	/**
+	 * Method to set the main model outside of the class
+	 * @param main model
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
+	public void setMainModel(MainModel mainModel) {
+		this.mainModel = mainModel;
+	}
+
+	
 
 	/**
 	 * Constructor of the class
@@ -192,6 +364,10 @@ public class LotsModel extends Model {
 	 * @version 23-07-2015
 	 */
 	private String[][] lotsDetails() {
+		/*
+		 * This method assigns the corresponding details
+		 * into an array of strings
+		 */
 		lotsDetails = new String[lots.size()][8];
 
 		for (int i = 0; i < lots.size(); i++) {
@@ -246,11 +422,29 @@ public class LotsModel extends Model {
 		changeToMainView(mainView, portfolio);
 	}
 	
+	/**
+	 * Method to change to sell view
+	 * @param sellview
+	 * @param portfolio
+	 * @param lot
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
 	private void changeToSellView(SellView sellView, Portfolio portfolio, Lot lot){
 		sellModel = new SellModel(super.getClient(), portfolio, lot);
 		super.getClient().useChangePanel(sellView);
 	}
 	
+	/**
+	 * Method to change to sell view
+	 * @param sellview
+	 * @param portfolio
+	 * @param lot
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
 	public void useChangeToSellView(SellView sellView, Portfolio portfolio, Lot lot){
 		changeToSellView(sellView, portfolio, lot);
 	}
@@ -279,27 +473,66 @@ public class LotsModel extends Model {
 		return selectLot(index);
 	}
 	
+	/**
+	 * Method to initialize the sell model
+	 * @param lot
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
 	private void initializeSellModel(Lot lot){
+		/*
+		 * This method is used when sell button is pressed
+		 * in order to construct the sell model object
+		 */
 		sellModel = new SellModel(this.getClient(), portfolio, lot);
 	}
 	
-//	public void useInitializeSellModel(Lot lot){
-//		initializeSellModel(lot);
-//	}
-	
+	/**
+	 * Method to get the sell model
+	 * @return sellModel
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
 	public SellModel getSellModel(){
 		return sellModel;
 	}
 	
+	/**
+	 * Method to initialize the sell view
+	 * @param lot
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
 	private void initializeSellView(Lot lot){
+		/*
+		 * This method is used when sell button is pressed
+		 * in order to construct the sell view object
+		 */
 		initializeSellModel(lot);
 		sellView = new SellView(sellModel);
 	}
 	
+	/**
+	 * Method to initialize the sell view outside the class
+	 * @param lot
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
 	public void useInitializeSellView(Lot lot){
 		initializeSellView(lot);
 	}
 	
+	/**
+	 * Method to get the sell view
+	 * @return sell view
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015
+	 */
 	public SellView getSellView(){
 		return sellView;
 	}

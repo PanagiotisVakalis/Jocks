@@ -24,16 +24,16 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class LotsView extends View implements Observer, ActionListener{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private LotsModel lotsModel;
 	private JLabel lotsLabel;
 	private JTable lotsTable;
 	private JScrollPane lotsTableScroll;
-	private JButton continueButton;
-	private JButton sellButton;
 	private String command;
-	private JPanel buttons;
 	private DefaultTableCellRenderer rightAlign;
-	private DefaultTableCellRenderer centerAlign;
 
 	/**
 	 * Constructor of the class
@@ -53,7 +53,7 @@ public class LotsView extends View implements Observer, ActionListener{
 	}
 
 	/**
-	 * Method to buid the frame
+	 * Method to build the frame
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 23-07-2015	
@@ -92,21 +92,17 @@ public class LotsView extends View implements Observer, ActionListener{
 		
 		lotsTableScroll = new JScrollPane(lotsTable);
 		
-//		sellButton = new JButton("Sell stock");
-//		sellButton.setActionCommand("sell");
-//		sellButton.addActionListener(this);
-//		
-//		continueButton = new JButton("Continue");
-//		continueButton.setActionCommand("continue");
-//		continueButton.addActionListener(this);
-		
-		
 		add(lotsLabel);
 		add(lotsTableScroll);
-//		add(sellButton);
-//		add(continueButton);
 	}
 	
+	/**
+	 * Method to get the lots table outside of the class
+	 * @return lotsTable
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 23-07-2015	
+	 */
 	public JTable getLotsTable(){
 		return lotsTable;
 	}
@@ -116,9 +112,10 @@ public class LotsView extends View implements Observer, ActionListener{
 		command = e.getActionCommand();
 		
 		if(command.equals("sell")){
-//			lotsModel.useChangeToSellView(new SellView(new SellModel(lotsModel.getClient(), lotsModel.getPortfolio(), lotsModel.useSelectLot(lotsTable.getSelectedRow()))), lotsModel.getPortfolio(), lotsModel.useSelectLot(lotsTable.getSelectedRow()));
 			if(lotsTable.getSelectedRow() != -1){
-//				lotsModel.useChangeToSellView(new SellView(new SellModel(lotsModel.getClient(), lotsModel.getPortfolio(), lotsModel.useSelectLot(lotsTable.getSelectedRow()))), lotsModel.getPortfolio(), lotsModel.useSelectLot(lotsTable.getSelectedRow()));
+				/*
+				 * If lot has been selected
+				 */
 				lotsModel.useInitializeSellView(lotsModel.useSelectLot(lotsTable.getSelectedRow()));
 				//The two buttons
 				String[] options = {"Confirm", "Back"};
@@ -131,14 +128,7 @@ public class LotsView extends View implements Observer, ActionListener{
 					/*
 					 * If user has pressed confirm
 					 */
-//					mainModel.getBuyModel().useBuyStock(mainModel.getBuyView().getShares());
-//					if(lotsModel.useIsValidDayAndTime()){
-//						System.out.println("in if");
-//						JOptionPane.showMessageDialog(this, "You cannot sell now.", "Closed stock market", JOptionPane.WARNING_MESSAGE);
-//					}
-//					else{
 						JOptionPane.showMessageDialog(this, lotsModel.getSellModel().useSellStock(lotsModel.getSellView().getShares()));
-//					}
 				}
 				if(answer == 1){
 					
@@ -156,7 +146,9 @@ public class LotsView extends View implements Observer, ActionListener{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
+		/*
+		 * No body
+		 */
 		
 	}
 
