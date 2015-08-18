@@ -1,6 +1,5 @@
 package pxv425;
 
-import java.net.PasswordAuthentication;
 import java.util.Date;
 import java.util.Properties;
 
@@ -28,7 +27,6 @@ public class Email {
 	private String from;
 	private boolean auth;
 	private final String USERNAME = "jocks.project";
-//	private final char[] PASSWORD = {'e','l','e','c','t','r','o','_','P','A','1','6','9','8','9'};
 	private final String PASSWORD = "electro_PA16989";
 	private Protocol protocol;
 	private boolean debug;
