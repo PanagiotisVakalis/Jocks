@@ -11,7 +11,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import com.opencsv.CSVReader;
-
+/**
+ * Class which contains the method for updateing the historical prices
+ * of a stock
+ * 
+ * @author Panagiotis Vakalis
+ * @version 07-08-2015
+ *
+ */
 public class UpdateHistoricalPrices {
 
 	private String stockSymbol;
@@ -24,26 +31,38 @@ public class UpdateHistoricalPrices {
 	private String query;
 	private ResultSet resultSet;
 
+	/**
+	 * Constructor of the class
+	 * @param stock symbol
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 07-08-2015
+	 *
+	 */
 	public UpdateHistoricalPrices(String stockSymbol) {
 		this.stockSymbol = stockSymbol;
 	}
 
+	/**
+	 * Method which gets the stock prices from
+	 * yahoo finance
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 07-08-2015
+	 *
+	 */
 	private void getStockPrices() {
 
 		Calendar start = null;
 		Calendar end = null;
 		try {
 			start = Calendar.getInstance();
-			// start.set(2004, 7, 31);
-			// start.setTime(Database.useGetLastUpdatedDate(symbolResult));
 			/*
 			 * Get the last updated date and add 86400000 milliseconds (which
 			 * are equal to 24 hours) to set the start from the next day
 			 */
 			start.setTimeInMillis(Database.useGetLastUpdatedDate(stockSymbol)
 					.getTime() + 86400000);
-			// System.out.println(start.getTime().toString());
-			// System.out.println(start.getTime().toString());
 			end = Calendar.getInstance();
 
 			url = DatabaseManagement.useBuildYahooUrlForPrices(stockSymbol,
@@ -51,6 +70,9 @@ public class UpdateHistoricalPrices {
 
 			downloadCsv = new URL(url);
 
+			/*
+			 * Open connection
+			 */
 			urlConnection = (HttpURLConnection) downloadCsv.openConnection();
 
 			/*
@@ -62,12 +84,7 @@ public class UpdateHistoricalPrices {
 					urlConnection.getInputStream()));
 			String[] nextLine;
 			nextLine = reader.readNext();
-			// System.out.println(nextLine[0] + nextLine[1] + nextLine[2] +
-			// nextLine[3] + nextLine[4] + nextLine[5] + nextLine[6]);
 			while ((nextLine = reader.readNext()) != null) {
-				// System.out.println(symbolResult.toString() +
-				// nextLine[1].toString() + nextLine[4].toString() +
-				// nextLine[0].toString());
 				/*
 				 * index 0 returns the date index 1 returns the open price index
 				 * 2 returns the high price index 3 returns the low price index
@@ -87,6 +104,14 @@ public class UpdateHistoricalPrices {
 		}
 	}
 
+	/**
+	 * Method which gets the stock prices from
+	 * yahoo finance
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 07-08-2015
+	 *
+	 */
 	public void useGetStockPrices(){
 		getStockPrices();
 	}
