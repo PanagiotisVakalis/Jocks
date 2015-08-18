@@ -6,6 +6,7 @@ import java.util.Date;
 
 /**
  * Class which contains the lot details
+ * 
  * @author Panagiotis Vakalis
  * @version 19-07-2015
  *
@@ -21,7 +22,7 @@ public class Lot {
 	private double currentProfitLoss;
 	private Timestamp date;
 	private double currentPrice;
-	
+
 	/**
 	 * Constructor of the class
 	 * 
@@ -38,7 +39,9 @@ public class Lot {
 	 * @author Panagiotis Vakalis
 	 * @version 19-07-2015
 	 */
-	public Lot(int portfolioNumber, String stockSymbol, double boughtPrice, int boughtShares, double amount, double currentPrice, double currentAmount, Timestamp date){
+	public Lot(int portfolioNumber, String stockSymbol, double boughtPrice,
+			int boughtShares, double amount, double currentPrice,
+			double currentAmount, Timestamp date) {
 		this.portfolioNumber = portfolioNumber;
 		this.stockSymbol = stockSymbol;
 		this.boughtPrice = boughtPrice;
@@ -52,10 +55,11 @@ public class Lot {
 
 	/**
 	 * Method to use the current price outside the class
+	 * 
 	 * @return current price
 	 * 
 	 * @author Panagiotis Vakalis
-	 * @version 19-07-2015	
+	 * @version 19-07-2015
 	 */
 	public double getCurrentPrice() {
 		return currentPrice;
@@ -63,10 +67,11 @@ public class Lot {
 
 	/**
 	 * Method to set the current price outside of the class
+	 * 
 	 * @param currentPrice
 	 * 
 	 * @author Panagiotis Vakalis
-	 * @version 19-07-2015	
+	 * @version 19-07-2015
 	 */
 	public void setCurrentPrice(double currentPrice) {
 		this.currentPrice = currentPrice;
@@ -74,6 +79,7 @@ public class Lot {
 
 	/**
 	 * Method to get portfolio
+	 * 
 	 * @return portfolio
 	 * 
 	 * @author Panagiotis Vakalis
@@ -85,6 +91,7 @@ public class Lot {
 
 	/**
 	 * Method to set portfolio
+	 * 
 	 * @param portfolio
 	 * 
 	 * @author Panagiotis Vakalis
@@ -96,6 +103,7 @@ public class Lot {
 
 	/**
 	 * Method to get the stock symbol
+	 * 
 	 * @return stock symbol
 	 * 
 	 * @author Panagiotis Vakalis
@@ -107,6 +115,7 @@ public class Lot {
 
 	/**
 	 * Method to set the stock symbol
+	 * 
 	 * @param stockSymbol
 	 * 
 	 * @author Panagiotis Vakalis
@@ -118,6 +127,7 @@ public class Lot {
 
 	/**
 	 * Method to get the bought price
+	 * 
 	 * @return bought price
 	 * 
 	 * @author Panagiotis Vakalis
@@ -129,6 +139,7 @@ public class Lot {
 
 	/**
 	 * Method to set the bought price
+	 * 
 	 * @param boughtPrice
 	 * 
 	 * @author Panagiotis Vakalis
@@ -140,6 +151,7 @@ public class Lot {
 
 	/**
 	 * Method to get the bought shares
+	 * 
 	 * @return bought shares
 	 * 
 	 * @author Panagiotis Vakalis
@@ -151,6 +163,7 @@ public class Lot {
 
 	/**
 	 * Method to set the bought shares
+	 * 
 	 * @param boughtShares
 	 * 
 	 * @author Panagiotis Vakalis
@@ -162,6 +175,7 @@ public class Lot {
 
 	/**
 	 * Method to get the amount
+	 * 
 	 * @return amount
 	 * 
 	 * @author Panagiotis Vakalis
@@ -173,6 +187,7 @@ public class Lot {
 
 	/**
 	 * Method to set the amount
+	 * 
 	 * @param amount
 	 * 
 	 * @author Panagiotis Vakalis
@@ -184,6 +199,7 @@ public class Lot {
 
 	/**
 	 * Method to get the current amount
+	 * 
 	 * @return current amount
 	 * 
 	 * @author Panagiotis Vakalis
@@ -195,6 +211,7 @@ public class Lot {
 
 	/**
 	 * Method to set the current amount
+	 * 
 	 * @param currentAmount
 	 * 
 	 * @author Panagiotis Vakalis
@@ -206,6 +223,7 @@ public class Lot {
 
 	/**
 	 * Method to get the current profit / loss
+	 * 
 	 * @return profit / loss
 	 * 
 	 * @author Panagiotis Vakalis
@@ -217,6 +235,7 @@ public class Lot {
 
 	/**
 	 * Method to set the current profit / loss
+	 * 
 	 * @param currentProfitLoss
 	 * 
 	 * @author Panagiotis Vakalis
@@ -228,6 +247,7 @@ public class Lot {
 
 	/**
 	 * Method to get the date
+	 * 
 	 * @return date
 	 * 
 	 * @author Panagiotis Vakalis
@@ -239,6 +259,7 @@ public class Lot {
 
 	/**
 	 * Method to set the date
+	 * 
 	 * @param date
 	 * 
 	 * @author Panagiotis Vakalis
@@ -247,6 +268,5 @@ public class Lot {
 	public void setDate(Timestamp date) {
 		this.date = date;
 	}
-	
-	
+
 }

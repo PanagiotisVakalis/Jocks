@@ -6,6 +6,7 @@ import java.util.Date;
 
 /**
  * Class which contains the details for a buy
+ * 
  * @author Panagiotis Vakalis
  * @version 24-07-2015
  *
@@ -15,9 +16,10 @@ public class Buy extends Trade {
 	private double boughtPrice;
 	private int boughtShares;
 	private double boughtAmount;
-	
+
 	/**
 	 * Constructor of the class
+	 * 
 	 * @param stockSymbol
 	 * @param portfolioNumber
 	 * @param date
@@ -28,7 +30,8 @@ public class Buy extends Trade {
 	 * @author Panagiotis Vakalis
 	 * @version 24-07-2015
 	 */
-	public Buy(String stockSymbol, int portfolioNumber, Timestamp date, double boughtPrice, int boughtShares, double boughtAmount){
+	public Buy(String stockSymbol, int portfolioNumber, Timestamp date,
+			double boughtPrice, int boughtShares, double boughtAmount) {
 		super(stockSymbol, portfolioNumber, date);
 		this.boughtPrice = boughtPrice;
 		this.boughtShares = boughtShares;
@@ -37,6 +40,7 @@ public class Buy extends Trade {
 
 	/**
 	 * Method to get the bought price outside the class
+	 * 
 	 * @return bought price
 	 * 
 	 * @author Panagiotis Vakalis
@@ -48,6 +52,7 @@ public class Buy extends Trade {
 
 	/**
 	 * Method to set the bought price outside the class
+	 * 
 	 * @param boughtPrice
 	 * 
 	 * @author Panagiotis Vakalis
@@ -59,6 +64,7 @@ public class Buy extends Trade {
 
 	/**
 	 * Method to get the bought shares outside the class
+	 * 
 	 * @return bought shares
 	 * 
 	 * @author Panagiotis Vakalis
@@ -70,6 +76,7 @@ public class Buy extends Trade {
 
 	/**
 	 * Method to set the bought shares outside the class
+	 * 
 	 * @param boughtShares
 	 * 
 	 * @author Panagiotis Vakalis
@@ -81,6 +88,7 @@ public class Buy extends Trade {
 
 	/**
 	 * Method to get the bought amount outside the class
+	 * 
 	 * @return bought amount
 	 * 
 	 * @author Panagiotis Vakalis
@@ -92,6 +100,7 @@ public class Buy extends Trade {
 
 	/**
 	 * Method to set the bought amount outside the class
+	 * 
 	 * @param boughtAmount
 	 * 
 	 * @author Panagiotis Vakalis

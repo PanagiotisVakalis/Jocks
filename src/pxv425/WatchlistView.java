@@ -1,6 +1,5 @@
 package pxv425;
 
-
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -22,7 +21,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  *
  */
 public class WatchlistView extends View implements ActionListener, Observer {
-	
+
 	/**
 	 * 
 	 */
@@ -36,6 +35,7 @@ public class WatchlistView extends View implements ActionListener, Observer {
 
 	/**
 	 * Constructor of the class
+	 * 
 	 * @param watchlistModel
 	 * 
 	 * @author Panagiotis Vakalis
@@ -43,67 +43,68 @@ public class WatchlistView extends View implements ActionListener, Observer {
 	 */
 	public WatchlistView(WatchlistModel watchlistModel) {
 		super(watchlistModel);
-		
+
 		this.watchlistModel = watchlistModel;
-		
+
 		watchlistModel.addObserver(this);
-		
+
 		frameSetup();
 	}
-	
+
 	/**
 	 * Method to get the watchlist table out of the class
+	 * 
 	 * @return watchlist table
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 26-07-2015
 	 */
-	public JTable getWatchlistTable(){
+	public JTable getWatchlistTable() {
 		return watchlistTable;
 	}
-	
+
 	/**
 	 * Method to get the non editable model table out of the class
+	 * 
 	 * @return non editable model table
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 26-07-2015
 	 */
-	public NonEditableTable getWatchlistTableModel(){
+	public NonEditableTable getWatchlistTableModel() {
 		return watchlistTableModel;
 	}
-	
+
 	/**
 	 * Method to build the screen
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 26-07-2015
 	 */
-	private void frameSetup(){
+	private void frameSetup() {
 		setLayout(new GridLayout(2, 1));
 		setPreferredSize(new Dimension(600, 400));
-		
+
 		title = new JLabel("Your watchlist");
-		
-		String[] tableTitle = {"Stock symbol", "Stock name", "Price"};
-		
-		
-		
+
+		String[] tableTitle = { "Stock symbol", "Stock name", "Price" };
+
 		watchlistTable = new JTable();
-		watchlistTableModel = new NonEditableTable(watchlistModel.useWatchesDetails(), tableTitle);
+		watchlistTableModel = new NonEditableTable(
+				watchlistModel.useWatchesDetails(), tableTitle);
 		watchlistTable.setModel(watchlistTableModel);
-		
-		//Align money to the right
-				rightAlign = new DefaultTableCellRenderer();
-				rightAlign.setHorizontalAlignment(SwingConstants.RIGHT);
-				watchlistTable.getColumnModel().getColumn(2).setCellRenderer(rightAlign);
-			
-		
+
+		// Align money to the right
+		rightAlign = new DefaultTableCellRenderer();
+		rightAlign.setHorizontalAlignment(SwingConstants.RIGHT);
+		watchlistTable.getColumnModel().getColumn(2)
+				.setCellRenderer(rightAlign);
+
 		watchlistTable.setRowSelectionAllowed(true);
 		watchlistTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
+
 		watchlistTableScroll = new JScrollPane(watchlistTable);
-		
+
 		add(title);
 		add(watchlistTableScroll);
 	}

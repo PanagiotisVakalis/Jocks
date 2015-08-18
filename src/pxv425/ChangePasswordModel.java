@@ -4,28 +4,30 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Class which contains the model part of the 
- * reset password process
+ * Class which contains the model part of the reset password process
  * 
  * @author Panagiotis Vakalis
  * @version 17-07-2015
  *
  */
 public class ChangePasswordModel extends Model {
-	
+
 	private LoginModel loginModel;
 	private String securityQuestion;
 	private String securityAnswer;
 	/*
 	 * This pattern has been found on:
-	 * http://www.mkyong.com/regular-expressions/how-to-validate-email-address-with-regular-expression/
+	 * http://www.mkyong.com/regular-expressions/
+	 * how-to-validate-email-address-with-regular-expression/
 	 */
-	private final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+	private final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 	private Pattern emailPattern;
 	private Matcher emailMatcher;
 
 	/**
 	 * Constructor of the class
+	 * 
 	 * @param client
 	 * 
 	 * @author Panagiotis Vakalis
@@ -34,158 +36,165 @@ public class ChangePasswordModel extends Model {
 	public ChangePasswordModel(Client client) {
 		super(client);
 	}
-	
+
 	/**
 	 * Method to change to login view
+	 * 
 	 * @param loginView
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 17-07-2015
 	 */
-	private void changeToLoginView(LoginView loginView){
+	private void changeToLoginView(LoginView loginView) {
 		loginModel = new LoginModel(super.getClient());
 		super.getClient().useChangePanel(new LoginView(loginModel));
 	}
-	
+
 	/**
 	 * Method to use the changeToLoginView method outside the class
+	 * 
 	 * @param loginView
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 17-07-2015
 	 */
-	public void useChangeToLoginView(LoginView loginView){
+	public void useChangeToLoginView(LoginView loginView) {
 		changeToLoginView(loginView);
 	}
-	
+
 	/**
 	 * Method to use the retrieveSecurityQuestion outside the class
+	 * 
 	 * @param email
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 17-07-2015
 	 */
-	private void retrieveSecurityQuestion(String email){
+	private void retrieveSecurityQuestion(String email) {
 		securityQuestion = Database.useGetSecurityQuestion(email) + "?";
 		update(securityQuestion);
 	}
-	
+
 	/**
-	 * Method to access the securityQuestion private variable
-	 * outside the class
+	 * Method to access the securityQuestion private variable outside the class
+	 * 
 	 * @return security question
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 17-07-2015
 	 */
-	public String getSecurityQuestion(){
+	public String getSecurityQuestion() {
 		return securityQuestion;
 	}
-	
+
 	/**
 	 * Method to send the email to database
+	 * 
 	 * @param email
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 17-07-2015
 	 */
-	private void submitEmail(String email){
+	private void submitEmail(String email) {
 		retrieveSecurityQuestion(email);
 	}
-	
+
 	/**
 	 * Method to use the submitEmail method outside the class
+	 * 
 	 * @param email
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 17-07-2015
 	 */
-	public void useSubmitEmail(String email){
+	public void useSubmitEmail(String email) {
 		submitEmail(email);
 	}
-	
+
 	/**
 	 * Method to get the security answer of the database
+	 * 
 	 * @param email
 	 * @return security answer
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 17-07-2015
 	 */
-	private String retrieveSecurityAnswer(String email){
+	private String retrieveSecurityAnswer(String email) {
 		return Database.useGetSecurityAnswer(email);
 	}
-	
+
 	/**
-	 * Method which checks if the stored security answer matches
-	 * the security answer which the investor has entered
+	 * Method which checks if the stored security answer matches the security
+	 * answer which the investor has entered
+	 * 
 	 * @param securityAnswer
 	 * @param email
 	 * @return true if they match
-	 * @return false if they do not match 
+	 * @return false if they do not match
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 17-07-2015
 	 */
-	private boolean checkSecurityAnswer(String securityAnswer, String email){
+	private boolean checkSecurityAnswer(String securityAnswer, String email) {
 		this.securityAnswer = retrieveSecurityAnswer(email);
 		return this.securityAnswer.equals(securityAnswer);
 	}
-	
+
 	/**
 	 * Method to change the password
+	 * 
 	 * @param email
 	 * @param securityAnswer
 	 * @param newPassword
 	 * @return Your password has been changed, if the password has been changed
-	 * @return Wrong security answer, your password has not been changed, if the security answer and the answer which
-	 * user has entered do not match
+	 * @return Wrong security answer, your password has not been changed, if the
+	 *         security answer and the answer which user has entered do not
+	 *         match
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 17-07-2015
 	 */
-	private String changePassword(String email, String securityAnswer, String newPassword, String reEnterNewPassword){
-		//If email is not empty
-		if(!email.isEmpty()){
-			if(!securityAnswer.isEmpty()){
+	private String changePassword(String email, String securityAnswer,
+			String newPassword, String reEnterNewPassword) {
+		// If email is not empty
+		if (!email.isEmpty()) {
+			if (!securityAnswer.isEmpty()) {
 				/*
 				 * If security answer is not empty
 				 */
-				if(checkSecurityAnswer(securityAnswer, email)){
+				if (checkSecurityAnswer(securityAnswer, email)) {
 					/*
 					 * If security answer matches the input
 					 */
-					if(newPassword.equals(reEnterNewPassword)){
+					if (newPassword.equals(reEnterNewPassword)) {
 						/*
 						 * If two passwords are equal
 						 */
-						if(checkPasswordCharacters(newPassword)){
-							Database.useChangeInvestorPassword(email, newPassword);
+						if (checkPasswordCharacters(newPassword)) {
+							Database.useChangeInvestorPassword(email,
+									newPassword);
 							return "Your password has been changed, press ok to continue to login screen.";
-						}
-						else{
+						} else {
 							return "Password should meet the requirements";
 						}
-					}
-					else{
+					} else {
 						return "Passwords do not match. Press back button.";
 					}
-				}
-				else{
+				} else {
 					return "Wrong security answer, your password has not been changed. Press back button.";
 				}
-			}
-			else{
+			} else {
 				return "Go back and enter your security answer";
 			}
-		}
-		else{
+		} else {
 			return "Go back, enter your email and press submit";
 		}
 	}
-	
+
 	/**
 	 * Method which checks if password meets the requirements
+	 * 
 	 * @param password
 	 * @return true if password meets the requirements
 	 * @return false if password does not meet the requirments
@@ -193,12 +202,37 @@ public class ChangePasswordModel extends Model {
 	 * @author Panagiotis Vakalis
 	 * @version 17-07-2015
 	 */
-	private boolean checkPasswordCharacters(String password){
+	private boolean checkPasswordCharacters(String password) {
 		boolean passwordCorrect = false;
-		if(password.length() >= 8 && password.length() <= 16){
-			if(password.contains("0") || password.contains("1") || password.contains("2") || password.contains("3") || password.contains("4") || password.contains("5") || password.contains("6") || password.contains("7") || password.contains("8") || password.contains("9")){
-				if(password.contains("!") || password.contains("@") || password.contains("#") || password.contains("$") || password.contains("%") || password.contains("^") || password.contains("&") || password.contains("*") || password.contains("-") || password.contains("_")){
-					if(!password.contains("~") && !password.contains("`") && !password.contains("+") && !password.contains("=") && !password.contains("{") && !password.contains("[") && !password.contains("}") && !password.contains("]") && !password.contains("\"") && !password.contains("|") && !password.contains(":") && !password.contains(";") && !password.contains("'") && !password.contains("<") && !password.contains(",") && !password.contains(">") && !password.contains(".") && !password.contains("?") && !password.contains("/")){
+		if (password.length() >= 8 && password.length() <= 16) {
+			if (password.contains("0") || password.contains("1")
+					|| password.contains("2") || password.contains("3")
+					|| password.contains("4") || password.contains("5")
+					|| password.contains("6") || password.contains("7")
+					|| password.contains("8") || password.contains("9")) {
+				if (password.contains("!") || password.contains("@")
+						|| password.contains("#") || password.contains("$")
+						|| password.contains("%") || password.contains("^")
+						|| password.contains("&") || password.contains("*")
+						|| password.contains("-") || password.contains("_")) {
+					if (!password.contains("~") && !password.contains("`")
+							&& !password.contains("+")
+							&& !password.contains("=")
+							&& !password.contains("{")
+							&& !password.contains("[")
+							&& !password.contains("}")
+							&& !password.contains("]")
+							&& !password.contains("\"")
+							&& !password.contains("|")
+							&& !password.contains(":")
+							&& !password.contains(";")
+							&& !password.contains("'")
+							&& !password.contains("<")
+							&& !password.contains(",")
+							&& !password.contains(">")
+							&& !password.contains(".")
+							&& !password.contains("?")
+							&& !password.contains("/")) {
 						passwordCorrect = true;
 					}
 				}
@@ -206,38 +240,43 @@ public class ChangePasswordModel extends Model {
 		}
 		return passwordCorrect;
 	}
-	
+
 	/**
 	 * Method to change the password
+	 * 
 	 * @param email
 	 * @param securityAnswer
 	 * @param newPassword
 	 * @return Your password has been changed, if the password has been changed
-	 * @return Wrong security answer, your password has not been changed, if the security answer and the answer which
-	 * user has entered do not match
+	 * @return Wrong security answer, your password has not been changed, if the
+	 *         security answer and the answer which user has entered do not
+	 *         match
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 17-07-2015
 	 */
-	public String useChangePassword(String email, String securityAnswer, String newPassword, String reEnterNewPassword){
-		return changePassword(email, securityAnswer, newPassword, reEnterNewPassword);
+	public String useChangePassword(String email, String securityAnswer,
+			String newPassword, String reEnterNewPassword) {
+		return changePassword(email, securityAnswer, newPassword,
+				reEnterNewPassword);
 	}
-	
+
 	/**
 	 * Method to update the view
+	 * 
 	 * @param arg
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 17-07-2015
 	 */
-	private void update(Object arg){
+	private void update(Object arg) {
 		setChanged();
 		notifyObservers();
 	}
-	
+
 	/**
-	 * Method to check if the email which is provided
-	 * matches the email pattern
+	 * Method to check if the email which is provided matches the email pattern
+	 * 
 	 * @param email
 	 * @return true, if it matches
 	 * @return false, if it does not match
@@ -245,15 +284,15 @@ public class ChangePasswordModel extends Model {
 	 * @author Panagiotis Vakalis
 	 * @version 14-07-2015
 	 */
-	private boolean validEmail(String email){
+	private boolean validEmail(String email) {
 		emailPattern = Pattern.compile(EMAIL_PATTERN);
 		emailMatcher = emailPattern.matcher(email);
 		return emailMatcher.matches();
 	}
-	
+
 	/**
-	 * Method to check if the email which is provided
-	 * matches the email pattern
+	 * Method to check if the email which is provided matches the email pattern
+	 * 
 	 * @param email
 	 * @return true, if it matches
 	 * @return false, if it does not match
@@ -261,12 +300,13 @@ public class ChangePasswordModel extends Model {
 	 * @author Panagiotis Vakalis
 	 * @version 14-07-2015
 	 */
-	public boolean useValidEmail(String email){
+	public boolean useValidEmail(String email) {
 		return validEmail(email);
 	}
-	
+
 	/**
 	 * Method to check if the email is used
+	 * 
 	 * @param email
 	 * @return true, if it is used
 	 * @return false, if it is not used
@@ -274,12 +314,13 @@ public class ChangePasswordModel extends Model {
 	 * @author Panagiotis Vakalis
 	 * @version 14-07-2015
 	 */
-	private boolean emailIsUsed(String email){
+	private boolean emailIsUsed(String email) {
 		return Database.useCheckEmail(email);
 	}
-	
+
 	/**
 	 * Method to check if the email is used
+	 * 
 	 * @param email
 	 * @return true, if it is used
 	 * @return false, if it is not used
@@ -287,7 +328,7 @@ public class ChangePasswordModel extends Model {
 	 * @author Panagiotis Vakalis
 	 * @version 14-07-2015
 	 */
-	public boolean useEmailIsUsed(String email){
+	public boolean useEmailIsUsed(String email) {
 		return emailIsUsed(email);
 	}
 }

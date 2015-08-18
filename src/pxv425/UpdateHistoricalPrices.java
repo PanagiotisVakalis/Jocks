@@ -11,9 +11,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import com.opencsv.CSVReader;
+
 /**
- * Class which contains the method for updateing the historical prices
- * of a stock
+ * Class which contains the method for updateing the historical prices of a
+ * stock
  * 
  * @author Panagiotis Vakalis
  * @version 07-08-2015
@@ -33,7 +34,9 @@ public class UpdateHistoricalPrices {
 
 	/**
 	 * Constructor of the class
-	 * @param stock symbol
+	 * 
+	 * @param stock
+	 *            symbol
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 07-08-2015
@@ -44,8 +47,7 @@ public class UpdateHistoricalPrices {
 	}
 
 	/**
-	 * Method which gets the stock prices from
-	 * yahoo finance
+	 * Method which gets the stock prices from yahoo finance
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 07-08-2015
@@ -97,7 +99,8 @@ public class UpdateHistoricalPrices {
 						Double.parseDouble(nextLine[6]));
 			}
 
-			System.out.println(stockSymbol + " historical prices has been updated");
+			System.out.println(stockSymbol
+					+ " historical prices has been updated");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -105,14 +108,13 @@ public class UpdateHistoricalPrices {
 	}
 
 	/**
-	 * Method which gets the stock prices from
-	 * yahoo finance
+	 * Method which gets the stock prices from yahoo finance
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 07-08-2015
 	 *
 	 */
-	public void useGetStockPrices(){
+	public void useGetStockPrices() {
 		getStockPrices();
 	}
 

@@ -3,8 +3,10 @@ package pxv425;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 /**
  * Class which containts methods to encrypt and decrypt passwords
+ * 
  * @author Panagiotis Vakalis
  * @version 28-07-2015
  *
@@ -21,12 +23,11 @@ public class Password {
 	private static int indexBack;
 	private static ArrayList<Integer> added = new ArrayList<>();
 	private static ArrayList<Integer> subtracted = new ArrayList<>();
-	
-	static{
+
+	static {
 		/*
-		 * Initialize the two static maps which contain
-		 * the map from character to integer as well as
-		 * the map from integer to character
+		 * Initialize the two static maps which contain the map from character
+		 * to integer as well as the map from integer to character
 		 */
 		CHARACTER_TO_INTEGER.put('a', 0);
 		CHARACTER_TO_INTEGER.put('b', 1);
@@ -54,7 +55,7 @@ public class Password {
 		CHARACTER_TO_INTEGER.put('x', 23);
 		CHARACTER_TO_INTEGER.put('y', 24);
 		CHARACTER_TO_INTEGER.put('z', 25);
-		
+
 		CHARACTER_TO_INTEGER.put('A', 26);
 		CHARACTER_TO_INTEGER.put('B', 27);
 		CHARACTER_TO_INTEGER.put('C', 28);
@@ -81,7 +82,7 @@ public class Password {
 		CHARACTER_TO_INTEGER.put('X', 49);
 		CHARACTER_TO_INTEGER.put('Y', 50);
 		CHARACTER_TO_INTEGER.put('Z', 51);
-		
+
 		CHARACTER_TO_INTEGER.put('0', 52);
 		CHARACTER_TO_INTEGER.put('1', 53);
 		CHARACTER_TO_INTEGER.put('2', 54);
@@ -92,7 +93,7 @@ public class Password {
 		CHARACTER_TO_INTEGER.put('7', 59);
 		CHARACTER_TO_INTEGER.put('8', 60);
 		CHARACTER_TO_INTEGER.put('9', 61);
-		
+
 		CHARACTER_TO_INTEGER.put('!', 62);
 		CHARACTER_TO_INTEGER.put('@', 63);
 		CHARACTER_TO_INTEGER.put('#', 64);
@@ -104,7 +105,7 @@ public class Password {
 		CHARACTER_TO_INTEGER.put('-', 70);
 		CHARACTER_TO_INTEGER.put('_', 71);
 		CHARACTER_TO_INTEGER.put('~', 72);
-		
+
 		INTEGER_TO_CHARACTER.put(0, 'a');
 		INTEGER_TO_CHARACTER.put(1, 'b');
 		INTEGER_TO_CHARACTER.put(2, 'c');
@@ -131,7 +132,7 @@ public class Password {
 		INTEGER_TO_CHARACTER.put(23, 'x');
 		INTEGER_TO_CHARACTER.put(24, 'y');
 		INTEGER_TO_CHARACTER.put(25, 'z');
-		
+
 		INTEGER_TO_CHARACTER.put(26, 'A');
 		INTEGER_TO_CHARACTER.put(27, 'B');
 		INTEGER_TO_CHARACTER.put(28, 'C');
@@ -158,7 +159,7 @@ public class Password {
 		INTEGER_TO_CHARACTER.put(49, 'X');
 		INTEGER_TO_CHARACTER.put(50, 'Y');
 		INTEGER_TO_CHARACTER.put(51, 'Z');
-		
+
 		INTEGER_TO_CHARACTER.put(52, '0');
 		INTEGER_TO_CHARACTER.put(53, '1');
 		INTEGER_TO_CHARACTER.put(54, '2');
@@ -169,7 +170,7 @@ public class Password {
 		INTEGER_TO_CHARACTER.put(59, '7');
 		INTEGER_TO_CHARACTER.put(60, '8');
 		INTEGER_TO_CHARACTER.put(61, '9');
-		
+
 		INTEGER_TO_CHARACTER.put(62, '!');
 		INTEGER_TO_CHARACTER.put(63, '@');
 		INTEGER_TO_CHARACTER.put(64, '#');
@@ -181,204 +182,212 @@ public class Password {
 		INTEGER_TO_CHARACTER.put(70, '-');
 		INTEGER_TO_CHARACTER.put(71, '_');
 		INTEGER_TO_CHARACTER.put(72, '~');
-		
-		
+
 	}
-	
+
 	/**
 	 * Method to encypt password
+	 * 
 	 * @param password
 	 * @return encrypted password
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 28-07-2015
 	 */
-	private static final String ENCRYPT_PASSWORD(String password){
+	private static final String ENCRYPT_PASSWORD(String password) {
 		integers = new ArrayList<>();
 		indexesBackwards = new ArrayList<>();
 		added = new ArrayList<>();
 		passwordEncrypted = new StringBuilder();
 		/*
-		 * This variable is initialised using the length of the string
-		 * because it will be used into an arraylist which will count backwards
-		 * the indexes
+		 * This variable is initialised using the length of the string because
+		 * it will be used into an arraylist which will count backwards the
+		 * indexes
 		 */
 		indexBack = password.length();
 		for (int i = 0; i < password.length(); i++) {
 			/*
-			 * For every character of the password get the corresponding
-			 * integer and add the previous number into the indexesBackwards
-			 * arraylist
+			 * For every character of the password get the corresponding integer
+			 * and add the previous number into the indexesBackwards arraylist
 			 */
 			integers.add(CHARACTER_TO_INTEGER.get(password.charAt(i)));
 			indexesBackwards.add(indexBack--);
 		}
 		/*
-		 * This variable contains the integers which have been retrieved from map
-		 * added by the index which is computed backwards
+		 * This variable contains the integers which have been retrieved from
+		 * map added by the index which is computed backwards
 		 */
 		added = addIndexesAndIntegers();
-		
+
 		for (int i = 0; i < added.size(); i++) {
 			/*
-			 * For every integer into the added arraylist get the corresponding character from
-			 * the map. If this number is greater than 71 which is the upper limit of the map
-			 * then use the ~ symbol and the number which has been assigned followed by the 
-			 * ~ symbol in order to define that this is a number and not a sequence of integers.
-			 * During the decryption the code will understand that this is the exact number from the addition.
+			 * For every integer into the added arraylist get the corresponding
+			 * character from the map. If this number is greater than 71 which
+			 * is the upper limit of the map then use the ~ symbol and the
+			 * number which has been assigned followed by the ~ symbol in order
+			 * to define that this is a number and not a sequence of integers.
+			 * During the decryption the code will understand that this is the
+			 * exact number from the addition.
 			 */
-			if(added.get(i) <= 71){
-				passwordEncrypted.append(INTEGER_TO_CHARACTER.get(added.get(i)).toString());
-			}
-			else{
+			if (added.get(i) <= 71) {
+				passwordEncrypted.append(INTEGER_TO_CHARACTER.get(added.get(i))
+						.toString());
+			} else {
 				passwordEncrypted.append("~" + added.get(i).toString() + "~");
 			}
 		}
 		return passwordEncrypted.toString();
 	}
-	
+
 	/**
 	 * Method to encypt password
+	 * 
 	 * @param password
 	 * @return encrypted password
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 28-07-2015
 	 */
-	public static final String USE_ENCRYPT_PASSWORD(String password){
+	public static final String USE_ENCRYPT_PASSWORD(String password) {
 		return ENCRYPT_PASSWORD(password);
 	}
-	
+
 	/**
-	 * Method which adds every index of the indexesBackwards arraylist
-	 * with the integers which have been retrieved from the maps
+	 * Method which adds every index of the indexesBackwards arraylist with the
+	 * integers which have been retrieved from the maps
+	 * 
 	 * @return arraylist of integers containing the result of the addition
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 28-07-2015
 	 */
-	private static ArrayList<Integer> addIndexesAndIntegers(){
+	private static ArrayList<Integer> addIndexesAndIntegers() {
 		ArrayList<Integer> aL = new ArrayList<>();
-		
-		for(int i = 0, j = 0; i < indexesBackwards.size() || j < integers.size(); i++, j++){
+
+		for (int i = 0, j = 0; i < indexesBackwards.size()
+				|| j < integers.size(); i++, j++) {
 			aL.add(indexesBackwards.get(i) + integers.get(j));
 		}
 		return aL;
 	}
-	
+
 	/**
 	 * Method to decrypt a password
+	 * 
 	 * @param decryptedPassword
 	 * @return decrypted password
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 28-07-2015
 	 */
-	private static final String DECRYPT_PASSWORD(String encryptedPassword){
-		//Initialize in case of the previous times the user entered a wrong password
+	private static final String DECRYPT_PASSWORD(String encryptedPassword) {
+		// Initialize in case of the previous times the user entered a wrong
+		// password
 		passwordDecrypted = new StringBuilder();
 		indexesBackwards = new ArrayList<>();
 		integers = new ArrayList<>();
-		
-		//Get the length of the encrypted password
+
+		// Get the length of the encrypted password
 		indexBack = encryptedPassword.length();
 		/*
-		 * This is the variable where the numbers which are
-		 * on the encypted password and are greater than 71
-		 * will be stored
+		 * This is the variable where the numbers which are on the encypted
+		 * password and are greater than 71 will be stored
 		 */
 		StringBuilder numberMoreThan71 = new StringBuilder();
-		
+
 		/*
-		 * If the encrypted password contains the ~ symbol
-		 * means that the length of the encrypted password
-		 * increased by 3 than the original.
-		 * So, subtract 3 from the length.
+		 * If the encrypted password contains the ~ symbol means that the length
+		 * of the encrypted password increased by 3 than the original. So,
+		 * subtract 3 from the length.
 		 */
-		if(encryptedPassword.contains("~")){
+		if (encryptedPassword.contains("~")) {
 			indexBack = indexBack - 3;
 		}
-		
-		for(int j = indexBack; j > 0; j --){
+
+		for (int j = indexBack; j > 0; j--) {
 			/*
 			 * Put all the indexes
 			 */
 			indexesBackwards.add(j);
 		}
-		
+
 		for (int i = 0; i < encryptedPassword.length(); i++) {
-			if(encryptedPassword.charAt(i) != '~'){
+			if (encryptedPassword.charAt(i) != '~') {
 				/*
-				 * if the character at the specific index is not ~,
-				 * add the corresponding integer into the integer arraylist
+				 * if the character at the specific index is not ~, add the
+				 * corresponding integer into the integer arraylist
 				 */
-				integers.add(CHARACTER_TO_INTEGER.get(encryptedPassword.charAt(i)));
-			}
-			else{
+				integers.add(CHARACTER_TO_INTEGER.get(encryptedPassword
+						.charAt(i)));
+			} else {
 				/*
-				 * else parse the password until the index will find the other ~.
-				 * While the character is not the ~ symbol add the characters
-				 * which are numbers into the numberMoreThan71 variable.
-				 * Also change the index of the array by increment the 
-				 * value of the i variable.
+				 * else parse the password until the index will find the other
+				 * ~. While the character is not the ~ symbol add the characters
+				 * which are numbers into the numberMoreThan71 variable. Also
+				 * change the index of the array by increment the value of the i
+				 * variable.
 				 */
-				do{
+				do {
 					numberMoreThan71.append(encryptedPassword.charAt(i));
 					i++;
-				}while(encryptedPassword.charAt(i) != '~');
+				} while (encryptedPassword.charAt(i) != '~');
 				/*
-				 * add the number without the ~ and continue the for loop
-				 * using the last assigned i
+				 * add the number without the ~ and continue the for loop using
+				 * the last assigned i
 				 */
 				integers.add(Integer.parseInt(numberMoreThan71.substring(1)));
 			}
 		}
-		
+
 		/*
-		 * Call the method which sumtract the indexes from the integers
-		 * and assign the result into the subtracted variable
+		 * Call the method which sumtract the indexes from the integers and
+		 * assign the result into the subtracted variable
 		 */
 		subtracted = subtractIndexesFromIntegers();
-		
+
 		for (int i = 0; i < subtracted.size(); i++) {
 			/*
-			 * For every integer into the subtracted arraylist
-			 * get the corresponding character and append it into the
-			 * passwordDecrypted variable.
+			 * For every integer into the subtracted arraylist get the
+			 * corresponding character and append it into the passwordDecrypted
+			 * variable.
 			 */
-			passwordDecrypted.append(INTEGER_TO_CHARACTER.get(subtracted.get(i)).toString());
+			passwordDecrypted.append(INTEGER_TO_CHARACTER
+					.get(subtracted.get(i)).toString());
 		}
-		
+
 		return passwordDecrypted.toString();
 	}
-	
+
 	/**
 	 * Method which subtracts the backwards indexes from the integers
+	 * 
 	 * @return arraylist of integers which is the result of the subtraction
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 28-07-2015
 	 */
-	private static ArrayList<Integer> subtractIndexesFromIntegers(){
+	private static ArrayList<Integer> subtractIndexesFromIntegers() {
 		ArrayList<Integer> result = new ArrayList<>();
-		
-		for(int i = 0, j = 0; i < indexesBackwards.size() || j < integers.size(); i++, j++){
-			//add the subtracted result
+
+		for (int i = 0, j = 0; i < indexesBackwards.size()
+				|| j < integers.size(); i++, j++) {
+			// add the subtracted result
 			result.add(integers.get(j) - indexesBackwards.get(i));
 		}
-		
+
 		return result;
 	}
-	
+
 	/**
 	 * Method to use the decrypt password method outside the class
+	 * 
 	 * @param decryptedPassword
 	 * @return decrypted password
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 28-07-2015
 	 */
-	public static final String USE_DECRYPT_PASSWORD(String encryptedPassword){
+	public static final String USE_DECRYPT_PASSWORD(String encryptedPassword) {
 		return DECRYPT_PASSWORD(encryptedPassword);
 	}
 }

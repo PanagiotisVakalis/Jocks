@@ -16,14 +16,16 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
+
 /**
  * Class which contains the view part of the lots screen
+ * 
  * @author Panagiotis Vakalis
- * @version 23-07-2015	
+ * @version 23-07-2015
  *
  */
-public class LotsView extends View implements Observer, ActionListener{
-	
+public class LotsView extends View implements Observer, ActionListener {
+
 	/**
 	 * 
 	 */
@@ -37,18 +39,19 @@ public class LotsView extends View implements Observer, ActionListener{
 
 	/**
 	 * Constructor of the class
+	 * 
 	 * @param lotsModel
 	 * 
 	 * @author Panagiotis Vakalis
-	 * @version 23-07-2015	
+	 * @version 23-07-2015
 	 */
 	public LotsView(LotsModel lotsModel) {
 		super(lotsModel);
-		
+
 		this.lotsModel = lotsModel;
-		
+
 		lotsModel.addObserver(this);
-		
+
 		frameSetup();
 	}
 
@@ -56,90 +59,104 @@ public class LotsView extends View implements Observer, ActionListener{
 	 * Method to build the frame
 	 * 
 	 * @author Panagiotis Vakalis
-	 * @version 23-07-2015	
+	 * @version 23-07-2015
 	 */
-	private void frameSetup(){
-		//Set the layout
+	private void frameSetup() {
+		// Set the layout
 		setLayout(new GridLayout(2, 1));
 		setBackground(getPopUpWindowColor());
-		
+
 		setPreferredSize(new Dimension(600, 400));
-		
-		lotsLabel = new JLabel("These are your lots which are contained in the " + lotsModel.useGetPortfolioName() + " portfolio.");
+
+		lotsLabel = new JLabel(
+				"These are your lots which are contained in the "
+						+ lotsModel.useGetPortfolioName() + " portfolio.");
 		lotsLabel.setBackground(getPopUpWindowColor());
-		
-		//Call method in order to get the lots
+
+		// Call method in order to get the lots
 		lotsModel.useGetAllLots();
-		
-		//Title for the table's columns
-		String[] title = {"Symbol", "Price bought", "Shares", "Purchase amount", "Current price", "Current value", "Profit / Loss", "Purchase date"};
-		
+
+		// Title for the table's columns
+		String[] title = { "Symbol", "Price bought", "Shares",
+				"Purchase amount", "Current price", "Current value",
+				"Profit / Loss", "Purchase date" };
+
 		lotsTable = new JTable();
-		lotsTable.setModel(new NonEditableTable(lotsModel.useLotsDetails(), title));
+		lotsTable.setModel(new NonEditableTable(lotsModel.useLotsDetails(),
+				title));
 		lotsTable.setRowSelectionAllowed(true);
 		lotsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
-		//Align money to the right
-				rightAlign = new DefaultTableCellRenderer();
-				rightAlign.setHorizontalAlignment(SwingConstants.RIGHT);
-				lotsTable.getColumnModel().getColumn(1).setCellRenderer(rightAlign);
-				lotsTable.getColumnModel().getColumn(2).setCellRenderer(rightAlign);
-				lotsTable.getColumnModel().getColumn(3).setCellRenderer(rightAlign);
-				lotsTable.getColumnModel().getColumn(4).setCellRenderer(rightAlign);
-				lotsTable.getColumnModel().getColumn(5).setCellRenderer(rightAlign);
-				lotsTable.getColumnModel().getColumn(6).setCellRenderer(rightAlign);
-				
-		
+
+		// Align money to the right
+		rightAlign = new DefaultTableCellRenderer();
+		rightAlign.setHorizontalAlignment(SwingConstants.RIGHT);
+		lotsTable.getColumnModel().getColumn(1).setCellRenderer(rightAlign);
+		lotsTable.getColumnModel().getColumn(2).setCellRenderer(rightAlign);
+		lotsTable.getColumnModel().getColumn(3).setCellRenderer(rightAlign);
+		lotsTable.getColumnModel().getColumn(4).setCellRenderer(rightAlign);
+		lotsTable.getColumnModel().getColumn(5).setCellRenderer(rightAlign);
+		lotsTable.getColumnModel().getColumn(6).setCellRenderer(rightAlign);
+
 		lotsTableScroll = new JScrollPane(lotsTable);
-		
+
 		add(lotsLabel);
 		add(lotsTableScroll);
 	}
-	
+
 	/**
 	 * Method to get the lots table outside of the class
+	 * 
 	 * @return lotsTable
 	 * 
 	 * @author Panagiotis Vakalis
-	 * @version 23-07-2015	
+	 * @version 23-07-2015
 	 */
-	public JTable getLotsTable(){
+	public JTable getLotsTable() {
 		return lotsTable;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		command = e.getActionCommand();
-		
-		if(command.equals("sell")){
-			if(lotsTable.getSelectedRow() != -1){
+
+		if (command.equals("sell")) {
+			if (lotsTable.getSelectedRow() != -1) {
 				/*
 				 * If lot has been selected
 				 */
-				lotsModel.useInitializeSellView(lotsModel.useSelectLot(lotsTable.getSelectedRow()));
-				//The two buttons
-				String[] options = {"Confirm", "Back"};
-				int answer = JOptionPane.showOptionDialog(this, lotsModel.getSellView(), "Sell lot", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+				lotsModel.useInitializeSellView(lotsModel
+						.useSelectLot(lotsTable.getSelectedRow()));
+				// The two buttons
+				String[] options = { "Confirm", "Back" };
+				int answer = JOptionPane.showOptionDialog(this,
+						lotsModel.getSellView(), "Sell lot",
+						JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+						null, options, options[0]);
 				/*
-				 * Confirm = 0
-				 * Back = 1
+				 * Confirm = 0 Back = 1
 				 */
-				if(answer == 0){
+				if (answer == 0) {
 					/*
 					 * If user has pressed confirm
 					 */
-						JOptionPane.showMessageDialog(this, lotsModel.getSellModel().useSellStock(lotsModel.getSellView().getShares()));
+					JOptionPane.showMessageDialog(
+							this,
+							lotsModel.getSellModel().useSellStock(
+									lotsModel.getSellView().getShares()));
 				}
-				if(answer == 1){
-					
+				if (answer == 1) {
+
 				}
-			}
-			else{
-				JOptionPane.showMessageDialog(this, "You should select a stock from the table", "Error in buy", JOptionPane.WARNING_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(this,
+						"You should select a stock from the table",
+						"Error in buy", JOptionPane.WARNING_MESSAGE);
 			}
 		}
-		if(command.equals("continue")){
-			lotsModel.useChangeToMainView(new MainView(new MainModel(lotsModel.getClient(), lotsModel.getPortfolio())), lotsModel.getPortfolio());
+		if (command.equals("continue")) {
+			lotsModel.useChangeToMainView(
+					new MainView(new MainModel(lotsModel.getClient(), lotsModel
+							.getPortfolio())), lotsModel.getPortfolio());
 
 		}
 	}
@@ -149,8 +166,7 @@ public class LotsView extends View implements Observer, ActionListener{
 		/*
 		 * No body
 		 */
-		
+
 	}
 
-	
 }

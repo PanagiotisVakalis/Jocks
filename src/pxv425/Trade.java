@@ -3,6 +3,7 @@ package pxv425;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
+
 /**
  * Class which contains all the informations for the trade
  * 
@@ -16,9 +17,10 @@ public class Trade {
 	private String stockSymbol;
 	private int portfolioNumber;
 	private Timestamp date;
-	
+
 	/**
 	 * Constructor of the class
+	 * 
 	 * @param stockSymbol
 	 * @param portfolioNumber
 	 * @param date
@@ -26,7 +28,7 @@ public class Trade {
 	 * @author Panagiotis Vakalis
 	 * @version 24-07-2015
 	 */
-	public Trade(String stockSymbol, int portfolioNumber, Timestamp date){
+	public Trade(String stockSymbol, int portfolioNumber, Timestamp date) {
 		this.stockSymbol = stockSymbol;
 		this.portfolioNumber = portfolioNumber;
 		this.date = date;
@@ -34,6 +36,7 @@ public class Trade {
 
 	/**
 	 * Method to get the stock symbol outside the class
+	 * 
 	 * @return stock symbol
 	 * 
 	 * @author Panagiotis Vakalis
@@ -45,6 +48,7 @@ public class Trade {
 
 	/**
 	 * Method to set the stock symbol outside the class
+	 * 
 	 * @param stockSymbol
 	 * 
 	 * @author Panagiotis Vakalis
@@ -56,6 +60,7 @@ public class Trade {
 
 	/**
 	 * Method to get the portfolio number outside the class
+	 * 
 	 * @return portfolio number
 	 * 
 	 * @author Panagiotis Vakalis
@@ -67,6 +72,7 @@ public class Trade {
 
 	/**
 	 * Method to set the portfolio number outside the class
+	 * 
 	 * @param portfolioNumber
 	 * 
 	 * @author Panagiotis Vakalis
@@ -78,6 +84,7 @@ public class Trade {
 
 	/**
 	 * Method to get the date outside the class
+	 * 
 	 * @return date
 	 * 
 	 * @author Panagiotis Vakalis
@@ -89,6 +96,7 @@ public class Trade {
 
 	/**
 	 * Method to set the date outside the class
+	 * 
 	 * @param date
 	 * 
 	 * @author Panagiotis Vakalis
@@ -97,6 +105,5 @@ public class Trade {
 	public void setDate(Timestamp date) {
 		this.date = date;
 	}
-	
-	
+
 }

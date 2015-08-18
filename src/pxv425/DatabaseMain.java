@@ -7,39 +7,36 @@ import java.util.Calendar;
 public class DatabaseMain {
 
 	public static void main(String[] args) {
-		
+
 		/*
-		 * Get all the symbols which are stored on the
-		 * database.
-		 * Create an arraylist for the updateStock objects.
-		 * Create an arraylist for the updateHistoricalPrices objects.
+		 * Get all the symbols which are stored on the database. Create an
+		 * arraylist for the updateStock objects. Create an arraylist for the
+		 * updateHistoricalPrices objects.
 		 */
 		ArrayList<String> symbols = Database.useGetStockSymbols();
 		ArrayList<UpdateStock> stockPrice = new ArrayList<>();
 		ArrayList<UpdateHistoricalPrices> historicalPrices = new ArrayList<>();
 
-
-		for(int i = 0; i < symbols.size(); i++){
+		for (int i = 0; i < symbols.size(); i++) {
 			/*
-			 * Add both updateStock and UpdateHistoricalPrices
-			 * objects in the corresponding arraylist.
-			 * In construction of each object the current symbol
-			 * from arraylist is used.
+			 * Add both updateStock and UpdateHistoricalPrices objects in the
+			 * corresponding arraylist. In construction of each object the
+			 * current symbol from arraylist is used.
 			 */
 			stockPrice.add(new UpdateStock(symbols.get(i)));
 			historicalPrices.add(new UpdateHistoricalPrices(symbols.get(i)));
 		}
-		
-		while(true){
-			if(isValidDayAndTime()){
+
+		while (true) {
+			if (isValidDayAndTime()) {
 				/*
 				 * If the stock market is open
 				 */
 				int i;
-				for(i = 0; i < stockPrice.size() && i < historicalPrices.size(); i++){
+				for (i = 0; i < stockPrice.size()
+						&& i < historicalPrices.size(); i++) {
 					/*
-					 * Call the methods
-					 * When the loop finishes reinitialize the
+					 * Call the methods When the loop finishes reinitialize the
 					 * i with 0 in order to start the loop again
 					 */
 					stockPrice.get(i).useUpdateStockPrices();
@@ -48,21 +45,20 @@ public class DatabaseMain {
 				i = 0;
 			}
 		}
-		
-		
+
 	}
-	private static boolean isValidDayAndTime(){
+
+	private static boolean isValidDayAndTime() {
 		Calendar calendar = Calendar.getInstance();
 		int today = calendar.get(Calendar.DAY_OF_WEEK);
 		SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
-		if(today == Calendar.SATURDAY || today == Calendar.SUNDAY){
+		if (today == Calendar.SATURDAY || today == Calendar.SUNDAY) {
 			return false;
-		}
-		else{
-			if(time.format(calendar.getTime()).compareTo("16:29:59") == 1 || time.format(calendar.getTime()).compareTo("09:59:59") == -1){
+		} else {
+			if (time.format(calendar.getTime()).compareTo("16:29:59") == 1
+					|| time.format(calendar.getTime()).compareTo("09:59:59") == -1) {
 				return false;
-			}
-			else{
+			} else {
 				return true;
 			}
 		}

@@ -6,27 +6,28 @@ import javax.swing.table.DefaultTableModel;
  * Class to make the table which has been used in Views non editable
  * 
  * @author Panagiotis Vakalis
- * @version 20-07-2015	 
+ * @version 20-07-2015
  *
  */
 public class NonEditableTable extends DefaultTableModel {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Constructor of the class
+	 * 
 	 * @param data
 	 * @param columnNames
 	 * 
 	 * @author Panagiotis Vakalis
-	 * @version 20-07-2015	
+	 * @version 20-07-2015
 	 */
 	public NonEditableTable(Object[][] data, String[] columnNames) {
 		super(data, columnNames);
 	}
-	
+
 	@Override
-	public boolean isCellEditable(int row, int column){
+	public boolean isCellEditable(int row, int column) {
 		/*
 		 * Method to make the table non editable
 		 */

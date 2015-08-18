@@ -13,7 +13,7 @@ import javax.swing.JPanel;
  * @version 14-07-2015
  *
  */
-public class Client extends JFrame{
+public class Client extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private IntroModel introModel;
@@ -25,20 +25,21 @@ public class Client extends JFrame{
 	 * @author Panagiotis Vakalis
 	 * @version 14-07-2015
 	 */
-	public Client(){
+	public Client() {
 		super("Jocks");
 		setSize(350, 200);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+
 		introModel = new IntroModel(this);
-		
+
 		useChangePanel(new IntroView(introModel));
 
 		setVisible(true);
 	}
-	
+
 	/**
 	 * Method to use the investor outside the class
+	 * 
 	 * @return investor
 	 * 
 	 * @author Panagiotis Vakalis
@@ -50,6 +51,7 @@ public class Client extends JFrame{
 
 	/**
 	 * Method to set an investor
+	 * 
 	 * @param investor
 	 * 
 	 * @author Panagiotis Vakalis
@@ -61,31 +63,32 @@ public class Client extends JFrame{
 
 	/**
 	 * Method to change panels
+	 * 
 	 * @param panel
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 14-07-2015
 	 */
-	private void changePanel(JPanel panel){
+	private void changePanel(JPanel panel) {
 		this.setContentPane(panel);
 		this.pack();
 		/*
-		 * This part of code
-		 * places the frame into the middle of the screen
+		 * This part of code places the frame into the middle of the screen
 		 */
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation((int) screen.getWidth() / 2 - getWidth() / 2,
 				(int) screen.getHeight() / 2 - getHeight() / 2);
 	}
-	
+
 	/**
 	 * Method to change panels
+	 * 
 	 * @param panel
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 14-07-2015
 	 */
-	public void useChangePanel(JPanel panel){
+	public void useChangePanel(JPanel panel) {
 		changePanel(panel);
 	}
 }

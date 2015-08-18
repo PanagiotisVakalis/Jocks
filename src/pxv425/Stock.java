@@ -1,4 +1,5 @@
 package pxv425;
+
 /**
  * Class which contains the stock's details
  * 
@@ -12,9 +13,10 @@ public class Stock {
 	private String name;
 	private String industry;
 	private double price;
-	
+
 	/**
 	 * Constructor of the class
+	 * 
 	 * @param symbol
 	 * @param name
 	 * @param industry
@@ -23,7 +25,7 @@ public class Stock {
 	 * @author Panagiotis Vakalis
 	 * @version 20-07-2015
 	 */
-	public Stock(String symbol, String name, String industry, double price){
+	public Stock(String symbol, String name, String industry, double price) {
 		this.symbol = symbol;
 		this.name = name;
 		this.industry = industry;
@@ -32,6 +34,7 @@ public class Stock {
 
 	/**
 	 * Method to get the symbol outside the class
+	 * 
 	 * @return symbol
 	 * 
 	 * @author Panagiotis Vakalis
@@ -43,6 +46,7 @@ public class Stock {
 
 	/**
 	 * Method to set the symbol outside the class
+	 * 
 	 * @param symbol
 	 * 
 	 * @author Panagiotis Vakalis
@@ -54,6 +58,7 @@ public class Stock {
 
 	/**
 	 * Method to get the name outside the class
+	 * 
 	 * @return name
 	 * 
 	 * @author Panagiotis Vakalis
@@ -65,6 +70,7 @@ public class Stock {
 
 	/**
 	 * Method to set the name outside the class
+	 * 
 	 * @param name
 	 * 
 	 * @author Panagiotis Vakalis
@@ -76,6 +82,7 @@ public class Stock {
 
 	/**
 	 * Method to get the industry outside the class
+	 * 
 	 * @return industry
 	 * 
 	 * @author Panagiotis Vakalis
@@ -87,6 +94,7 @@ public class Stock {
 
 	/**
 	 * Method to set the industry outside the class
+	 * 
 	 * @param industry
 	 * 
 	 * @author Panagiotis Vakalis
@@ -98,6 +106,7 @@ public class Stock {
 
 	/**
 	 * Method to get the price outside the class
+	 * 
 	 * @return price
 	 * 
 	 * @author Panagiotis Vakalis
@@ -109,6 +118,7 @@ public class Stock {
 
 	/**
 	 * Method to set the price outside the class
+	 * 
 	 * @param price
 	 * 
 	 * @author Panagiotis Vakalis

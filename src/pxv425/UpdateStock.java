@@ -10,9 +10,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import com.opencsv.CSVReader;
+
 /**
- * Class which contains the method for updating the stock prices
- * of a stock using the current price which yahoo finance provides
+ * Class which contains the method for updating the stock prices of a stock
+ * using the current price which yahoo finance provides
  * 
  * @author Panagiotis Vakalis
  * @version 07-08-2015
@@ -33,7 +34,9 @@ public class UpdateStock {
 
 	/**
 	 * Constructor of the class
-	 * @param stock symbol
+	 * 
+	 * @param stock
+	 *            symbol
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 07-08-2015
@@ -82,32 +85,33 @@ public class UpdateStock {
 		}
 
 	}
-	
+
 	/**
 	 * Method to update the stock prices
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 13-07-2015
 	 */
-	public void useUpdateStockPrices(){
+	public void useUpdateStockPrices() {
 		updateStockPrices();
 	}
-	
+
 	/**
 	 * Method to build the url in order to retrieve the current price
+	 * 
 	 * @param stockSymbol
 	 * @return url
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 13-07-2015
 	 */
-	private String buildYahooUrlForCurrentPrice(String stockSymbol){
+	private String buildYahooUrlForCurrentPrice(String stockSymbol) {
 		yahooUri = new StringBuilder("http://finance.yahoo.com/d/quotes.csv");
 		yahooUri.append("?s=");
 		yahooUri.append(stockSymbol);
 		yahooUri.append("&f=");
 		yahooUri.append("snd1l1yr");
-		
+
 		return yahooUri.toString();
 	}
 

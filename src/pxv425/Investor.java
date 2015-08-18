@@ -21,9 +21,10 @@ public class Investor {
 	private String securityQuestion;
 	private String securityAnswer;
 	private ArrayList<Portfolio> portfolios;
-	
+
 	/**
 	 * Constructor of the class
+	 * 
 	 * @param id
 	 * @param email
 	 * @param password
@@ -36,7 +37,9 @@ public class Investor {
 	 * @author Panagiotis Vakalis
 	 * @version 16-07-2015
 	 */
-	public Investor(Integer id, String email, String password, String firstName, String lastName, Date dateRegistered, String securityQuestion, String securityAnswer){
+	public Investor(Integer id, String email, String password,
+			String firstName, String lastName, Date dateRegistered,
+			String securityQuestion, String securityAnswer) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
@@ -49,6 +52,7 @@ public class Investor {
 
 	/**
 	 * Method to get the id
+	 * 
 	 * @return id
 	 * 
 	 * @author Panagiotis Vakalis
@@ -60,6 +64,7 @@ public class Investor {
 
 	/**
 	 * Method to set the id
+	 * 
 	 * @param id
 	 * 
 	 * @author Panagiotis Vakalis
@@ -71,6 +76,7 @@ public class Investor {
 
 	/**
 	 * Method to get the email
+	 * 
 	 * @return email
 	 * 
 	 * @author Panagiotis Vakalis
@@ -82,6 +88,7 @@ public class Investor {
 
 	/**
 	 * Method to set the email
+	 * 
 	 * @param email
 	 * 
 	 * @author Panagiotis Vakalis
@@ -93,6 +100,7 @@ public class Investor {
 
 	/**
 	 * Method to get the password
+	 * 
 	 * @return password
 	 * 
 	 * @author Panagiotis Vakalis
@@ -104,6 +112,7 @@ public class Investor {
 
 	/**
 	 * Method to set the password
+	 * 
 	 * @param password
 	 * 
 	 * @author Panagiotis Vakalis
@@ -115,6 +124,7 @@ public class Investor {
 
 	/**
 	 * Method to get the first name
+	 * 
 	 * @return first name
 	 * 
 	 * @author Panagiotis Vakalis
@@ -126,6 +136,7 @@ public class Investor {
 
 	/**
 	 * Method to set the first name
+	 * 
 	 * @param firstName
 	 * 
 	 * @author Panagiotis Vakalis
@@ -137,6 +148,7 @@ public class Investor {
 
 	/**
 	 * Method to get the last name
+	 * 
 	 * @return last name
 	 * 
 	 * @author Panagiotis Vakalis
@@ -148,6 +160,7 @@ public class Investor {
 
 	/**
 	 * Method to set the last name
+	 * 
 	 * @param lastName
 	 * 
 	 * @author Panagiotis Vakalis
@@ -159,6 +172,7 @@ public class Investor {
 
 	/**
 	 * Method to get the date registered
+	 * 
 	 * @return date registered
 	 * 
 	 * @author Panagiotis Vakalis
@@ -170,6 +184,7 @@ public class Investor {
 
 	/**
 	 * Method to set the date registered
+	 * 
 	 * @param dateRegistered
 	 * 
 	 * @author Panagiotis Vakalis
@@ -181,6 +196,7 @@ public class Investor {
 
 	/**
 	 * Method to get the security question
+	 * 
 	 * @return security question
 	 * 
 	 * @author Panagiotis Vakalis
@@ -192,6 +208,7 @@ public class Investor {
 
 	/**
 	 * Method to set the security question
+	 * 
 	 * @param securityQuestion
 	 * 
 	 * @author Panagiotis Vakalis
@@ -203,6 +220,7 @@ public class Investor {
 
 	/**
 	 * Method to get the security answer
+	 * 
 	 * @return security answer
 	 * 
 	 * @author Panagiotis Vakalis
@@ -214,6 +232,7 @@ public class Investor {
 
 	/**
 	 * Method to set the security answer
+	 * 
 	 * @param securityAnswer
 	 * 
 	 * @author Panagiotis Vakalis

@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
 /**
  * View part of the buy screen
  * 
@@ -22,7 +23,7 @@ import javax.swing.JTextField;
  *
  */
 public class BuyView extends View implements ActionListener, Observer {
-	
+
 	/**
 	 * 
 	 */
@@ -47,21 +48,22 @@ public class BuyView extends View implements ActionListener, Observer {
 	private JLabel afterBought;
 	private String command;
 	private JButton check;
-	
+
 	/**
 	 * Constructor of the class
+	 * 
 	 * @param buyModel
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 27-07-2015
 	 */
-	public BuyView(BuyModel buyModel){
+	public BuyView(BuyModel buyModel) {
 		super(buyModel);
-		
+
 		this.buyModel = buyModel;
-		
+
 		buyModel.addObserver(this);
-		
+
 		frameSetup();
 	}
 
@@ -71,80 +73,79 @@ public class BuyView extends View implements ActionListener, Observer {
 	 * @author Panagiotis Vakalis
 	 * @version 27-07-2015
 	 */
-	private void frameSetup(){
+	private void frameSetup() {
 		setLayout(new GridLayout(6, 1));
-		
+
 		viewTitle = new JLabel("Buy");
-	
-		//Panel for information regarding stock
+
+		// Panel for information regarding stock
 		stockInformation = new JPanel(new GridLayout(3, 2));
-		
+
 		stockSymbolLabel = new JLabel("Stock symbol");
 		stockSymbol = new JTextArea();
 		stockSymbol.setBackground(getPopUpWindowColor());
 		stockSymbol.setEditable(false);
 		stockSymbol.setText(buyModel.getStockSymbol());
-		
+
 		stockNameLabel = new JLabel("Stock name");
 		stockName = new JTextArea();
 		stockName.setBackground(getPopUpWindowColor());
 		stockName.setEditable(false);
 		stockName.setText(buyModel.getStockName());
-		
+
 		priceLabel = new JLabel("Price");
 		price = new JTextArea();
 		price.setBackground(getPopUpWindowColor());
 		price.setEditable(false);
 		price.setText("£" + String.valueOf(buyModel.getStockPrice()));
-		
+
 		stockInformation.add(stockSymbolLabel);
 		stockInformation.add(stockSymbol);
 		stockInformation.add(stockNameLabel);
 		stockInformation.add(stockName);
 		stockInformation.add(priceLabel);
 		stockInformation.add(price);
-		
-		//Panel regarding the amount of shares which the investor wants to buy
+
+		// Panel regarding the amount of shares which the investor wants to buy
 		sharesPanel = new JPanel(new FlowLayout());
 		sharesPanel.setBackground(getPopUpWindowColor());
-		
+
 		sharesLabel = new JLabel("Shares");
-	
+
 		shares = new JTextField(5);
 		shares.setBackground(getAreaColor());
-		
+
 		sharesPanel.add(sharesLabel);
 		sharesPanel.add(shares);
-		
+
 		afterBought = new JLabel("After trade:");
-		
+
 		check = new JButton("Check");
 		check.setActionCommand("check");
 		check.addActionListener(this);
-		
-		//Panel regarding the portfolio information
+
+		// Panel regarding the portfolio information
 		portfolioInformations = new JPanel(new GridLayout(2, 2));
-		
+
 		newInvestedMoneyLabel = new JLabel("Invested money");
 		newInvestedMoney = new JTextArea();
 		newInvestedMoney.setBackground(getPopUpWindowColor());
 		newInvestedMoney.setEditable(false);
-		//Initialy will have the same money
+		// Initialy will have the same money
 		newInvestedMoney.setText(currencyFormat(buyModel.getInvestedMoney()));
-		
+
 		newBalanceLabel = new JLabel("Balance");
 		newBalance = new JTextArea();
 		newBalance.setBackground(getPopUpWindowColor());
 		newBalance.setEditable(false);
-		//Initially will have the same balance
+		// Initially will have the same balance
 		newBalance.setText(currencyFormat(buyModel.getBalance()));
-		
+
 		portfolioInformations.add(newInvestedMoneyLabel);
 		portfolioInformations.add(newInvestedMoney);
 		portfolioInformations.add(newBalanceLabel);
 		portfolioInformations.add(newBalance);
-		
-		
+
 		add(viewTitle);
 		add(stockInformation);
 		add(sharesPanel);
@@ -152,41 +153,42 @@ public class BuyView extends View implements ActionListener, Observer {
 		add(check);
 		add(portfolioInformations);
 	}
-	
+
 	/**
 	 * Method to get the shares
+	 * 
 	 * @return number of shares
-	 * @return 0, if the shares is not a number or if the textfield is equal to ""
+	 * @return 0, if the shares is not a number or if the textfield is equal to
+	 *         ""
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 27-07-2015
 	 */
-	public int getShares(){
-		if(!shares.getText().equals("")){
-			try{
+	public int getShares() {
+		if (!shares.getText().equals("")) {
+			try {
 				return Integer.parseInt(shares.getText());
-			}
-			catch(NumberFormatException e){
+			} catch (NumberFormatException e) {
 				/*
 				 * If user enters a string
 				 */
 				return 0;
 			}
-		}
-		else{
+		} else {
 			return 0;
 		}
-		
+
 	}
-	
-	public void setShares(int shares){
+
+	public void setShares(int shares) {
 		this.shares.setText(String.valueOf(shares));
 	}
-	
+
 	@Override
 	public void update(Observable o, Object arg) {
-		if(o instanceof BuyModel){
-			newInvestedMoney.setText(currencyFormat(buyModel.useUpdateInvesteMoneyArea()));
+		if (o instanceof BuyModel) {
+			newInvestedMoney.setText(currencyFormat(buyModel
+					.useUpdateInvesteMoneyArea()));
 			newBalance.setText(currencyFormat(buyModel.useUpdateBalanceArea()));
 		}
 
@@ -195,9 +197,11 @@ public class BuyView extends View implements ActionListener, Observer {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		command = e.getActionCommand();
-		if(command.equals("check")){
-			if(!shares.getText().equals("")){
-				buyModel.useUpdateNewBalanceAndNewInvestedMoney(buyModel.getStockPrice(), new BigInteger((shares.getText())));
+		if (command.equals("check")) {
+			if (!shares.getText().equals("")) {
+				buyModel.useUpdateNewBalanceAndNewInvestedMoney(
+						buyModel.getStockPrice(),
+						new BigInteger((shares.getText())));
 			}
 		}
 	}
