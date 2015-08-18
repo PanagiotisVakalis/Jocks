@@ -161,7 +161,21 @@ public class BuyView extends View implements ActionListener, Observer {
 	 * @version 27-07-2015
 	 */
 	public int getShares(){
-		return Integer.parseInt(shares.getText());
+		if(!shares.getText().equals("")){
+			try{
+				return Integer.parseInt(shares.getText());
+			}
+			catch(NumberFormatException e){
+				/*
+				 * If user enters a string
+				 */
+				return 0;
+			}
+		}
+		else{
+			return 0;
+		}
+		
 	}
 	
 	public void setShares(int shares){
