@@ -39,7 +39,7 @@ public class Client extends JFrame{
 	
 	/**
 	 * Method to use the investor outside the class
-	 * @return inestor
+	 * @return investor
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 18-07-2015
@@ -70,7 +70,7 @@ public class Client extends JFrame{
 		this.setContentPane(panel);
 		this.pack();
 		/*
-		 * Code from Uday Reddy. This part of code
+		 * This part of code
 		 * places the frame into the middle of the screen
 		 */
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -79,7 +79,7 @@ public class Client extends JFrame{
 	}
 	
 	/**
-	 * Method to use changPanel method outside of the class
+	 * Method to change panels
 	 * @param panel
 	 * 
 	 * @author Panagiotis Vakalis
