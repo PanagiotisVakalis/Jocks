@@ -1,6 +1,5 @@
 package pxv425;
 
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -9,35 +8,44 @@ public class DatabaseMain {
 
 	public static void main(String[] args) {
 		
-//		try {
-//			Database.useConnectToDatabase();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		/*
+		 * Get all the symbols which are stored on the
+		 * database.
+		 * Create an arraylist for the updateStock objects.
+		 * Create an arraylist for the updateHistoricalPrices objects.
+		 */
 		ArrayList<String> symbols = Database.useGetStockSymbols();
 		ArrayList<UpdateStock> stockPrice = new ArrayList<>();
 		ArrayList<UpdateHistoricalPrices> historicalPrices = new ArrayList<>();
 
 
 		for(int i = 0; i < symbols.size(); i++){
-//			threadsStockPrice.add(new Thread(new UpdateStock(symbols.get(i))));
-//			threadsHistoricalPrices.add(new Thread(new UpdateHistoricalPrices(symbols.get(i))));
+			/*
+			 * Add both updateStock and UpdateHistoricalPrices
+			 * objects in the corresponding arraylist.
+			 * In construction of each object the current symbol
+			 * from arraylist is used.
+			 */
 			stockPrice.add(new UpdateStock(symbols.get(i)));
 			historicalPrices.add(new UpdateHistoricalPrices(symbols.get(i)));
 		}
 		
 		while(true){
 			if(isValidDayAndTime()){
+				/*
+				 * If the stock market is open
+				 */
 				int i;
 				for(i = 0; i < stockPrice.size() && i < historicalPrices.size(); i++){
+					/*
+					 * Call the methods
+					 * When the loop finishes reinitialize the
+					 * i with 0 in order to start the loop again
+					 */
 					stockPrice.get(i).useUpdateStockPrices();
 					historicalPrices.get(i).useGetStockPrices();
 				}
 				i = 0;
-			}
-			else{
-				System.out.println("Market closed");
 			}
 		}
 		
