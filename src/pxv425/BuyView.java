@@ -11,6 +11,7 @@ import java.util.Observer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -199,9 +200,13 @@ public class BuyView extends View implements ActionListener, Observer {
 		command = e.getActionCommand();
 		if (command.equals("check")) {
 			if (!shares.getText().equals("")) {
-				buyModel.useUpdateNewBalanceAndNewInvestedMoney(
-						buyModel.getStockPrice(),
-						new BigInteger((shares.getText())));
+				try{
+					buyModel.useUpdateNewBalanceAndNewInvestedMoney(
+							buyModel.getStockPrice(),
+							new BigInteger((shares.getText())));
+				} catch(NumberFormatException nFE){
+					JOptionPane.showMessageDialog(this, "You have to enter an integer", "Check warning", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		}
 	}

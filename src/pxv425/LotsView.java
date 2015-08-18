@@ -66,7 +66,7 @@ public class LotsView extends View implements Observer, ActionListener {
 		setLayout(new GridLayout(2, 1));
 		setBackground(getPopUpWindowColor());
 
-		setPreferredSize(new Dimension(600, 400));
+		setPreferredSize(new Dimension(900, 400));
 
 		lotsLabel = new JLabel(
 				"These are your lots which are contained in the "

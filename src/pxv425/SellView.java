@@ -9,6 +9,7 @@ import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -215,9 +216,13 @@ public class SellView extends View implements ActionListener, Observer {
 		command = e.getActionCommand();
 		if (command.equals("check")) {
 			if (!shares.getText().equals("")) {
-				sellModel.useUpdateNewBalanceAndNewInvestedMoney(
-						sellModel.getStockPrice(),
-						Integer.parseInt(shares.getText()));
+				try{
+					sellModel.useUpdateNewBalanceAndNewInvestedMoney(
+							sellModel.getStockPrice(),
+							Integer.parseInt(shares.getText()));
+				} catch (NumberFormatException nFE){
+					JOptionPane.showMessageDialog(this, "You have to enter an integer", "Check warning", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		}
 	}

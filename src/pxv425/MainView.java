@@ -223,17 +223,17 @@ public class MainView extends View implements ListSelectionListener,
 		numberOfPortfolios.setBackground(getWindowColor());
 		numberOfPortfolios.setEditable(false);
 		numberOfPortfolios.setText(mainModel.usePortfoliosAmount());
-		availableBalanceLabel = new JLabel("Available balance");
+		availableBalanceLabel = new JLabel("Portfolio's available balance");
 		availableBalance = new JTextArea();
 		availableBalance.setBackground(getWindowColor());
 		availableBalance.setEditable(false);
 		availableBalance.setText(mainModel.useTotalBalance());
-		investedMoneyLabel = new JLabel("Invested money");
+		investedMoneyLabel = new JLabel("Portfolio's invested money");
 		investedMoney = new JTextArea();
 		investedMoney.setBackground(getWindowColor());
 		investedMoney.setEditable(false);
 		investedMoney.setText(mainModel.useInvestedMoney());
-		profitLossLabel = new JLabel("Lots Profit / Loss");
+		profitLossLabel = new JLabel("Portfolio's lots Profit / Loss");
 		profitLoss = new JTextArea();
 		profitLoss.setBackground(getWindowColor());
 		profitLoss.setEditable(false);
@@ -419,10 +419,17 @@ public class MainView extends View implements ListSelectionListener,
 						/*
 						 * If initial amount has been entered
 						 */
-						mainModel.useCreatePortfolio(name,
-								Double.parseDouble(amount));
-						JOptionPane.showMessageDialog(this, "The " + name
-								+ " portfolio has been created.");
+						try{
+							mainModel.useCreatePortfolio(name,
+									Double.parseDouble(amount));
+							JOptionPane.showMessageDialog(this, "The " + name
+									+ " portfolio has been created.");
+						}catch(NumberFormatException nFE){
+							JOptionPane.showMessageDialog(this,
+									"You have not entered amount",
+									"Portfolio creation error",
+									JOptionPane.ERROR_MESSAGE);
+						}
 					} else {
 						JOptionPane.showMessageDialog(this,
 								"You have to enter an initial amount",
@@ -435,6 +442,9 @@ public class MainView extends View implements ListSelectionListener,
 							"Portfolio creation error",
 							JOptionPane.ERROR_MESSAGE);
 				}
+			}
+			else{
+				JOptionPane.showMessageDialog(this, "You have to enter a name", "Portfolio creation warning", JOptionPane.WARNING_MESSAGE);
 			}
 		}
 		if (command.equals("cross")) {
@@ -456,14 +466,18 @@ public class MainView extends View implements ListSelectionListener,
 								/*
 								 * If long period has been entered
 								 */
-								ChartPanel crossSMAPanel = new ChartPanel(
-										mainModel.useDrawCrossSMA(
-												stocksTable.getSelectedRow(),
-												Integer.parseInt(shortPeriod),
-												Integer.parseInt(longPeriod)));
-								JOptionPane.showMessageDialog(this,
-										crossSMAPanel, "Cross SMA",
-										JOptionPane.PLAIN_MESSAGE);
+								try{
+									ChartPanel crossSMAPanel = new ChartPanel(
+											mainModel.useDrawCrossSMA(
+													stocksTable.getSelectedRow(),
+													Integer.parseInt(shortPeriod),
+													Integer.parseInt(longPeriod)));
+									JOptionPane.showMessageDialog(this,
+											crossSMAPanel, "Cross SMA",
+											JOptionPane.PLAIN_MESSAGE);
+								} catch(NumberFormatException nFE){
+									JOptionPane.showMessageDialog(this, "You have not entered the appropriate data.", "Cross SMA data warning", JOptionPane.WARNING_MESSAGE);
+								}
 							} else {
 								JOptionPane.showMessageDialog(this,
 										"You have to the long period",
