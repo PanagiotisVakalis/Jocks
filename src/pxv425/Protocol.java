@@ -9,6 +9,13 @@ package pxv425;
  * @version 29-07-2015
  */
 public enum Protocol {
+	
+	/*
+	 * enum has been used because the:
+	 * SMTP, SMTPS, TLS
+	 * are a list of values which they do not have
+	 * data stored in it
+	 */
 	SMTP,
 	SMTPS,
 	TLS
