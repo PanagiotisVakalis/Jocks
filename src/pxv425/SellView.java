@@ -4,14 +4,10 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.math.BigInteger;
 import java.util.Observable;
 import java.util.Observer;
-
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -26,6 +22,10 @@ import javax.swing.JTextField;
  */
 public class SellView extends View implements ActionListener, Observer {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private SellModel sellModel;
 	private JLabel viewTitle;
 	private JPanel stockInformation;
@@ -37,19 +37,12 @@ public class SellView extends View implements ActionListener, Observer {
 	private JTextArea price;
 	private JPanel sharesPanel;
 	private JLabel sharesLabel;
-//	private JButton upButton;
-//	private JButton downButton;
-//	private ImageIcon upImage;
-//	private ImageIcon downImage;
 	private JTextField shares;
 	private JPanel portfolioInformations;
 	private JLabel newInvestedMoneyLabel;
 	private JTextArea newInvestedMoney;
 	private JLabel newBalanceLabel;
 	private JTextArea newBalance;
-	private JPanel buttons;
-//	private JButton confirmButton;
-//	private JButton backButton;
 	private JLabel afterSell;
 	private String command;
 	private JButton check;
@@ -145,7 +138,7 @@ public class SellView extends View implements ActionListener, Observer {
 		newInvestedMoneyLabel = new JLabel("Invested money");
 		newInvestedMoney = new JTextArea();
 		newInvestedMoney.setEditable(false);
-		//Initialy will have the same money
+		//Initially will have the same money
 		newInvestedMoney.setText(currencyFormat(sellModel.getInvestedMoney()));
 		newInvestedMoney.setBackground(getPopUpWindowColor());
 		
@@ -169,8 +162,26 @@ public class SellView extends View implements ActionListener, Observer {
 		add(portfolioInformations);
 	}
 	
+	/**
+	 * Method to get the shares outside of the class
+	 * @return number of shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	public int getShares(){
 		return Integer.parseInt(shares.getText());
+	}
+	
+	/**
+	 * Method to set the shares outside of the class
+	 * @param number of shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
+	public void setShares(int shares){
+		this.shares.setText(String.valueOf(shares));
 	}
 
 	@Override
@@ -185,24 +196,7 @@ public class SellView extends View implements ActionListener, Observer {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		command = e.getActionCommand();
-		
-//		if(command.equals("increase")){
-//			sellModel.useIncreaseSharesCount();
-//		}
-//		if(command.equals("decrease")){
-//			sellModel.useDecreaseSharesCount();
-//		}
-//		if(command.equals("back")){
-//			sellModel.useChangeToLotsView(new LotsView(new LotsModel(sellModel.getClient(), sellModel.getPortfolio())));
-//		}
-//		if(command.equals("confirm")){
-//			JOptionPane.showMessageDialog(this, sellModel.useSellStock(Integer.parseInt(shares.getText())));
-//			sellModel.useChangeToLotsView(new LotsView(new LotsModel(sellModel.getClient(), sellModel.getPortfolio())));
-//		}
 		if(command.equals("check")){
-//			sellModel.useUpdateInvestedMoney(sellModel.getStockPrice(), Integer.parseInt(shares.getText()));
-//			sellModel.useUpdateBalance(sellModel.getStockPrice(), Integer.parseInt(shares.getText()));
-//			sellModel.useUpdateNewBalanceAndNewInvestedMoney(sellModel.getStockPrice(), Integer.parseInt(shares.getText()));
 			if(!shares.getText().equals("")){
 				sellModel.useUpdateNewBalanceAndNewInvestedMoney(sellModel.getStockPrice(), Integer.parseInt(shares.getText()));
 			}

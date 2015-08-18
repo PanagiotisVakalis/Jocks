@@ -1,13 +1,9 @@
 package pxv425;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.security.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import javax.xml.crypto.Data;
 /**
  * Class which contains the model part of the sell screen
  * 
@@ -23,7 +19,6 @@ public class SellModel extends Model {
 	private int sharesCount = 0;
 	private BigDecimal newInvestedMoney;
 	private BigDecimal newBalance;
-	private MainModel mainModel;
 	private LotsModel lotsModel;
 
 	/**
@@ -98,7 +93,7 @@ public class SellModel extends Model {
 	}
 	
 	/**
-	 * Method to use the stockPrice() outside the class
+	 * Method which retrieves the stock price
 	 * @return stock price
 	 * 
 	 * @author Panagiotis Vakalis
@@ -108,20 +103,24 @@ public class SellModel extends Model {
 		return stockPrice();
 	}
 	
-//	/**
-//	 * Method which updates the counter in the view part
-//	 * 
-//	 * @author Panagiotis Vakalis
-//	 * @version 28-07-2015
-//	 */
-//	public void sharesCount(){
-//		update(sharesCount);
-//	}
-	
+	/**
+	 * Method which retrieves the shares from the lot
+	 * @return shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private int boughtShares(){
 		return lot.getBoughtShares();
 	}
 	
+	/**
+	 * Method which retrieves the shares from the lot
+	 * @return shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	public int getBoughtShares(){
 		return boughtShares();
 	}
@@ -145,7 +144,6 @@ public class SellModel extends Model {
 	 * @version 28-07-2015
 	 */
 	private BigDecimal investedMoney(){
-//		return portfolio.getInvestedMoney();
 		return Database.useGetInvestedMoney(portfolio.getNumber());
 	}
 	
@@ -168,7 +166,6 @@ public class SellModel extends Model {
 	 * @version 28-07-2015
 	 */
 	private BigDecimal balance(){
-//		return portfolio.getBalance();
 		return Database.getTotalBalance(portfolio.getNumber());
 	}
 	
@@ -183,55 +180,12 @@ public class SellModel extends Model {
 		return balance();
 	}
 	
-//	/**
-//	 * Method which increases the sharesCount variable and updates the view
-//	 * 
-//	 * @author Panagiotis Vakalis
-//	 * @version 28-07-2015
-//	 */
-//	private void increaseSharesCount(){
-//		sharesCount++;
-//		update(sharesCount);
-//	}
-//	
-//	/**
-//	 * Method to use the increaseSharesCount() outside the class
-//	 * 
-//	 * @author Panagiotis Vakalis
-//	 * @version 28-07-2015
-//	 */
-//	public void useIncreaseSharesCount(){
-//		increaseSharesCount();
-//	}
-	
-//	/**
-//	 * Method which decreases the sharesCount variable and updates the view
-//	 * 
-//	 * @author Panagiotis Vakalis
-//	 * @version 28-07-2015
-//	 */
-//	private void decreaseSharesCount(){
-//		if(sharesCount > 0){
-//			sharesCount--;
-//			update(sharesCount);
-//		}
-//	}
-//	
-//	/**
-//	 * Method to use the decreaseSharesCount() outside the class
-//	 * 
-//	 * @author Panagiotis Vakalis
-//	 * @version 28-07-2015
-//	 */
-//	public void useDecreaseSharesCount(){
-//		decreaseSharesCount();
-//	}
-	
 	/**
 	 * Method which is used when a stock is sold.
 	 * It updates the database and returns a message
 	 * @return "You have sold " + sharesCount + " of " + stock.getName() + " stock.", if sharesCount > 0
 	 * @return "You have not selected the amount of shares", otherwise
+	 * @return "You are trying to sell amount of shares which you do not have.", if the amount of shares which user tries t sell is higher than the amount which holds
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 28-07-2015
@@ -239,19 +193,16 @@ public class SellModel extends Model {
 	private String sellStock(int shares){
 		if(shares > 0){
 			if(lot.getBoughtShares() >= shares){
-//				Database.insertLot(portfolio.getNumber(), lot.getStockSymbol(), sharesCount);
 				//convert date variable into string in order to parse it using the valueOf method of Timestamp (sql) class
 				/*
 				 * Format the date variable so it can be
 				 * parsed in a Timestamp
 				 */
 				String dateString = String.valueOf(lot.getDate());
-//				SimpleDateFormat dateFormated = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 				SimpleDateFormat dateFormated = new SimpleDateFormat("yyy-MM-dd HH:mm:ss.SSS");
 				try {
 					Date date = dateFormated.parse(dateString);
 					java.sql.Timestamp dateTimestamp = new java.sql.Timestamp(date.getTime());
-//					Database.deleteLot(portfolio.getNumber(), lot.getStockSymbol(), dateTimestamp);
 					if(shares == lot.getBoughtShares()){
 						Database.useDeleteLot(portfolio.getNumber(), lot.getStockSymbol(), dateTimestamp);
 					}
@@ -260,17 +211,10 @@ public class SellModel extends Model {
 						Database.useUpdateSharesBoughtInLot(portfolio.getNumber(), lot.getStockSymbol(), dateTimestamp, sharesNew);
 					}
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-//				Database.deleteLot(portfolio.getNumber(), lot.getStockSymbol(), java.sql.Timestamp.valueOf(dateString));
-//				Database.insertBuy(stock.getSymbol(), portfolio.getNumber(), sharesCount);
-//				Database.insertSell(lot.getStockSymbol(), portfolio.getNumber(), sharesCount, lot.getCurrentPrice());
 				Database.useInsertSell(lot.getStockSymbol(), portfolio.getNumber(), shares, lot.getCurrentPrice(), lot.getDate());
-//				Database.updatePortfolioInvestedMoney(portfolio.getNumber(), stock.getPrice() * sharesCount);
 				Database.useUpdatePortfolioInvestedMoney(portfolio.getNumber(), (lot.getBoughtPrice() * shares) * (-1));
-//				Database.updatePortfolioBalance(portfolio.getNumber(), (stock.getPrice() * sharesCount) * (-1));
-//				Database.updatePortfolioBalance(portfolio.getNumber(), lot.getCurrentPrice() * sharesCount);
 				Database.useUpdatePortfolioBalance(portfolio.getNumber(), BigDecimal.valueOf(lot.getCurrentPrice() * shares));
 				return "You have sold " + shares + " of " + stockName() + " stock.";
 			}
@@ -284,9 +228,11 @@ public class SellModel extends Model {
 	}
 	
 	/**
-	 * Method to use the sellStock() outside the class
+	 * Method which is used when a stock is sold.
+	 * It updates the database and returns a message
 	 * @return "You have sold " + sharesCount + " of " + stock.getName() + " stock.", if sharesCount > 0
 	 * @return "You have not selected the amount of shares", otherwise
+	 * @return "You are trying to sell amount of shares which you do not have.", if the amount of shares which user tries t sell is higher than the amount which holds
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 28-07-2015
@@ -307,73 +253,170 @@ public class SellModel extends Model {
 		notifyObservers(arg);
 	}
 	
+	/**
+	 * Method which updates the invested money for the updated area
+	 * @param price
+	 * @param shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private void updateInvestedMoney(double price, int shares){
 		if(lot.getBoughtShares() >= shares){
-//			newInvestedMoney = portfolio.getInvestedMoney().subtract(new BigDecimal(price * shares));
 			newInvestedMoney = Database.useGetInvestedMoney(portfolio.getNumber()).subtract(new BigDecimal(price * shares));
 			update(newInvestedMoney);
 		}
 	}
 	
+	/**
+	 * Method which updates the invested money for the updated area
+	 * @param price
+	 * @param shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	public void useUpdateInvestedMoney(double price, int shares){
 		updateInvestedMoney(price, shares);
 	}
 	
+	/**
+	 * Method which updates the balance for the updated area
+	 * @param price
+	 * @param shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private void updateBalance(double price, int shares){
 		if(lot.getBoughtShares() >= shares){
-//			newBalance = portfolio.getBalance().add(new BigDecimal(price * shares));
 			newBalance = Database.getTotalBalance(portfolio.getNumber()).add(new BigDecimal(price * shares));
 			update(newBalance);
 		}
 	}
 	
+	/**
+	 * Method which updates the balance for the updated area
+	 * @param price
+	 * @param shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	public void useUpdateBalance(double price, int shares){
 		updateBalance(price, shares);
 	}
 	
+	/**
+	 * Method which updates the invested money area in the view part
+	 * @return future invested money
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private String updateInvestedMoneyArea(){
-//		return String.valueOf(newInvestedMoney.setScale(2, BigDecimal.ROUND_DOWN));
 		return View.currencyFormat(newInvestedMoney.setScale(2, BigDecimal.ROUND_DOWN));
 	}
 	
+	/**
+	 * Method which updates the invested money area in the view part
+	 * @return future invested money
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	public String useUpdateInvesteMoneyArea(){
 		return updateInvestedMoneyArea();
 	}
 	
+	/**
+	 * Method which updates the balance area in the view part
+	 * @return future balance
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private String updateBalanceArea(){
-//		return String.valueOf(newBalance.setScale(2, BigDecimal.ROUND_DOWN));
 		return View.currencyFormat(newBalance.setScale(2, BigDecimal.ROUND_DOWN));
 	}
 	
+	/**
+	 * Method which updates the balance area in the view part
+	 * @return future balance
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	public String useUpdateBalanceArea(){
 		return updateBalanceArea();
 	}
 	
+	/**
+	 * Method to change to lots view
+	 * @param lots view
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private void changeToLotsView(LotsView lotsView){
 		lotsModel = new LotsModel(super.getClient(), portfolio);
 		super.getClient().useChangePanel(lotsView);
 	}
 	
+	/**
+	 * Method to change to lots view
+	 * @param lots view
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	public void useChangeToLotsView(LotsView lotsView){
 		changeToLotsView(lotsView);
 	}
 	
+	/**
+	 * Method to get the portfolio
+	 * @return portfolio
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	public Portfolio getPortfolio(){
 		return portfolio;
 	}
 	
+	/**
+	 * Method to update the balance when check is pressed
+	 * @param price
+	 * @param shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private void updateBalanceInCheck(double price, int shares){
 		newBalance = balance().add(new BigDecimal(price).setScale(2, BigDecimal.ROUND_DOWN).multiply(new BigDecimal(shares)));
-//		newBalance = balance().subtract(new BigDecimal(price).multiply(new BigDecimal(shares)));
-//		update(newBalance);
 	}
 	
+	/**
+	 * Method to update the invested money when check is pressed
+	 * @param price
+	 * @param shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private void updateInvestedMoneyInCheck(double price, int shares){
-//		newInvestedMoney = portfolio.getInvestedMoney() - (price * shares);
 		newInvestedMoney = investedMoney().subtract(new BigDecimal(lot.getBoughtPrice()).multiply(new BigDecimal(shares)));
-//		update(newInvestedMoney);
 	}
 	
+	/**
+	 * Method to update the balance and the invested money when check is pressed
+	 * @param price
+	 * @param shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	private void updateNewBalanceAndNewInvestedMoney(double price, int shares){
 		updateBalanceInCheck(price, shares);
 		updateInvestedMoneyInCheck(price, shares);
@@ -381,6 +424,14 @@ public class SellModel extends Model {
 		update(newInvestedMoney);
 	}
 	
+	/**
+	 * Method to update the balance and the invested money when check is pressed
+	 * @param price
+	 * @param shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 28-07-2015
+	 */
 	public void useUpdateNewBalanceAndNewInvestedMoney(double price, int shares){
 		updateNewBalanceAndNewInvestedMoney(price, shares);
 	}

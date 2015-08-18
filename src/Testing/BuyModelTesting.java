@@ -17,7 +17,7 @@ import pxv425.Portfolio;
 import pxv425.Stock;
 
 /**
- * JUnit tests for the LoginModel
+ * JUnit tests for the BuyModel
  * @author Panagiotis Vakalis
  * @version 2015-08-17
  */
