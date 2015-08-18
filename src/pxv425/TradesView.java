@@ -6,10 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
-
-import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -22,18 +19,19 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class TradesView extends View implements ActionListener, Observer {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private TradesModel tradesModel;
 	private JTable buysTable;
 	private JScrollPane buysTableScroll;
 	private JTable sellsTable;
 	private JScrollPane sellsTableScroll;
-	private String command;
 	private JLabel buysLabel;
 	private JLabel sellsLabel;
-//	private JButton backButton;
-//	private JPanel backButtonPanel;
 	private DefaultTableCellRenderer rightAlign;
-private DefaultTableCellRenderer centerAlign;
+	private DefaultTableCellRenderer centerAlign;
 	
 	/**
 	 * Constructor of the class
@@ -105,30 +103,26 @@ private DefaultTableCellRenderer centerAlign;
 		
 		sellsTableScroll = new JScrollPane(sellsTable);
 		
-//		backButton = new JButton("Back");
-//		backButton.setActionCommand("back");
-//		backButton.addActionListener(this);
-		
 		add(buysLabel);
 		add(buysTableScroll);
 		add(sellsLabel);
 		add(sellsTableScroll);
-//		add(backButton);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
+		/*
+		 * No body
+		 */
 
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		command = e.getActionCommand();
-		
-//		if(command.equals("back")){
-//			tradesModel.useChangeToMainView(new MainView(new MainModel(tradesModel.getClient(), tradesModel.getPortfolio())), tradesModel.getPortfolio());
-//		}
+		/*
+		 * No body
+		 */
+
 
 	}
 

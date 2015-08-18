@@ -192,6 +192,11 @@ public class TradesModel extends Model {
 	private String[][] buysDetails(){
 		buysDetails = new String[buys.size()][5];
 		
+		/*
+		 * For every buy assign the details in the
+		 * two dimentional string table which will be used in the 
+		 * view table
+		 */
 		for (int i = 0; i < buys.size(); i++) {
 			System.out.println(String.valueOf(buys.get(i).getDate().getTime()));
 			buysDetails[i][0] = buys.get(i).getStockSymbol();
@@ -246,6 +251,11 @@ public class TradesModel extends Model {
 		sellsDetails = new String[sells.size()][6];
 		
 		for (int i = 0; i < sells.size(); i++) {
+			/*
+			 * For every sell assign the details in the
+			 * two dimensional string table which will be used in the 
+			 * view table
+			 */
 			sellsDetails[i][0] = sells.get(i).getStockSymbol();
 			sellsDetails[i][1] = View.currencyFormat(new BigDecimal(sells.get(i).getSoldPrice()));
 			sellsDetails[i][2] = String.valueOf(sells.get(i).getSoldShares());
