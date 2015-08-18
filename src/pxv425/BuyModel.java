@@ -14,7 +14,6 @@ public class BuyModel extends Model {
 	
 	private Portfolio portfolio;
 	private Stock stock;
-//	private int sharesCount = 0;
 	private BigDecimal newInvestedMoney;
 	private BigDecimal newBalance;
 	private BigDecimal balance;
@@ -47,8 +46,11 @@ public class BuyModel extends Model {
 	}
 	
 	/**
-	 * Method to use the stockSymbol() outside the class
+	 * Method which retrieves the stock symbol
 	 * @return stock symbol
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 27-07-2015
 	 */
 	public String getStockSymbol(){
 		return stockSymbol();
@@ -66,7 +68,7 @@ public class BuyModel extends Model {
 	}
 	
 	/**
-	 * Method to use the stockName() outside the class
+	 * Method which retrieves the stock name
 	 * @return stock name
 	 * 
 	 * @author Panagiotis Vakalis
@@ -88,7 +90,7 @@ public class BuyModel extends Model {
 	}
 	
 	/**
-	 * Method to use the stockPrice() outside the class
+	 * Method which retrieves the stock price
 	 * @return stock price
 	 * 
 	 * @author Panagiotis Vakalis
@@ -98,27 +100,6 @@ public class BuyModel extends Model {
 		return stockPrice();
 	}
 	
-//	/**
-//	 * Method which updates the counter in the view part
-//	 * 
-//	 * @author Panagiotis Vakalis
-//	 * @version 27-07-2015
-//	 */
-//	public void sharesCount(){
-//		update(sharesCount);
-//	}
-	
-//	/**
-//	 * Method to get the shares count
-//	 * @return shares count
-//	 * 
-//	 * @author Panagiotis Vakalis
-//	 * @version 27-07-2015
-//	 */
-//	public String getSharesCount(){
-//		return String.valueOf(sharesCount);
-//	}
-	
 	/**
 	 * Method to retrieve the invested money of the portfolio
 	 * @return invested money
@@ -127,12 +108,14 @@ public class BuyModel extends Model {
 	 * @version 27-07-2015
 	 */
 	private BigDecimal investedMoney(){
-//		return portfolio.getInvestedMoney();
+		/*
+		 * Call the method from the database
+		 */
 		return Database.useGetInvestedMoney(portfolio.getNumber());
 	}
 	
 	/**
-	 * Method to use the investeMoney() outside the class
+	 * Method to retrieve the invested money of the portfolio
 	 * @return invested money
 	 * 
 	 * @author Panagiotis Vakalis
@@ -150,13 +133,11 @@ public class BuyModel extends Model {
 	 * @version 27-07-2015
 	 */
 	private BigDecimal balance(){
-		
-//		return portfolio.getBalance();
 		return Database.getTotalBalance(portfolio.getNumber());
 	}
 	
 	/**
-	 * Method to use the balance() outside the class
+	 * Method to retrieve the balance of the portfolio
 	 * @return balance
 	 * 
 	 * @author Panagiotis Vakalis
@@ -166,74 +147,69 @@ public class BuyModel extends Model {
 		return balance();
 	}
 	
-//	/**
-//	 * Method which increases the sharesCount variable and updates the view
-//	 * 
-//	 * @author Panagiotis Vakalis
-//	 * @version 27-07-2015
-//	 */
-//	private void increaseSharesCount(){
-//		sharesCount++;
-//		update(sharesCount);
-//	}
-//	
-//	/**
-//	 * Method to use the increaseSharesCount() outside the class
-//	 * 
-//	 * @author Panagiotis Vakalis
-//	 * @version 27-07-2015
-//	 */
-//	public void useIncreaseSharesCount(){
-//		increaseSharesCount();
-//	}
-	
-//	/**
-//	 * Method which decreases the sharesCount variable and updates the view
-//	 * 
-//	 * @author Panagiotis Vakalis
-//	 * @version 27-07-2015
-//	 */
-//	private void decreaseSharesCount(){
-//		if(sharesCount > 0){
-//			sharesCount--;
-//			update(sharesCount);
-//		}
-//	}
-//	
-//	/**
-//	 * Method to use the decreaseSharesCount() outside the class
-//	 * 
-//	 * @author Panagiotis Vakalis
-//	 * @version 27-07-2015
-//	 */
-//	public void useDecreaseSharesCount(){
-//		decreaseSharesCount();
-//	}
-	
-	
+	/**
+	 * Method to get the updated invested money of the portfolio
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 27-07-2015
+	 */
 	private void updateInvestedMoney(double price, BigInteger shares){
-//		newInvestedMoney = portfolio.getInvestedMoney() - (price * shares);
 		newInvestedMoney = investedMoney().add(new BigDecimal(price).multiply(new BigDecimal(shares)));
-//		update(newInvestedMoney);
 	}
 	
+	/**
+	 * Method to get the updated invested money of the portfolio
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 27-07-2015
+	 */
 	public void useUpdateInvestedMoney(double price, BigInteger shares){
 		updateInvestedMoney(price, shares);
 	}
 	
+	/**
+	 * Method to update the invested money area on the view
+	 * @return new invested money
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 27-07-2015
+	 */
 	private BigDecimal updateInvestedMoneyArea(){
-//		return String.valueOf((portfolio.getInvestedMoney()).add(new BigDecimal(price * shares)));
+		/*
+		 * Uses only two decimals
+		 */
 		return newInvestedMoney.setScale(2, BigDecimal.ROUND_DOWN);
 	}
 	
+	/**
+	 * Method to update the invested money area on the view
+	 * @return new invested money
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 27-07-2015
+	 */
 	public BigDecimal useUpdateInvesteMoneyArea(){
 		return updateInvestedMoneyArea();
 	}
 	
+	/**
+	 * Method to update the balance area on the view
+	 * @return new invested money
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 27-07-2015
+	 */
 	private BigDecimal updateBalanceArea(){
 		return newBalance.setScale(2, BigDecimal.ROUND_DOWN);
 	}
 	
+	/**
+	 * Method to update the balance area on the view
+	 * @return new invested money
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 27-07-2015
+	 */
 	public BigDecimal useUpdateBalanceArea(){
 		return updateBalanceArea();
 	}
@@ -243,20 +219,18 @@ public class BuyModel extends Model {
 	 * It updates the database and returns a message
 	 * @return "You have bought " + sharesCount + " of " + stock.getName() + " stock.", if sharesCount > 0
 	 * @return "You have not selected the amount of shares", otherwise
+	 * @return "You do not have enough balance", if the stock price multiplied by shares is higher than the balance
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 27-07-2015
 	 */
 	private String buyStock(int shares){
 		if(shares > 0){
-//			if(balance.compareTo(new BigDecimal((stock.getPrice() * shares)).compareTo(new BigDecimal(0))){
-//			if(balance.compareTo(new BigDecimal(stock.getPrice() * shares)) == new BigDecimal(1))
 			int compare = portfolio.getBalance().compareTo(new BigDecimal(stock.getPrice() * shares));
 			if(compare == 0 || compare == 1){
 				Database.useInsertLot(portfolio.getNumber(), stock.getSymbol(), shares);
 				Database.useInsertABuy(stock.getSymbol(), portfolio.getNumber(), shares);
 				Database.useUpdatePortfolioInvestedMoney(portfolio.getNumber(), stock.getPrice() * shares);
-//				Database.updatePortfolioBalance(portfolio.getNumber(), (stock.getPrice() * sharesCount) * (-1));
 				Database.useUpdatePortfolioBalance(portfolio.getNumber(), BigDecimal.valueOf((stock.getPrice() * shares) * (-1)));
 				return "You have bought " + shares + " of " + stock.getName() + " stock.";
 			}
@@ -270,9 +244,11 @@ public class BuyModel extends Model {
 	}
 	
 	/**
-	 * Method to use the buyStock() outside the class
+	 * Method which is used when a stock is bought.
+	 * It updates the database and returns a message
 	 * @return "You have bought " + sharesCount + " of " + stock.getName() + " stock.", if sharesCount > 0
 	 * @return "You have not selected the amount of shares", otherwise
+	 * @return "You do not have enough balance", if the stock price multiplied by shares is higher than the balance
 	 * 
 	 * @author Panagiotis Vakalis
 	 * @version 27-07-2015
@@ -293,29 +269,72 @@ public class BuyModel extends Model {
 		notifyObservers(arg);
 	}
 	
+	/**
+	 * Method to change to main view
+	 * @param mainView
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 27-07-2015
+	 */
 	private void changeToMainView(MainView mainView){
 		mainModel = new MainModel(super.getClient(), portfolio);
 		super.getClient().useChangePanel(mainView);
 	}
 	
+	/**
+	 * Method to change to main view
+	 * @param mainView
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 27-07-2015
+	 */
 	public void useChangeToMainView(MainView mainView){
 		changeToMainView(mainView);
 	}
 	
+	/**
+	 * Method to get the portfolio outside of the class
+	 * @return portfolio
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 27-07-2015
+	 */
 	public Portfolio getPortfolio(){
 		return portfolio;
 	}
 	
+	/**
+	 * Method which update the balance
+	 * @param price
+	 * @param shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 27-07-2015
+	 */
 	private void updateBalance(double price, BigInteger shares){
 		newBalance = balance().subtract(new BigDecimal(price).setScale(2, BigDecimal.ROUND_DOWN).multiply(new BigDecimal(shares)));
-//		newBalance = balance().subtract(new BigDecimal(price).multiply(new BigDecimal(shares)));
-//		update(newBalance);
 	}
 	
+	/**
+	 * Method which update the balance
+	 * @param price
+	 * @param shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 27-07-2015
+	 */
 	public void useUpdateBalance(double price, BigInteger shares){
 		updateBalance(price, shares);
 	}
 	
+	/**
+	 * Method which updates the balance and the invested money when check button is pressed
+	 * @param price
+	 * @param shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 27-07-2015
+	 */
 	private void updateNewBalanceAndNewInvestedMoney(double price, BigInteger shares){
 		updateBalance(price, shares);
 		updateInvestedMoney(price, shares);
@@ -323,6 +342,14 @@ public class BuyModel extends Model {
 		update(newInvestedMoney);
 	}
 	
+	/**
+	 * Method which updates the balance and the invested money when check button is pressed
+	 * @param price
+	 * @param shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 27-07-2015
+	 */
 	public void useUpdateNewBalanceAndNewInvestedMoney(double price, BigInteger shares){
 		updateNewBalanceAndNewInvestedMoney(price, shares);
 	}

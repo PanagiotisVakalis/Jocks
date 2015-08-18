@@ -11,7 +11,6 @@ import java.util.Observer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -24,6 +23,10 @@ import javax.swing.JTextField;
  */
 public class BuyView extends View implements ActionListener, Observer {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private BuyModel buyModel;
 	private JLabel viewTitle;
 	private JPanel stockInformation;
@@ -35,20 +38,12 @@ public class BuyView extends View implements ActionListener, Observer {
 	private JTextArea price;
 	private JPanel sharesPanel;
 	private JLabel sharesLabel;
-//	private JButton upButton;
-//	private JButton downButton;
-	private ImageIcon upImage;
-	private ImageIcon downImage;
-//	private JTextArea shares;
 	private JTextField shares;
 	private JPanel portfolioInformations;
 	private JLabel newInvestedMoneyLabel;
 	private JTextArea newInvestedMoney;
 	private JLabel newBalanceLabel;
 	private JTextArea newBalance;
-//	private JPanel buttons;
-//	private JButton confirmButton;
-//	private JButton backButton;
 	private JLabel afterBought;
 	private String command;
 	private JButton check;
@@ -156,22 +151,27 @@ public class BuyView extends View implements ActionListener, Observer {
 		add(afterBought);
 		add(check);
 		add(portfolioInformations);
-//		add(buttons);
 	}
 	
+	/**
+	 * Method to get the shares
+	 * @return number of shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 27-07-2015
+	 */
 	public int getShares(){
 		return Integer.parseInt(shares.getText());
+	}
+	
+	public void setShares(int shares){
+		this.shares.setText(String.valueOf(shares));
 	}
 	
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o instanceof BuyModel){
-//			shares.setText(String.valueOf(arg));
-//			newInvestedMoney.setText(String.valueOf(buyModel.useUpdateInvestedMoney(buyModel.getStockPrice(), Integer.parseInt(shares.getText()))));
-//			newInvestedMoney.setText(buyModel.useUpdateInvesteMoneyArea(buyModel.getStockPrice(), Integer.parseInt(shares.getText())));
-//			newInvestedMoney.setText("£" + buyModel.useUpdateInvesteMoneyArea());
 			newInvestedMoney.setText(currencyFormat(buyModel.useUpdateInvesteMoneyArea()));
-//			newBalance.setText("£" + buyModel.useUpdateBalanceArea());
 			newBalance.setText(currencyFormat(buyModel.useUpdateBalanceArea()));
 		}
 
@@ -180,18 +180,8 @@ public class BuyView extends View implements ActionListener, Observer {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		command = e.getActionCommand();
-
-//		if(command.equals("back")){
-//			buyModel.useChangeToMainView(new MainView(new MainModel(buyModel.getClient(), buyModel.getPortfolio())));
-//		}
-//		if(command.equals("confirm")){
-//			JOptionPane.showMessageDialog(this, buyModel.useBuyStock(Integer.parseInt(shares.getText())));
-//			buyModel.useChangeToMainView(new MainView(new MainModel(buyModel.getClient(), buyModel.getPortfolio())));
-//		}
 		if(command.equals("check")){
 			if(!shares.getText().equals("")){
-//				buyModel.useUpdateInvestedMoney(buyModel.getStockPrice(), new BigInteger(shares.getText()));
-//				buyModel.useUpdateBalance(buyModel.getStockPrice(), new BigInteger(shares.getText()));
 				buyModel.useUpdateNewBalanceAndNewInvestedMoney(buyModel.getStockPrice(), new BigInteger((shares.getText())));
 			}
 		}
