@@ -12,7 +12,6 @@ public class Portfolio {
 	
 	private Integer number;
 	private String name;
-//	private Investor investor;
 	private BigDecimal investedMoney;
 	private BigDecimal balance;
 	private double profitLoss;
@@ -31,7 +30,6 @@ public class Portfolio {
 	public Portfolio(Integer number, String name, BigDecimal investedMoney, BigDecimal balance, double profitLoss){
 		this.number = number;
 		this.name = name;
-//		this.investor = investor;
 		this.investedMoney = investedMoney;
 		this.balance = balance;
 		this.profitLoss = profitLoss;
@@ -80,14 +78,6 @@ public class Portfolio {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-//	public Investor getInvestor() {
-//		return investor;
-//	}
-//
-//	public void setInvestor(Investor investor) {
-//		this.investor = investor;
-//	}
 
 	/**
 	 * Method to get the invested money
@@ -154,13 +144,4 @@ public class Portfolio {
 	public void setProfitLoss(double profitLoss) {
 		this.profitLoss = profitLoss;
 	}
-
-//	@Override
-//	public String toString() {
-//		return "Portfolio [number=" + number + ", name=" + name + ", investor="
-//				+ investor + ", investedMoney=" + investedMoney + ", balance="
-//				+ balance + ", profitLoss=" + profitLoss + "]";
-//	}
-	
-	
 }
