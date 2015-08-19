@@ -80,8 +80,7 @@ public class UpdateStock {
 			}
 			System.out.println(stockSymbol + " current price has been updated");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Stock price has not been updated");
 		}
 
 	}
