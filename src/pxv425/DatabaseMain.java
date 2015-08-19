@@ -59,7 +59,7 @@ public class DatabaseMain {
 			return false;
 		} else {
 			if (time.format(calendar.getTime()).compareTo("16:29:59") == 1
-					|| time.format(calendar.getTime()).compareTo("09:59:59") == -1) {
+					|| time.format(calendar.getTime()).compareTo("08:59:59") == -1) {
 				return false;
 			} else {
 				return true;

@@ -83,7 +83,7 @@ public abstract class Model extends Observable {
 			 * If the current day is neither Saturday nor Sunday
 			 */
 			if (time.format(calendar.getTime().getTime()).compareTo("16:29:59") == 1
-					|| time.format(calendar.getTime().getTime()).compareTo("09:59:59") == -1) {
+					|| time.format(calendar.getTime().getTime()).compareTo("08:59:59") == -1) {
 				/*
 				 * If the time is after 16:29:59 or before 09:59:59 then the
 				 * stock market is closed and the method returns false
