@@ -119,7 +119,12 @@ public class BuyModel extends Model {
 		/*
 		 * Call the method from the database
 		 */
-		return Database.useGetInvestedMoney(portfolio.getNumber());
+		if(Database.useGetInvestedMoney(portfolio.getNumber()).compareTo(new BigDecimal(0)) == 1){
+			return Database.useGetInvestedMoney(portfolio.getNumber());
+		}
+		else{
+			return new BigDecimal(0);
+		}
 	}
 
 	/**
@@ -191,7 +196,12 @@ public class BuyModel extends Model {
 		/*
 		 * Uses only two decimals
 		 */
-		return newInvestedMoney.setScale(2, BigDecimal.ROUND_DOWN);
+		if(newInvestedMoney.compareTo(new BigDecimal(0)) == 1){
+			return newInvestedMoney.setScale(2, BigDecimal.ROUND_DOWN);
+		}
+		else{
+			return new BigDecimal(0);
+		}
 	}
 
 	/**

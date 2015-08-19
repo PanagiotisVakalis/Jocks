@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javafx.scene.chart.PieChart.Data;
+
 /**
  * Class which contains the model part of the sell screen
  * 
@@ -155,7 +157,11 @@ public class SellModel extends Model {
 	 * @version 28-07-2015
 	 */
 	private BigDecimal investedMoney() {
-		return Database.useGetInvestedMoney(portfolio.getNumber());
+		if(Database.useGetInvestedMoney(portfolio.getNumber()).compareTo(new BigDecimal(0)) == 1){
+			return Database.useGetInvestedMoney(portfolio.getNumber());
+		}else{
+			return new BigDecimal(0);
+		}
 	}
 
 	/**
@@ -353,8 +359,13 @@ public class SellModel extends Model {
 	 * @version 28-07-2015
 	 */
 	private String updateInvestedMoneyArea() {
-		return View.currencyFormat(newInvestedMoney.setScale(2,
-				BigDecimal.ROUND_DOWN));
+		if(newInvestedMoney.compareTo(new BigDecimal(0)) == 1){
+			return View.currencyFormat(newInvestedMoney.setScale(2,
+					BigDecimal.ROUND_DOWN));
+		}
+		else{
+			return View.currencyFormat(new BigDecimal(0));
+		}
 	}
 
 	/**
@@ -461,6 +472,9 @@ public class SellModel extends Model {
 		newInvestedMoney = investedMoney().subtract(
 				new BigDecimal(lot.getBoughtPrice()).multiply(new BigDecimal(
 						shares)));
+		if(newInvestedMoney.compareTo(new BigDecimal(0)) == -1){
+			newInvestedMoney = new BigDecimal(0);
+		}
 	}
 
 	/**

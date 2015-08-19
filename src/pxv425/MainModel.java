@@ -253,8 +253,13 @@ public class MainModel extends Model {
 	 * @version 20-07-2015
 	 */
 	private String investedMoney() {
-		return String.valueOf(View.currencyFormat(Database
-				.useRetrieveInvestedMoney(portfolio.getNumber())));
+		if(Database.useRetrieveInvestedMoney(portfolio.getNumber()).compareTo(new BigDecimal(0)) == 1){
+			return String.valueOf(View.currencyFormat(Database
+					.useRetrieveInvestedMoney(portfolio.getNumber())));
+		}
+		else{
+			return String.valueOf(View.currencyFormat(new BigDecimal(0)));
+		}
 	}
 
 	/**
@@ -264,8 +269,13 @@ public class MainModel extends Model {
 	 * @version 20-07-2015
 	 */
 	private void updateTotalInvestedMoney() {
-		totalInvestedMoney = Database.useRetrieveInvestedMoney(portfolio
-				.getNumber());
+		if(Database.useRetrieveInvestedMoney(portfolio.getNumber()).compareTo(new BigDecimal(0)) == 1){
+			totalInvestedMoney = Database.useRetrieveInvestedMoney(portfolio
+					.getNumber());
+		}
+		else{
+			totalInvestedMoney = new BigDecimal(0);
+		}
 		update(totalInvestedMoney);
 	}
 

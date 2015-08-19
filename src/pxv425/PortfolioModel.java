@@ -137,7 +137,12 @@ public class PortfolioModel extends Model {
 	 * @version 18-07-2015
 	 */
 	private BigDecimal getPortfolioInvestedMoney(int portfolioNumber) {
-		return Database.useGetInvestedMoney(portfolioNumber);
+		if(Database.useGetInvestedMoney(portfolioNumber).compareTo(new BigDecimal(0)) == 1){
+			return Database.useGetInvestedMoney(portfolioNumber);
+		}
+		else{
+			return new BigDecimal(0);
+		}
 	}
 
 	public BigDecimal useGetPortfolioInvestedMoney(int portfolioNumber) {
