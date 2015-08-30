@@ -36,8 +36,6 @@ public class MainModel extends Model {
 	private WatchlistView watchlistView;
 	private BuyModel buyModel;
 	private BuyView buyView;
-	private IntroModel introModel;
-	private MainModel mainModel;
 	private PortfolioModel portfolioModel;
 	private ArrayList<Lot> allLots;
 	private ArrayList<Stock> watches;
