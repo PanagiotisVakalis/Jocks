@@ -1,6 +1,7 @@
 package pxv425;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -221,7 +222,9 @@ public class TradesModel extends Model {
 			buysDetails[i][2] = String.valueOf(buys.get(i).getBoughtShares());
 			buysDetails[i][3] = View.currencyFormat(new BigDecimal(buys.get(i)
 					.getBoughtAmount()));
-			buysDetails[i][4] = String.valueOf(buys.get(i).getDate());
+			SimpleDateFormat sDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//			buysDetails[i][4] = String.valueOf(buys.get(i).getDate());
+			buysDetails[i][4] = sDF.format(buys.get(i).getDate());
 		}
 
 		return buysDetails;
@@ -285,7 +288,9 @@ public class TradesModel extends Model {
 					.get(i).getSoldAmount()));
 			sellsDetails[i][4] = View.currencyFormat(new BigDecimal(sells
 					.get(i).getProfitLoss()));
-			sellsDetails[i][5] = String.valueOf(sells.get(i).getDate());
+			SimpleDateFormat sDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//			sellsDetails[i][5] = String.valueOf(sells.get(i).getDate());
+			sellsDetails[i][5] = sDF.format(sells.get(i).getDate());
 		}
 
 		return sellsDetails;

@@ -1,6 +1,7 @@
 package pxv425;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -412,7 +413,9 @@ public class LotsModel extends Model {
 					.getCurrentAmount()));
 			lotsDetails[i][6] = View.currencyFormat(new BigDecimal(lots.get(i)
 					.getCurrentProfitLoss()));
-			lotsDetails[i][7] = String.valueOf(lots.get(i).getDate());
+			SimpleDateFormat sDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//			lotsDetails[i][7] = String.valueOf(lots.get(i).getDate());
+			lotsDetails[i][7] = sDF.format(lots.get(i).getDate());
 		}
 		return lotsDetails;
 	}
