@@ -30,9 +30,9 @@ public class Database {
 	 * static since they will not be changed and they will be part of the whole
 	 * class
 	 */
-	private static final String DATABASEURL = "jdbc:postgresql://10.44.130.49:5432/jocks_db";
-	private static final String USERNAME = "postgres";
-	private static final String PASSWORD = "electro_PA16989";
+	private static final String DATABASEURL = "jdbc:postgresql://dbteach2.cs.bham.ac.uk:5432/jocks_db";
+	private static final String USERNAME = "pxv425";
+	private static final String PASSWORD = "electro_pa";
 	// Instance variable to establish connection
 	private static Connection connection;
 	// Instance variable to store the result

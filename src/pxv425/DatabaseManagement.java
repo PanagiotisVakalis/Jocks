@@ -236,11 +236,7 @@ public class DatabaseManagement {
 				symbolResult = resultSetSymbol.getString("symbol");
 
 				start = Calendar.getInstance();
-				/*
-				 * Get the last updated date and add 86400000 milliseconds
-				 * (which are equal to 24 hours) to set the start from the next
-				 * day
-				 */
+				
 				start.setTimeInMillis(Database.useGetLastUpdatedDate(
 						symbolResult).getTime());
 				end = Calendar.getInstance();

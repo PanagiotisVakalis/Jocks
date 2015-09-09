@@ -65,6 +65,7 @@ public class UpdateHistoricalPrices {
 			 */
 			start.setTimeInMillis(Database.useGetLastUpdatedDate(stockSymbol)
 					.getTime() + 86400000);
+
 			end = Calendar.getInstance();
 
 			url = DatabaseManagement.useBuildYahooUrlForPrices(stockSymbol,

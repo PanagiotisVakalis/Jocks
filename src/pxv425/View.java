@@ -18,7 +18,7 @@ import javax.swing.UIManager;
  * @version 14-07-2015
  *
  */
-public abstract class View extends JPanel {
+public class View extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private Model model;
