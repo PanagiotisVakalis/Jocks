@@ -116,14 +116,38 @@ public class Database {
 	private static BigDecimal portfolioInitialBalance;
 	private static BigDecimal portfolioInvestedMoney;
 
+	/**
+	 * Method to use the database url instance variable outside of the class
+	 * 
+	 * @return database url
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 13-07-2015
+	 */
 	public static String getDatabaseurl() {
 		return DATABASEURL;
 	}
 
+	/**
+	 * Method to use the username for the database outside of the class
+	 * 
+	 * @return username
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 13-07-2015
+	 */
 	public static String getUsername() {
 		return USERNAME;
 	}
 
+	/**
+	 * Method to use the password for the database outside of the class
+	 * 
+	 * @return password
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 13-07-2015
+	 */
 	public static String getPassword() {
 		return PASSWORD;
 	}

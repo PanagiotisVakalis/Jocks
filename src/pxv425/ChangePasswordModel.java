@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Class which contains the model part of the reset password process
+ * Class which contains the model part of the change password process
  * 
  * @author Panagiotis Vakalis
  * @version 17-07-2015

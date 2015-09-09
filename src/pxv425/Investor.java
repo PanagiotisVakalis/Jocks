@@ -242,10 +242,28 @@ public class Investor {
 		this.securityAnswer = securityAnswer;
 	}
 
+	/**
+	 * Method to get the portfolios which
+	 * the investor holds
+	 * 
+	 * @return list of portfolios
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 16-07-2015
+	 */
 	public ArrayList<Portfolio> getPortfolios() {
 		return portfolios;
 	}
 
+	/**
+	 * Method to set the portfolios which
+	 * the investor holds
+	 * 
+	 * @param list of portfolios
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 16-07-2015
+	 */
 	public void setPortfolios(ArrayList<Portfolio> portfolios) {
 		this.portfolios = portfolios;
 	}

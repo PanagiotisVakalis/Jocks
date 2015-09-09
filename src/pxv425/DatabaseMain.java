@@ -51,6 +51,15 @@ public class DatabaseMain {
 
 	}
 
+	/**
+	 * Method to check whether the stock market is open or closed
+	 * 
+	 * @return true, if the time and the day are ok return false, if the time
+	 *         and the day are not ok
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 14-07-2015
+	 */
 	private static boolean isValidDayAndTime() {
 		Calendar calendar = Calendar.getInstance();
 		int today = calendar.get(Calendar.DAY_OF_WEEK);

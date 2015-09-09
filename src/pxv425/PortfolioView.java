@@ -22,6 +22,13 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
+/**
+ * Class which contains the view part for the portfolio
+ * 
+ * @author Panagiotis Vakalis
+ * @version 18-07-2015
+ *
+ */
 public class PortfolioView extends View implements ActionListener,
 		ItemListener, Observer {
 

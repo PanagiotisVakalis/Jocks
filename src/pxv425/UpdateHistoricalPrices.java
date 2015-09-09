@@ -13,7 +13,7 @@ import java.util.Calendar;
 import com.opencsv.CSVReader;
 
 /**
- * Class which contains the method for updateing the historical prices of a
+ * Class which contains the method for updating the historical prices of a
  * stock
  * 
  * @author Panagiotis Vakalis

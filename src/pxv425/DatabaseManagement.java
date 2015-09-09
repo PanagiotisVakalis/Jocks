@@ -78,6 +78,13 @@ public class DatabaseManagement {
 		System.out.println("Done");
 	}
 
+	/**
+	 * Method to convert the pence which have been
+	 * stored in the database to pounds
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 13-07-2015
+	 */
 	private static void convertPenceToPounds() {
 		String queryGetSymbols;
 		PreparedStatement statementGetSymbols;
@@ -110,6 +117,13 @@ public class DatabaseManagement {
 		}
 	}
 
+	/**
+	 * Method to convert the pence which have been
+	 * stored in the database to pounds
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 13-07-2015
+	 */
 	public static void useConvertPenceToPounds() {
 		convertPenceToPounds();
 	}
@@ -286,6 +300,12 @@ public class DatabaseManagement {
 		}
 	}
 
+	/**
+	 * Method to get the stock prices
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 14-07-2015
+	 */
 	public static void useGetStockPrices() {
 		getStockPrices();
 	}
@@ -309,6 +329,15 @@ public class DatabaseManagement {
 		return yahooUri.toString();
 	}
 
+	/**
+	 * Method to build the url in order to retrieve the current price
+	 * 
+	 * @param stockSymbol
+	 * @return url
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 13-07-2015
+	 */
 	public static String useBuildYahooUrlForCurrentPrice(String stockSymbol) {
 		return buildYahooUrlForCurrentPrice(stockSymbol);
 	}
@@ -348,6 +377,18 @@ public class DatabaseManagement {
 		return yahooUri.toString();
 	}
 
+	/**
+	 * Method in order to build the yahoo url which will return the prices for
+	 * each stock
+	 * 
+	 * @param stockSymbol
+	 * @param start
+	 * @param end
+	 * @return url
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 14-07-2015
+	 */
 	public static String useBuildYahooUrlForPrices(String stockSymbol,
 			Calendar start, Calendar end) {
 		return buildYahooUrlForPrices(stockSymbol, start, end);

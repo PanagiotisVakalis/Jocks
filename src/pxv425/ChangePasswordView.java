@@ -18,6 +18,13 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+/**
+ * Class which contains the view part of the change password process
+ * 
+ * @author Panagiotis Vakalis
+ * @version 17-07-2015
+ *
+ */
 public class ChangePasswordView extends View implements ActionListener,
 		Observer, FocusListener {
 	private static final long serialVersionUID = 1L;
@@ -190,6 +197,15 @@ public class ChangePasswordView extends View implements ActionListener,
 		return String.valueOf(newPassword.getPassword());
 	}
 
+	/**
+	 * Method to get the new password which
+	 * has been reentered of the JPasswordField
+	 * 
+	 * @return new password
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 17-07-2015
+	 */
 	private String getReEnterNewPassword() {
 		return String.valueOf(reEnterNewPassword.getPassword());
 	}

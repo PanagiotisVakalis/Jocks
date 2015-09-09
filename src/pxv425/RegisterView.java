@@ -18,6 +18,14 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+/**
+ * Class which contains the view part of the 
+ * register screen
+ * 
+ * @author Panagiotis Vakalis
+ * @version 14-07-2015
+ *
+ */
 public class RegisterView extends View implements ActionListener, Observer,
 		FocusListener {
 

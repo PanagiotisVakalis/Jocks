@@ -181,6 +181,14 @@ public class BuyView extends View implements ActionListener, Observer {
 
 	}
 
+	/**
+	 * Method to set the shares
+	 * 
+	 * @param number of shares
+	 * 
+	 * @author Panagiotis Vakalis
+	 * @version 27-07-2015
+	 */
 	public void setShares(int shares) {
 		this.shares.setText(String.valueOf(shares));
 	}
